@@ -1,8 +1,36 @@
 {% extends "default.html" %}
 
-{% block content %}
-<h1 class="title">Hello world</h1>
-<p class="subtitle">
-My first website with <strong>Bulma</strong>!
-</p>
+{% block navbar %}{% endblock %}
+
+{% block content_container %}
+<section class="hero is-info is-medium">
+  <div class="hero-head">
+    {% include "includes/navbar.html" %}
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">
+        Tohle je KSICHT,
+      </h1>
+      <h2 class="subtitle">
+        tedy Korespondenční Seminář Inspirovaný Chemickou Tematikou
+      </h2>
+
+      <div class="button is-primary">Chci se přihlásit</div>
+    </div>
+  </div>
+
+  <div class="hero-foot">
+    <nav class="tabs">
+      <div class="container">
+        <ul>
+          <li class="is-active"><a>Co to je?</a></li>
+          <li><a>Jak to probíhá?</a></li>
+          <li><a>Jak se zúčastnit?</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</section>
 {% endblock %}
