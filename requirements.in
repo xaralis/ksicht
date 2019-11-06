@@ -1,0 +1,9 @@
+psycopg2-binary
+Django
+dsnparse
+django-webpack-loader
+django-markdownx
+django-markdown-deux
+django-htmlmin
+django-capture-tag
+gunicorn

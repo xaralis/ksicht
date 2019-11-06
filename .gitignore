@@ -1,0 +1,16 @@
+__pycache__/
+dist/
+*.py[cod]
+.env
+.venv
+.cache/
+*.egg-info/
+.coverage
+.pytest_cache/
+.idea
+node_modules
+package-lock.json
+assets/bundles
+db.sqlite3
+webpack-stats.json
+static

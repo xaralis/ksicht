@@ -1,0 +1,41 @@
+{
+  "name": "ksicht.natur.cuni.cz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bulma": "^0.8.0",
+    "bulmaswatch": "^0.7.5",
+    "webpack-bundle-tracker": "^0.4.2-beta"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@fortawesome/fontawesome-free": "^5.5.0",
+    "babel-loader": "^8.0.4",
+    "concurrently": "^4.0.1",
+    "css-loader": "^1.0.1",
+    "file-loader": "^2.0.0",
+    "mini-css-extract-plugin": "^0.4.4",
+    "node-sass": "^4.10.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "sass-loader": "^7.1.0",
+    "terser-webpack-plugin": "^1.1.0",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ksicht/ksicht.git"
+  },
+  "keywords": [],
+  "author": "Filip Vařecha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ksicht/ksicht.cz/issues"
+  },
+  "homepage": "https://github.com/ksicht/ksicht.cz/#readme"
+}

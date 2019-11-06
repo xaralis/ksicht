@@ -1,0 +1,39 @@
+{% load render_bundle webpack_static from webpack_loader %}
+{% load capture_tags %}
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <title>{% capture as meta_title %}{% block page_title_full %}{% block page_title %}{% endblock %} | {{ siteinfo.name }}{% endblock %}{% endcapture %}</title>
+    <meta name="author" content="">
+    <meta name="description" content="{% capture as meta_description %}{% block page_description %}{{ siteinfo.description }}{% endblock %}{% endcapture %}">
+    <meta name="keywords" content="{% capture as meta_keywords %}{% block page_keywords %}{% endblock %} {{ siteinfo.keywords | join:' ' }}{% endcapture %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ meta_title }}">
+    <meta property="og:description" content="{{ meta_description }}">
+    <meta property="og:image" content="">
+
+    <!-- Favicons -->
+
+    <!-- preload-->
+    {% comment %} <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&subset=latin-ext" as="style"> {% endcomment %}
+
+    {% render_bundle 'main' 'css' %}
+</head>
+<body class="layout">
+    {% block main %}
+    <main role="main">
+        {% block content %}{% endblock %}
+    </main>
+    {% endblock %}
+
+    <footer role="contentinfo" class="footer" id="footer">
+    </footer>
+
+    {% render_bundle 'main' 'js' %}
+</body>
+</html>
