@@ -1,5 +1,9 @@
-{% extends "default.html" %}
+{% extends "focused.html" %}
 
-{% block body %}
-Aktivace se nezdařila.
+{% block headline %}{% block page_title %}Jejda ...{% endblock %}{% endblock %}
+{% block header_sub %}<p class="subtitle">Aktivace účtu se nezdařila.</p>{% endblock %}
+
+{% block container %}
+<p class="notification is-size-5">Zkuste to prosím ještě jednou.</p>
 {% endblock %}
+

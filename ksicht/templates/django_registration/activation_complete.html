@@ -1,11 +1,8 @@
-{% extends "page.html" %}
-{% load crispy_forms_tags %}
+{% extends "focused.html" %}
 
 {% block headline %}{% block page_title %}Děkujeme za ověření{% endblock %}{% endblock %}
 {% block header_sub %}<p class="subtitle">Aktivace vašeho účtu proběhla úspěšně.</p>{% endblock %}
 
-{% block article %}
-<div class="section">
-    <p>Nyní se již můžete <a href="{% url "auth_login" %}">přihlásit</a>.</p>
-</div>
+{% block container %}
+<p>Nyní se již můžete <a href="{% url "login" %}">přihlásit</a>.</p>
 {% endblock %}

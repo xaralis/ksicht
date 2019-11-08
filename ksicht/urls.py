@@ -22,13 +22,12 @@ from django.conf.urls import url
 
 from django_registration.backends.activation import views as reg_views
 
-from .forms import KsichtRegistrationForm, KsichtAuthenticationForm
+from . import forms
 
 sitemaps = {}
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="views/home.html"), name="home"),
-
+    path("", include("ksicht.core.urls", "core")),
     path("admin/", admin.site.urls),
     path("markdownx/", include("markdownx.urls")),
     path(
@@ -37,12 +36,37 @@ urlpatterns = [
         {"sitemaps": sitemaps},
         name="django.contrib.sitemaps.views.sitemap",
     ),
-
-    path("ucty/prihlaseni/", auth_views.LoginView.as_view(template_name="views/login.html", form_class=KsichtAuthenticationForm), name="auth_login"),
-    path("ucty/odhlaseni/", auth_views.LogoutView.as_view(), name="auth_logout"),
-
-    # url(r'^ucet/', include('django_registration.backends.activation.urls')),
-    # url(r'^ucet/', include('django.contrib.auth.urls')),
+    path(
+        "ucty/prihlaseni/",
+        auth_views.LoginView.as_view(
+            template_name="registration/login.html",
+            form_class=forms.KsichtAuthenticationForm,
+        ),
+        name="login",
+    ),
+    path("ucty/odhlaseni/", auth_views.LogoutView.as_view(), name="logout"),
+    path(
+        "ucty/zapomenute-heslo/",
+        auth_views.PasswordResetView.as_view(form_class=forms.KsichtPasswordResetForm),
+        name="password_reset",
+    ),
+    path(
+        "ucty/zapomenute-heslo/hotovo/",
+        auth_views.PasswordResetDoneView.as_view(),
+        name="password_reset_done",
+    ),
+    path(
+        "ucty/zapomenute-heslo/overeni/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(
+            form_class=forms.KsichtSetPasswordForm
+        ),
+        name="password_reset_confirm",
+    ),
+    path(
+        "ucty/zapomenute-heslo/dokonceno/",
+        auth_views.PasswordResetCompleteView.as_view(),
+        name="password_reset_complete",
+    ),
     url(
         r"^ucty/aktivace/dokonceno/$",
         TemplateView.as_view(
@@ -59,7 +83,7 @@ urlpatterns = [
     ),
     url(
         r"^ucty/registrace/$",
-        reg_views.RegistrationView.as_view(form_class=KsichtRegistrationForm),
+        reg_views.RegistrationView.as_view(form_class=forms.KsichtRegistrationForm),
         name="django_registration_register",
     ),
     url(

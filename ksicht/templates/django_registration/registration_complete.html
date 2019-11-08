@@ -1,11 +1,8 @@
-{% extends "page.html" %}
-{% load crispy_forms_tags %}
+{% extends "focused.html" %}
 
 {% block headline %}{% block page_title %}Hotovo{% endblock %}{% endblock %}
 {% block header_sub %}<p class="subtitle">Registrace byla úspěšná.</p>{% endblock %}
 
-{% block article %}
-<div class="section">
-    <p class="notification">Zkontrolujte prosím svoji e-mailovou schránku, kam jsme vám poslali <strong>ověřovací e-mail</strong>. Ten je nutné potvrdit pro dokončení registrace.</p>
-</div>
+{% block container %}
+<p class="notification">Zkontrolujte prosím svoji emailovou schránku, kam jsme vám poslali <strong>ověřovací e-mail</strong>. Ten je nutné potvrdit pro dokončení registrace.</p>
 {% endblock %}

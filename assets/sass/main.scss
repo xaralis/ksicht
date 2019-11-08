@@ -1,9 +1,13 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=swap&subset=latin-ext);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700&display=swap&subset=latin-ext);
 
-$bulmaswatch-import-font: false;
-$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 
 @import "~bulmaswatch/flatly/_variables";
+
+$bulmaswatch-import-font: false;
+$family-sans-serif: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$family-monospace: "Inconsolata", "Consolas", "Monaco", monospace;
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+
 @import "~bulma/bulma";
 @import "~bulmaswatch/flatly/_overrides";
 

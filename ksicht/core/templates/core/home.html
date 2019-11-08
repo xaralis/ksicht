@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load webpack_static from webpack_loader %}
+
+{% block navbar %}{% endblock %}
+
+{% block page_title_full %}KSICHT - Korespondenční Seminář Inspirovaný Chemickou Tématikou{% endblock %}
+{% block body_class %}view-home{% endblock %}
+
+{% block content_container %}
+<section class="tabs-wrapper">
+  <div class="hero is-info is-medium">
+    <div class="hero-head">
+      {% include "includes/navbar.html" %}
+    </div>
+
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <div class="view-home-brand-wrapper">
+          <img class="view-home-brand" src="{% webpack_static "img/brand/logo-round-inverted.svg" %}" alt="KSICHT" height="100" />
+
+          <div>
+            <h2 class="title is-size-4-mobile">
+              <span class="has-text-primary has-text-weight-bold">K</span>orespondenční <span class="has-text-primary has-text-weight-bold">S</span>eminář<br><span class="has-text-primary has-text-weight-bold">I</span>nspirovaný <span class="has-text-primary has-text-weight-bold">C</span>hemickou <span class="has-text-primary has-text-weight-bold">T</span>ématikou
+            </h2>
+            <div class="button is-primary is-medium">Chci se přihlásit</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-foot">
+      <div class="container">
+        <nav class="tabs is-boxed is-centered">
+            <ul>
+              <li class="is-active"><a>Co to je?</a></li>
+              <li><a>Jak to probíhá?</a></li>
+              <li><a>Jak se zúčastnit?</a></li>
+            </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="container section">
+    <div class="columns tabs-content is-centered">
+      <ul class="is-size-5 column is-three-quarters">
+          <li class="is-active">
+              <p>KSICHT – Korespondenční Seminář Inspirovaný Chemickou Tématikou – je určen všem středoškolákům a žákům ZŠ, kteří mají rádi chemii. Nabízí zábavu, poučení a zajímavosti z nejrůznějších koutů chemie. Každoročně vycházejí čtyři série úloh, pořádají se společné výlety a ti nejlepší se mohou zúčastnit závěrečného soustředění na PřF UK.</p>
+              <p>Poznáš, že chemici rozhodně nejsou suchaři v bílých pláštích!</p>
+          </li>
+          <li>
+              <p>Korespondenční seminář je soutěž, při níž si vy, řešitelé KSICHTu, dopisujete s námi, autory, a naopak. Vy nám pošlete řešení zadaných úloh, my vše opravíme, ohodnotíme a zašleme vám je zpátky s přiloženým autorským řešením a pěti úlohami nové série. To všechno se za celý školní rok čtyřikrát zopakuje.</p>
+              <p>KSICHT organizují studenti PřF UK, VŠCHT a PřF MUNI.</p>
+          </li>
+          <li>
+              <p>Není nic jednoduššího! Stačí se jen <a href="{% url "django_registration_register" %}">zaregistrovat</a>, nezáleží na adrese školy ani státní příslušnosti.</p>
+              <p>Řešení nám poté můžete posílat buď poštou nebo elektronicky přes webový formulář. Řešení přijímáme v českém nebo slovenském jazyce, není-li v úloze uvedeno jinak.</p>
+              <p class="has-margin-t-sm">Pokud chcete řešení poslat poštou, použijte tuto adresu:</p>
+              <p class="has-text-weight-bold">KSICHT, Přírodovědecká fakulta Univerzity Karlovy</p>
+              <p class="has-text-weight-bold">Hlavova 2030</p>
+              <p class="has-text-weight-bold">128 43 Praha 2</p>
+          </li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+{% endblock %}

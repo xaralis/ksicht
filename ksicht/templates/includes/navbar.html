@@ -17,7 +17,7 @@
         <div id="navbar" class="navbar-menu">
             <div class="navbar-start">
                 {% if user.is_authenticated %}
-                <a class="navbar-item">
+                <a class="navbar-item" href="{% url "core:home" %}">
                     Dashboard
                 </a>
                 {% endif %}
@@ -39,20 +39,20 @@
                 {% if user.is_authenticated %}
                 <div class="navbar-item">
                     <span class="icon"><i class="fas fa-user"></i></span>
-                    <span class="is-size-6 has-padding-l-sm">{{ user }}</span>
+                    <span class="is-size-6 has-padding-l-sm has-text-weight-bold">{{ user }}</span>
                 </div>
                 {% endif %}
                 <div class="navbar-item">
                     <div class="buttons">
                         {% if user.is_authenticated %}
-                        <a class="button is-danger" href="{% url "auth_logout" %}">
+                        <a class="button is-danger" href="{% url "logout" %}">
                             <strong>Odhlásit se</strong>
                         </a>
                         {% else %}
                         <a class="button is-primary" href="{% url "django_registration_register" %}">
                             <strong>Registrace</strong>
                         </a>
-                        <a class="button is-light" href="{% url "auth_login" %}">
+                        <a class="button is-light" href="{% url "login" %}">
                             Přihlášení
                         </a>
                         {% endif %}

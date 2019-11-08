@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load webpack_static from webpack_loader %}
+
+{% block body %}
+<section class="hero is-fullheight">
+  <div class="hero-body">
+    <div class="container">
+      <div class="column is-8 is-offset-2">
+        <div class="columns">
+          <div class="column">
+            {% block header %}
+                {% block before_headline %}{% endblock %}
+                <h1 class="title">{% block headline %}{% endblock %}</h1>
+            {% endblock %}
+            {% block header_sub %}{% endblock %}
+          </div>
+          <div class="column is-one-quarter has-text-right is-hidden-mobile">
+            <a href="{% url "core:home" %}">
+              <img src="{% webpack_static "img/brand/logo-round.svg" %}" alt="KSICHT" width="80" />
+            </a>
+          </div>
+        </div>
+
+        {% block container %}{% endblock %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include "includes/footer.html" %}
+{% endblock %}
+
