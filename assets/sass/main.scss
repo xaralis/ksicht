@@ -1,3 +1,19 @@
-@import "~bulmaswatch/journal/_variables";
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=swap&subset=latin-ext);
+
+$bulmaswatch-import-font: false;
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+
+@import "~bulmaswatch/flatly/_variables";
 @import "~bulma/bulma";
-@import "~bulmaswatch/journal/_overrides";
+@import "~bulmaswatch/flatly/_overrides";
+
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+
+@import "./components/layout";
+@import "./components/navbar";
+@import "./components/tabs";
+
+@import "./views/home";
+
+@import "./spacing-helpers";

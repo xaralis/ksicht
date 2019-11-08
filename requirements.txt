@@ -5,10 +5,14 @@
 #    pip-compile requirements.in
 #
 beautifulsoup4==4.8.1     # via django-htmlmin
+confusable-homoglyphs==3.2.0  # via django-registration
 django-capture-tag==1.0
+django-crispy-bulma==0.1.2
+django-crispy-forms==1.7.2
 django-htmlmin==0.11.0
 django-markdown-deux==1.0.5
 django-markdownx==2.0.28
+django-registration==3.0.1
 django-webpack-loader==0.6.0
 django==2.2.7
 dsnparse==0.1.12
@@ -18,6 +22,7 @@ markdown2==2.3.8          # via django-markdown-deux
 markdown==3.1.1           # via django-markdownx
 pillow==6.2.1             # via django-markdownx
 psycopg2-binary==2.8.4
+pydash==4.7.5
 pytz==2019.3              # via django
 six==1.12.0               # via html5lib
 soupsieve==1.9.5          # via beautifulsoup4

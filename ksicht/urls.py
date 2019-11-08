@@ -15,14 +15,65 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
+from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from django.urls import path, include
+from django.conf.urls import url
+
+from django_registration.backends.activation import views as reg_views
+
+from .forms import KsichtRegistrationForm, KsichtAuthenticationForm
 
 sitemaps = {}
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index.html')),
-    path('admin/', admin.site.urls),
-    path('markdownx/', include('markdownx.urls')),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path("", TemplateView.as_view(template_name="views/home.html"), name="home"),
+
+    path("admin/", admin.site.urls),
+    path("markdownx/", include("markdownx.urls")),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
+
+    path("ucty/prihlaseni/", auth_views.LoginView.as_view(template_name="views/login.html", form_class=KsichtAuthenticationForm), name="auth_login"),
+    path("ucty/odhlaseni/", auth_views.LogoutView.as_view(), name="auth_logout"),
+
+    # url(r'^ucet/', include('django_registration.backends.activation.urls')),
+    # url(r'^ucet/', include('django.contrib.auth.urls')),
+    url(
+        r"^ucty/aktivace/dokonceno/$",
+        TemplateView.as_view(
+            template_name="django_registration/activation_complete.html"
+        ),
+        name="django_registration_activation_complete",
+    ),
+    # The activation key can make use of any character from the
+    # URL-safe base64 alphabet, plus the colon as a separator.
+    url(
+        r"^ucty/aktivace/(?P<activation_key>[-:\w]+)/$",
+        reg_views.ActivationView.as_view(),
+        name="django_registration_activate",
+    ),
+    url(
+        r"^ucty/registrace/$",
+        reg_views.RegistrationView.as_view(form_class=KsichtRegistrationForm),
+        name="django_registration_register",
+    ),
+    url(
+        r"^ucty/registrace/dokonceno/$",
+        TemplateView.as_view(
+            template_name="django_registration/registration_complete.html"
+        ),
+        name="django_registration_complete",
+    ),
+    url(
+        r"^ucty/registrace-uzavrena/$",
+        TemplateView.as_view(
+            template_name="django_registration/registration_closed.html"
+        ),
+        name="django_registration_disallowed",
+    ),
 ]

@@ -1,0 +1,10 @@
+{% extends "page.html" %}
+{% load crispy_forms_tags %}
+
+{% block headline %}{% block page_title %}Registrace{% endblock %}{% endblock %}
+
+{% block article %}
+<div class="section">
+    {% crispy form %}
+</div>
+{% endblock %}

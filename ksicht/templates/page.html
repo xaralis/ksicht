@@ -1,19 +1,20 @@
-{% extends "default.html" %}
+{% extends "base.html" %}
 
 {% block wrapper_classes %}page{% endblock %}
 
-{% block body %}
-    <header class="page__header">
-        {% block header %}
-            {% block before_headline %}{% endblock %}
-            <h1 class="page__headline">{% block headline %}{% endblock %}</h1>
-        {% endblock %}
-        {% block after_header %}
-        {% endblock %}
+{% block content %}
+    <header class="hero">
+        <div class="hero-body">
+            {% block header %}
+                {% block before_headline %}{% endblock %}
+                <h1 class="title">{% block headline %}{% endblock %}</h1>
+            {% endblock %}
+            {% block header_sub %}{% endblock %}
+        </div>
     </header>
 
-    <div class="page__content {% block content_wrapper_classes %}{% endblock %}">
-        <article class="page__article {% block article_classes %}{% endblock %}">
+    <div class="page-content {% block content_wrapper_classes %}{% endblock %}">
+        <article class="page-article {% block article_classes %}{% endblock %}">
             {% block article %}{% endblock %}
         </article>
 

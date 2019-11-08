@@ -1,9 +1,13 @@
 psycopg2-binary
 Django
 dsnparse
+django-crispy-forms
+django-crispy-bulma
 django-webpack-loader
 django-markdownx
 django-markdown-deux
 django-htmlmin
 django-capture-tag
+django-registration
 gunicorn
+pydash
