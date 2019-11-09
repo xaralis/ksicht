@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class Core(AppConfig):
-    name = "core"
+    name = "ksicht.core"
+    verbose_name = "KSICHT"
