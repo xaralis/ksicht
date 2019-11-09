@@ -137,7 +137,7 @@ LOGOUT_REDIRECT_URL = "core:home"
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "cs-CZ"
 
 TIME_ZONE = "UTC"
 

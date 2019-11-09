@@ -1,4 +1,4 @@
-Vaše registrace na KSICHTu proběhla úspěšně. K dokončení registrace je ještě nutné potvrdit váš email. Klikněte prosím na následující odkaz:
+Vaše registrace na KSICHTu proběhla úspěšně. K dokončení registrace je ještě nutné potvrdit váš e-mail. Klikněte prosím na následující odkaz:
 
 https://{{ site.domain }}{% url "django_registration_activate" activation_key=activation_key %}
 
