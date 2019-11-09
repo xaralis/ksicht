@@ -18,7 +18,7 @@
 
             <div class="control">
                 {% if field|is_select %}
-                    <div class="select">
+                    <div class="select {% if field.errors %}is-danger{% endif %}">
                         {% crispy_field field %}
                     </div>
                 {% endif %}
@@ -47,7 +47,7 @@
                     {% endfor %}
                 {% endif %}
 
-                {% if field.help_text %}
+                {% if not field.errors and field.help_text %}
                     <div id="hint_{{ field.auto_id }}" class="help">{{ field.help_text|safe }}</div>
                 {% endif %}
             </div>

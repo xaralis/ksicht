@@ -1,1 +1,5 @@
-aktivační klíč: {{ activation_key }}
+Vaše registrace na KSICHTu proběhla úspěšně. K dokončení registrace je ještě nutné potvrdit váš email. Klikněte prosím na následující odkaz:
+
+https://{{ site.domain }}{% url "django_registration_activate" activation_key=activation_key %}
+
+Platnost odkazu je {{ expiration_days }} dní.

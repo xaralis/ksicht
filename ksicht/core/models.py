@@ -1,10 +1,16 @@
-from django.contrib.auth.models import User
+from cuser.models import AbstractCUser
 from django.db import models
+
+from .constants import SCHOOLS
+
+
+class User(AbstractCUser):
+    pass
 
 
 class Participant(models.Model):
     COUNTRY_CHOICES = (
-        ("other", "--jiný--"),
+        ("other", "-- jiný --"),
         ("cz", "Česko"),
         ("sk", "Slovensko"),
     )
@@ -26,7 +32,7 @@ class Participant(models.Model):
         verbose_name="Stát", max_length=10, null=False, choices=COUNTRY_CHOICES
     )
 
-    school = models.CharField(verbose_name="Škola", max_length=80, null=False)
+    school = models.CharField(verbose_name="Škola", max_length=80, null=False, choices=SCHOOLS)
     school_year = models.CharField(
         verbose_name="Ročník", max_length=1, null=False, choices=GRADE_CHOICES
     )

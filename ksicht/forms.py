@@ -1,16 +1,18 @@
 from django import forms
 from django.core import validators
 from django.contrib.auth.forms import (
-    AuthenticationForm,
     PasswordResetForm,
     SetPasswordForm,
 )
 
-from django_registration import forms as reg_forms
+from cuser.forms import AuthenticationForm, UserCreationForm
+from django_registration import validators as reg_validators
 from crispy_forms.helper import FormHelper
 import pydash as py_
+from webpack_loader.templatetags.webpack_loader import webpack_static
 
-from ksicht.core.models import Participant
+from ksicht.core import constants
+from ksicht.core.models import Participant, User
 from ksicht.bulma.layout import Submit, Column, Row, Layout
 
 
@@ -23,13 +25,10 @@ phone_validator = validators.RegexValidator(
 )
 
 
-class KsichtRegistrationForm(
-    reg_forms.RegistrationFormCaseInsensitive,
-    reg_forms.RegistrationFormTermsOfService,
-    reg_forms.RegistrationFormUniqueEmail,
-):
+class KsichtRegistrationForm(UserCreationForm):
     phone = forms.CharField(
-        label="Telefon", max_length=20, required=False, validators=[phone_validator]
+        label="Telefon", max_length=20, required=False, initial="+420",
+        help_text="Telefon ve formátu +420 777 123123."
     )
     street = forms.CharField(label="Ulice", max_length=100)
     city = forms.CharField(label="Obec", max_length=100)
@@ -37,9 +36,9 @@ class KsichtRegistrationForm(
         label="PSČ", max_length=10, required=True, validators=[zip_validator]
     )
     country = forms.ChoiceField(label="Stát", choices=Participant.COUNTRY_CHOICES)
-    school = forms.CharField(
+    school = forms.ChoiceField(
         label="Škola",
-        max_length=80,
+        choices=constants.SCHOOLS,
         required=True,
         help_text="Vyberte školu z nabídky. Pokud vaše škola chybí, vyplňte prosím informace níže.",
     )
@@ -59,16 +58,34 @@ class KsichtRegistrationForm(
         label="PSČ školy", max_length=10, required=False, validators=[zip_validator]
     )
 
+    class Meta:
+        model = User
+        fields = ("email",)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        email_field = User.get_email_field_name()
+        self.fields[email_field].validators.append(
+            reg_validators.CaseInsensitiveUnique(
+                User, email_field,
+                reg_validators.DUPLICATE_EMAIL
+            )
+        )
+
+        self.fields["tos"] = forms.BooleanField(
+            widget=forms.CheckboxInput,
+            label=f"Přečetl/a jsem si a souhlasím s <a href='{webpack_static('attachments/zpracovani-osobnich-udaju-pro-web.pdf')}' target='_blank' rel='noopener'>podmínkami použití a zpracováním osobních údajů</a>",
+        )
+
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Row(Column("username"), Column("email"), Column("phone")),
+            Row(Column("email"), Column("phone")),
             Row(Column("password1"), Column("password2")),
             Row(
-                Column("street"), Column("zip_code"), Column("city"), Column("country")
+                Column("street", css_class="is-10"),
             ),
+            Row(Column("zip_code", css_class="is-2"), Column("city", css_class="is-4"), Column("country", css_class="is-2 is-offset-2")),
             Row(Column("school"), Column("school_year")),
             Row(
                 Column("school_alt_name"),
@@ -82,9 +99,24 @@ class KsichtRegistrationForm(
 
     def clean_phone(self):
         phone = self.cleaned_data.get("phone")
+
         if phone == "+420":
             return None
+
+        # Run validation
+        phone_validator(phone)
+
         return phone
+
+    def clean_school(self):
+        cd = self.cleaned_data
+        school = cd.get("school")
+
+        if school == "--jiná--":
+            if not all((cd.get("school_alt_name"), cd.get("school_alt_street"), cd.get("school_alt_zip_code"), cd.get("school_alt_city"))):
+                raise validators.ValidationError("Vyberte konkrétní školu, nebo vyplňte dodatečné informace níže.")
+
+        return school
 
     def save(self, commit=True):
         user = super().save(commit)
@@ -120,7 +152,7 @@ class KsichtAuthenticationForm(AuthenticationForm):
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Row(Column("username")),
+            Row(Column("email")),
             Row(Column("password")),
             Submit("submit", "Přihlásit se"),
         )
