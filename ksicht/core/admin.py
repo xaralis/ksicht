@@ -1,13 +1,11 @@
-from django.contrib import admin
-from django.contrib.admin.widgets import AdminDateWidget
-from django.contrib.postgres.forms.ranges import RangeWidget
-from django.contrib.postgres.fields import DateRangeField
 from django.db.models import TextField
 
 from cuser.admin import UserAdmin
 from markdownx.widgets import AdminMarkdownxWidget
 
-from .models import User, Grade, GradeSeries
+from .models import Task, User, Grade, GradeSeries
+
+from django.contrib import admin
 
 
 class GradeSeriesInline(admin.TabularInline):
@@ -19,15 +17,27 @@ class GradeSeriesInline(admin.TabularInline):
         return False
 
 
+@admin.register(Grade)
 class GradeAdmin(admin.ModelAdmin):
     inlines = (GradeSeriesInline,)
-    # form = GradeForm
 
     formfield_overrides = {
-        TextField: {'widget': AdminMarkdownxWidget},
-        DateRangeField: {'widget': RangeWidget(AdminDateWidget())}
+        TextField: {"widget": AdminMarkdownxWidget},
     }
 
 
+class TaskInline(admin.TabularInline):
+    model = Task
+    min_num = 5
+    max_num = 5
+
+
+@admin.register(GradeSeries)
+class GradeSeriesAdmin(admin.ModelAdmin):
+    list_display = ("grade", "series", "submission_deadline")
+    list_filter = ("grade",)
+    list_select_related = ("grade",)
+    inlines = (TaskInline,)
+
+
 admin.site.register(User, UserAdmin)
-admin.site.register(Grade, GradeAdmin)

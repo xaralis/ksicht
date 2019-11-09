@@ -1,5 +1,5 @@
-from django.forms import ClearableFileInput
 from django.forms import EmailInput as DjangoEmailInput
+from django.forms import ClearableFileInput
 
 
 class EmailInput(DjangoEmailInput):

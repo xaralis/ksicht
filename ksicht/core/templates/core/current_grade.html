@@ -1,0 +1,39 @@
+{% extends "page.html" %}
+{% load webpack_static from webpack_loader %}
+
+{% block headline %}Aktuální ročník{% if object %} ({{ object }}){% endif %}{% endblock %}
+
+{% block article %}
+{% if object %}
+    <nav class="columns">
+        <div class="column is-3">
+            <div>
+                <p class="heading">Začíná</p>
+                <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-xs"></i> {{ object.start_date | date }}</p>
+            </div>
+        </div>
+        <div class="column is-3">
+            <div>
+                <p class="heading">Končí</p>
+                <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-xs"></i> {{ object.end_date | date }}</p>
+            </div>
+        </div>
+        <div class="column">
+            <div>
+                <p class="heading">Brožury v PDF</p>
+                <p class="title is-5">
+                    {% for s in object.series.all %}
+                        {% if s.task_file %}
+                        <a href="{{ s.task_file.url }}" class="has-margin-r-md"><i class="far fa-file-pdf has-padding-r-xs"></i> Sešit pro {{ s.get_series_display }} sérii</a>
+                        {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    </nav>
+
+    <p class="is-size-5 has-margin-b-lg">Každým rokem vyjdou čtyři série KSICHTu. V brožuře vždy naleznete zadání úloh aktuální série, řešení úloh předchozí série a jeden díl seriálu.</p>
+{% else %}
+    <p class="notification">Momentálně není žádný ročník KSICHTu vypsán.</p>
+{% endif %}
+{% endblock %}
