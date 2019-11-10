@@ -19,7 +19,7 @@ services:
         volumes:
             - ./ksicht:/ksicht/ksicht
         ports:
-            - "8000:80"
+            - "8080:80"
         restart: always
         environment:
             DEBUG: 1
