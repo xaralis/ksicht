@@ -1,9 +1,11 @@
 import uuid
 from django import forms
-from datetime import date
+from datetime import date, datetime
+from operator import attrgetter
 from django.db import models
 from django.core.validators import MinValueValidator
 
+import pydash as py_
 from cuser.models import AbstractCUser
 
 from .constants import SCHOOLS
@@ -139,6 +141,16 @@ class Grade(models.Model):
                     f"Datum konání se překrývá s ročníkem '{g}'."
                 )
 
+    def get_current_series(self):
+        """Return first series that can still accept solution submissions from participants."""
+        return (
+            py_.chain(list(self.series.all()))
+            .filter(attrgetter("accepts_solution_submissions"))
+            .sort(key=attrgetter("submission_deadline"))
+            .head()
+            .value()
+        )
+
 
 class GradeSeries(models.Model):
     SERIES_CHOICES = (
@@ -173,7 +185,17 @@ class GradeSeries(models.Model):
         ordering = ("grade", "series")
 
     def __str__(self):
-        return f"{self.grade}: {self.get_series_display()} série"
+        return f"{self.get_series_display()} série"
+
+    @property
+    def accepts_solution_submissions(self):
+        return self.task_file is not None and self.submission_deadline > datetime.now(
+            self.submission_deadline.tzinfo
+        )
+
+    @property
+    def has_results_published(self):
+        return True
 
 
 class Task(models.Model):
