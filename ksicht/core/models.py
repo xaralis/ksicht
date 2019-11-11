@@ -12,52 +12,8 @@ from .constants import SCHOOLS
 
 
 class User(AbstractCUser):
-    pass
-
-
-class Participant(models.Model):
-    COUNTRY_CHOICES = (
-        ("other", "-- jiný --"),
-        ("cz", "Česko"),
-        ("sk", "Slovensko"),
-    )
-    GRADE_CHOICES = (
-        ("4", "4"),
-        ("3", "3"),
-        ("2", "2"),
-        ("1", "1"),
-        ("l", "nižší"),
-    )
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-
-    phone = models.CharField(verbose_name="Telefon", max_length=20, null=True)
-    street = models.CharField(verbose_name="Ulice", max_length=100, null=False)
-    city = models.CharField(verbose_name="Obec", max_length=100, null=False)
-    zip_code = models.CharField(verbose_name="PSČ", max_length=10, null=False)
-    country = models.CharField(
-        verbose_name="Stát", max_length=10, null=False, choices=COUNTRY_CHOICES
-    )
-
-    school = models.CharField(
-        verbose_name="Škola", max_length=80, null=False, choices=SCHOOLS
-    )
-    school_year = models.CharField(
-        verbose_name="Ročník", max_length=1, null=False, choices=GRADE_CHOICES
-    )
-
-    school_alt_name = models.CharField(
-        verbose_name="Název školy", max_length=80, null=True
-    )
-    school_alt_street = models.CharField(
-        verbose_name="Ulice školy", max_length=100, null=True
-    )
-    school_alt_city = models.CharField(
-        verbose_name="Obec školy", max_length=100, null=True
-    )
-    school_alt_zip_code = models.CharField(
-        verbose_name="PSČ školy", max_length=10, null=True
-    )
+    def is_participant(self):
+        return self.participant_profile is not None
 
 
 class GradeManager(models.Manager):
@@ -237,3 +193,64 @@ class Task(models.Model):
 
     def __str__(self):
         return f"Úloha č. {self.nr}"
+
+
+class Participant(models.Model):
+    COUNTRY_CHOICES = (
+        ("other", "-- jiný --"),
+        ("cz", "Česko"),
+        ("sk", "Slovensko"),
+    )
+    GRADE_CHOICES = (
+        ("4", "4"),
+        ("3", "3"),
+        ("2", "2"),
+        ("1", "1"),
+        ("l", "nižší"),
+    )
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+        related_name="participant_profile",
+    )
+
+    phone = models.CharField(verbose_name="Telefon", max_length=20, null=True)
+    street = models.CharField(verbose_name="Ulice", max_length=100, null=False)
+    city = models.CharField(verbose_name="Obec", max_length=100, null=False)
+    zip_code = models.CharField(verbose_name="PSČ", max_length=10, null=False)
+    country = models.CharField(
+        verbose_name="Stát", max_length=10, null=False, choices=COUNTRY_CHOICES
+    )
+
+    school = models.CharField(
+        verbose_name="Škola", max_length=80, null=False, choices=SCHOOLS
+    )
+    school_year = models.CharField(
+        verbose_name="Ročník", max_length=1, null=False, choices=GRADE_CHOICES,
+    )
+
+    school_alt_name = models.CharField(
+        verbose_name="Název školy", max_length=80, null=True, blank=True
+    )
+    school_alt_street = models.CharField(
+        verbose_name="Ulice školy", max_length=100, null=True, blank=True
+    )
+    school_alt_city = models.CharField(
+        verbose_name="Obec školy", max_length=100, null=True, blank=True
+    )
+    school_alt_zip_code = models.CharField(
+        verbose_name="PSČ školy", max_length=10, null=True, blank=True
+    )
+
+    applications = models.ManyToManyField(
+        Grade, verbose_name="Přihlášky", related_name="participants", blank=True
+    )
+
+    class Meta:
+        verbose_name = "Účastník"
+        verbose_name_plural = "Účastníci"
+
+    def __str__(self):
+        return f"Profil účastníka pro <{self.user}>"

@@ -1,11 +1,12 @@
 {% extends "page.html" %}
 {% load webpack_static from webpack_loader %}
+{% load crispy_forms_tags %}
 
 {% block headline %}Aktuální ročník{% if object %} ({{ object }}){% endif %}{% endblock %}
 
 {% block article %}
 {% if object %}
-    <nav class="columns is-mobile">
+    <nav class="columns is-mobile is-multiline">
         <div class="column is-6-mobile is-3-tablet">
             <div>
                 <p class="heading">Začíná</p>
@@ -18,6 +19,14 @@
                 <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-xs"></i> {{ object.end_date | date }}</p>
             </div>
         </div>
+        {% if can_apply %}
+        <div class="column is-12-mobile is-6-tablet">
+            <div>
+                <p class="heading">Přihláška</p>
+                {% crispy application_form %}
+            </div>
+        </div>
+        {% endif %}
     </nav>
 
     <p class="is-size-5 has-margin-b-lg">Každým rokem vyjdou čtyři série KSICHTu. V brožuře vždy naleznete zadání úloh aktuální série, řešení úloh předchozí série a jeden díl seriálu.</p>
@@ -52,7 +61,7 @@
                             <p><a href="" class="has-margin-r-md"><i class="fas fa-trophy has-padding-r-xs"></i> Výsledková listina</a></p>
                             {% endif %}
                         </div>
-                        {% if series.accepts_solution_submissions and series == current_series and user.is_authenticated %}
+                        {% if series.accepts_solution_submissions and series == current_series and is_grade_participant %}
                         <footer class="card-footer">
                             <p class="card-footer-item">
                                 <a href="">Odevzdat řešení</a>

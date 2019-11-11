@@ -8,7 +8,7 @@ from django_registration import validators as reg_validators
 from webpack_loader.templatetags.webpack_loader import webpack_static
 
 from ksicht.core import constants
-from ksicht.core.models import User, Participant
+from ksicht.core.models import User, Grade, Participant
 from ksicht.bulma.layout import Row, Column, Layout, Submit
 
 from django.contrib.auth.forms import SetPasswordForm, PasswordResetForm
@@ -131,11 +131,12 @@ class KsichtRegistrationForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit)
         cd = self.cleaned_data
+        current_grade = Grade.objects.get_current()
 
         user.is_active = False
         user.save()
 
-        user.participant = Participant(
+        user.participant_profile = Participant(
             **py_.pick(
                 cd,
                 "phone",
@@ -151,7 +152,10 @@ class KsichtRegistrationForm(UserCreationForm):
                 "school_alt_zip_code",
             )
         )
-        user.participant.save()
+        user.participant_profile.save()
+
+        if current_grade:
+            user.participant_profile.applications.add(current_grade)
 
         return user
 
