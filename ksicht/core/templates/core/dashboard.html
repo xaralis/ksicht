@@ -27,7 +27,9 @@
                 <li>
                     <span>Bodování</span>
                     <ul>
+                        {% if perms.core.change_solution_submission_presence %}
                         <li><a href="{% url "core:submission_overview" grade_id=grade.id %}">Označení odevzdaných úloh</a></li>
+                        {% endif %}
                     </ul>
                 </li>
             </ul>

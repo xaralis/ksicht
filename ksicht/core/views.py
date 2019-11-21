@@ -2,6 +2,7 @@ from operator import or_
 from django.db import models, transaction
 from functools import reduce
 from collections import OrderedDict
+from django.contrib.auth.decorators import permission_required
 from django.forms import formset_factory
 from django.shortcuts import redirect
 from django.http.response import HttpResponseNotFound
@@ -184,6 +185,9 @@ class SolutionSubmitView(CurrentGradeMixin, FormView):
         return redirect("core:current_grade")
 
 
+@method_decorator(
+    [permission_required("change_solution_submission_presence")], name="dispatch"
+)
 class SubmissionOverview(FormView):
     form_class = formset_factory(
         forms.SubmissionForm, formset=forms.SubmissionOverviewFormSet, extra=0

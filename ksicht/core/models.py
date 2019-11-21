@@ -304,6 +304,9 @@ class TaskSolutionSubmission(models.Model):
     class Meta:
         verbose_name = "Odevzdané řešení"
         verbose_name_plural = "Odevzdaná řešení"
+        permissions = (
+            ("change_solution_submission_presence", "Úprava stavu odevzdání řešení"),
+        )
 
     def __str__(self):
         return f"Řešení <{self.task}> pro přihlášku <{self.application_id}>"

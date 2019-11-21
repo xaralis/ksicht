@@ -1,3 +1,5 @@
+from django.contrib.auth.models import Permission
+from django.contrib import admin
 from django.db.models import TextField
 
 from cuser.admin import UserAdmin
@@ -94,4 +96,5 @@ class SolutionSubmissionAdmin(admin.ModelAdmin):
     series.short_description = "Série"
 
 
+admin.site.register(Permission)
 admin.site.register(models.User, UserAdmin)
