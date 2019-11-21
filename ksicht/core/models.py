@@ -300,6 +300,7 @@ class TaskSolutionSubmission(models.Model):
         null=True,
         blank=True,
     )
+    submitted_at = models.DateTimeField(verbose_name="Datum nahrání", auto_now_add=True)
 
     class Meta:
         verbose_name = "Odevzdané řešení"
