@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 import dsnparse
+
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -178,11 +179,11 @@ SITE_ID = 1
 
 # Message custom tags.
 MESSAGE_TAGS = {
-    messages.DEBUG: 'is-primary',
-    messages.SUCCESS: 'is-success',
-    messages.INFO: 'is-info',
-    messages.WARNING: 'is-warning',
-    messages.ERROR: 'is-danger',
+    messages.DEBUG: "is-primary",
+    messages.SUCCESS: "is-success",
+    messages.INFO: "is-info",
+    messages.WARNING: "is-warning",
+    messages.ERROR: "is-danger",
 }
 
 # HTML minify

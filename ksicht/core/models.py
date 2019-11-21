@@ -15,6 +15,7 @@ class User(AbstractCUser):
     def is_participant(self):
         return Participant.objects.filter(user=self).exists()
 
+
 class GradeManager(models.Manager):
     def get_current(self, current=None):
         current_date = current or date.today()
@@ -67,6 +68,7 @@ class Grade(models.Model):
     class Meta:
         verbose_name = "Ročník"
         verbose_name_plural = "Ročníky"
+        ordering = ("-end_date",)
 
     def __str__(self):
         return self.school_year
@@ -244,7 +246,11 @@ class Participant(models.Model):
     )
 
     applications = models.ManyToManyField(
-        Grade, verbose_name="Přihlášky", related_name="participants", blank=True, through="GradeApplication"
+        Grade,
+        verbose_name="Přihlášky",
+        related_name="participants",
+        blank=True,
+        through="GradeApplication",
     )
 
     class Meta:
@@ -253,6 +259,9 @@ class Participant(models.Model):
 
     def __str__(self):
         return f"Profil účastníka pro <{self.user}>"
+
+    def get_full_name(self):
+        return f"{self.user.get_full_name() or '?'} <{self.user.email}>"
 
 
 class GradeApplication(models.Model):
@@ -268,9 +277,29 @@ class GradeApplication(models.Model):
 
 
 class TaskSolutionSubmission(models.Model):
-    application = models.ForeignKey(GradeApplication, verbose_name="Přihláška", null=False, blank=False, on_delete=models.CASCADE, related_name="solution_submissions")
-    task = models.ForeignKey(Task, verbose_name="Úloha", null=False, blank=False, on_delete=models.PROTECT, related_name="solution_submissions")
-    file = models.FileField(verbose_name="Soubor s řešením", upload_to="rocniky/reseni/", null=False, blank=False)
+    application = models.ForeignKey(
+        GradeApplication,
+        verbose_name="Přihláška",
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+        related_name="solution_submissions",
+    )
+    task = models.ForeignKey(
+        Task,
+        verbose_name="Úloha",
+        null=False,
+        blank=False,
+        on_delete=models.PROTECT,
+        related_name="solution_submissions",
+    )
+    # If file is NULL, it means that the solution has been submitted by post
+    file = models.FileField(
+        verbose_name="Soubor s řešením",
+        upload_to="rocniky/reseni/",
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = "Odevzdané řešení"

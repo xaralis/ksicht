@@ -57,13 +57,17 @@ class TaskAdmin(admin.ModelAdmin):
 
     def school_year(self, obj):
         return obj.series.grade.school_year
+
     school_year.short_description = "Školní rok"
 
 
 @admin.register(models.GradeApplication)
 class GradeApplicationAdmin(admin.ModelAdmin):
     search_fields = ("grade__school_year", "participant__user__email")
-    list_select_related = ("grade", "participant__user",)
+    list_select_related = (
+        "grade",
+        "participant__user",
+    )
 
 
 @admin.register(models.TaskSolutionSubmission)
@@ -73,15 +77,20 @@ class SolutionSubmissionAdmin(admin.ModelAdmin):
         "user",
         "series",
     )
-    list_select_related = ("application__participant__user", "task__series",)
+    list_select_related = (
+        "application__participant__user",
+        "task__series",
+    )
     autocomplete_fields = ("task", "application")
 
     def user(self, obj):
         return obj.application.participant.user
+
     user.short_description = "Uživatel"
 
     def series(self, obj):
         return obj.task.series
+
     series.short_description = "Série"
 
 

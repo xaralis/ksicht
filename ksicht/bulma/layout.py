@@ -9,7 +9,7 @@ from crispy_forms.layout import (
     BaseInput,
     MultiField,
     ButtonHolder,
-    MultiWidgetField,
+    MultiWidgetField
 )
 
 __all__ = [

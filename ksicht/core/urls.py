@@ -18,4 +18,9 @@ urlpatterns = [
         views.SolutionSubmitView.as_view(),
         name="solution_submit",
     ),
+    path(
+        "rocniky/<grade_id>/bodovani/odevzdane-ulohy/",
+        views.SubmissionOverview.as_view(),
+        name="submission_overview",
+    ),
 ]

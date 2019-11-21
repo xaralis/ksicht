@@ -1,0 +1,63 @@
+{% extends "page.html" %}
+
+{% block headline %}Přehled odevzdaných řešení{% endblock %}
+
+{% block article %}
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ form.management_form }}
+
+        <table class="table is-striped is-hoverable is-fullwidth is-bordered">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="is-size-5">Řešitel</th>
+                    <th colspan="5" class="is-size-5">Úloha</th>
+                    <th rowspan="2" class="is-size-5" style="max-width: 200px">Akce</th>
+                </tr>
+                <tr>
+                    <th style="width: 40px" class="has-text-centered">1.</th>
+                    <th style="width: 40px" class="has-text-centered">2.</th>
+                    <th style="width: 40px" class="has-text-centered">3.</th>
+                    <th style="width: 40px" class="has-text-centered">4.</th>
+                    <th style="width: 40px" class="has-text-centered">5.</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for f in form.forms %}
+                <tr>
+                    <th>{{ f.participant_obj.get_full_name }}</th>
+                    {% for field in f %}
+                        {% if not field.is_hidden %}
+                            <td class="has-text-centered">{{ field }}</td>
+                        {% endif %}
+                    {% endfor %}
+                    <td>
+                        {{ f.participant }}
+                        <a class="button is-small is-outlined mark-all-button">Označit vše</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit" class="button is-primary">Uložit</button>
+    </form>
+{% endblock %}
+
+{% block after_body %}
+<script>
+var markAllButtons = document.querySelectorAll(".mark-all-button");
+
+markAllButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+        var checkboxes = this.parentElement.parentElement.querySelectorAll("input[type=checkbox]:not(:disabled)");
+
+        checkboxes.forEach(function (cb) {
+            if (!cb.checked) {
+                cb.checked = ! cb.checked;
+            }
+        })
+    });
+})
+</script>
+{% endblock %}

@@ -21,10 +21,17 @@
     {% endif %}
     <div class="column">
         <aside class="menu">
-            <p class="menu-label">Bodování</p>
+            {% for grade in grades %}
+            <p class="menu-label">{{ grade }}</p>
             <ul class="menu-list">
-                <li><a>Označení odevzdaných úloh</a></li>
+                <li>
+                    <span>Bodování</span>
+                    <ul>
+                        <li><a href="{% url "core:submission_overview" grade_id=grade.id %}">Označení odevzdaných úloh</a></li>
+                    </ul>
+                </li>
             </ul>
+            {% endfor %}
         </aside>
     </div>
     <div class="column">
