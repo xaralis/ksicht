@@ -5,28 +5,37 @@
 
 {% block article %}
 
-{% if is_current_grade_participant %}
-
-    {% with current_grade.get_current_series as current_series %}
-        <div class="card">
-            <div class="card-content">
-                <h2 class="title is-6 is-uppercase has-text-weight-bold">Aktuální ročník - {{ current_series }}</h2>
-                <p class="subtitle is-6 has-text-grey">odevzdání řešení do {{ current_series.submission_deadline | date:"SHORT_DATETIME_FORMAT" }}</p>
-
-                {% if current_series.task_file %}
-                <p><a href="{{ current_series.task_file.url }}" class="has-margin-r-md"><i class="far fa-file-pdf has-padding-r-xs"></i> Sešit zadáním v PDF</a></p>
-                {% endif %}
-            </div>
-            {% if current_series.accepts_solution_submissions %}
-            <footer class="card-footer">
-                <p class="card-footer-item">
-                    <a href="{% url "core:solution_submit" %}">Odevzdat řešení</a>
-                </p>
-            </footer>
-            {% endif%}
+<div class="columns dashboard-menu is-8 is-variable">
+    {% if is_current_grade_participant %}
+        <div class="column">
+            <aside class="menu">
+                <p class="menu-label">Aktuální ročník {{ current_grade }}</p>
+                <ul class="menu-list">
+                    <li><a href="{% url "core:current_grade" %}">Detailní informace</a></li>
+                    {% if current_series.accepts_solution_submissions %}
+                    <li><a href="{% url "core:solution_submit" %}">Odevzdání řešení</a></li>
+                    {% endif %}
+                </ul>
+            </aside>
         </div>
-    {% endwith%}
+    {% endif %}
+    <div class="column">
+        <aside class="menu">
+            <p class="menu-label">Bodování</p>
+            <ul class="menu-list">
+                <li><a>Označení odevzdaných úloh</a></li>
+            </ul>
+        </aside>
+    </div>
+    <div class="column">
+        <aside class="menu">
+            <p class="menu-label">Administrace</p>
+            <ul class="menu-list">
+                <li><a href="{% url "admin:index" %}">Vstup do administrační části</a></li>
+            </ul>
+        </aside>
+    </div>
+</div>
 
-{% endif %}
 
 {% endblock %}
