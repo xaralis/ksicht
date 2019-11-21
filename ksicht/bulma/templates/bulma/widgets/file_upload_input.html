@@ -1,16 +1,16 @@
 <div class="field">
-  <div class="file is-primary has-name">
+  <div class="file is-link">
     <label class="file-label">
-      <input type="file" name="{{ widget.checkbox_name }}"{% include "django/forms/widgets/attrs.html" %}>
+      <input type="file" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
       <span class="file-cta">
         <span class="file-icon">
           <i class="fas fa-upload"></i>
         </span>
         <span class="file-label">
-          Upload file
+          {{ widget.attrs.field_label }}
         </span>
       </span>
-      <span class="file-name">
+      <span class="file-name is-hidden">
           ...
       </span>
     </label>

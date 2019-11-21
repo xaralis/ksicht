@@ -4,4 +4,29 @@
 {% block headline %}Nástěnka{% endblock %}
 
 {% block article %}
+
+{% if is_current_grade_participant %}
+
+    {% with current_grade.get_current_series as current_series %}
+        <div class="card">
+            <div class="card-content">
+                <h2 class="title is-6 is-uppercase has-text-weight-bold">Aktuální ročník - {{ current_series }}</h2>
+                <p class="subtitle is-6 has-text-grey">odevzdání řešení do {{ current_series.submission_deadline | date:"SHORT_DATETIME_FORMAT" }}</p>
+
+                {% if current_series.task_file %}
+                <p><a href="{{ current_series.task_file.url }}" class="has-margin-r-md"><i class="far fa-file-pdf has-padding-r-xs"></i> Sešit zadáním v PDF</a></p>
+                {% endif %}
+            </div>
+            {% if current_series.accepts_solution_submissions %}
+            <footer class="card-footer">
+                <p class="card-footer-item">
+                    <a href="{% url "core:solution_submit" %}">Odevzdat řešení</a>
+                </p>
+            </footer>
+            {% endif%}
+        </div>
+    {% endwith%}
+
+{% endif %}
+
 {% endblock %}

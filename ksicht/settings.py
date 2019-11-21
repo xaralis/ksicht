@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 import dsnparse
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -156,6 +157,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "assets"),)
 
+
+# Media files (user-uploaded files)
+# https://docs.djangoproject.com/en/2.2/topics/files/
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
+
 # Logging
 LOGGING = {
     "version": 1,
@@ -167,6 +175,15 @@ LOGGING = {
 
 # Site
 SITE_ID = 1
+
+# Message custom tags.
+MESSAGE_TAGS = {
+    messages.DEBUG: 'is-primary',
+    messages.SUCCESS: 'is-success',
+    messages.INFO: 'is-info',
+    messages.WARNING: 'is-warning',
+    messages.ERROR: 'is-danger',
+}
 
 # HTML minify
 HTML_MINIFY = os.environ.get("MINIFY_HTML", DEBUG)

@@ -17,8 +17,10 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 
 @import "./components/layout";
 @import "./components/navbar";
+@import "./components/notifications";
 @import "./components/tabs";
 
 @import "./views/home";
 
-@import "./spacing-helpers";
+@import "./helpers/border-radius";
+@import "./helpers/spacing";

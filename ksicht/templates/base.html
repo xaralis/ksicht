@@ -37,6 +37,19 @@
             {% include "includes/navbar.html" %}
         {% endblock %}
 
+        {% if messages %}
+            {% for message in messages %}
+                <div class="notification has-border-radius-0 {% if message.tags %}{{ message.tags }}{% endif %}">
+                    <div class="container">
+                        <div class="columns is-vcentered">
+                            <div class="column is-size-5">{{ message|safe }}</div>
+                            <div class="column notification-delete"><button class="delete"></button></div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
         {% block main %}
         <main role="main" class="layout-main">
             {% block content_container %}

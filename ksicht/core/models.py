@@ -13,8 +13,7 @@ from .constants import SCHOOLS
 
 class User(AbstractCUser):
     def is_participant(self):
-        return self.participant_profile is not None
-
+        return Participant.objects.filter(user=self).exists()
 
 class GradeManager(models.Manager):
     def get_current(self, current=None):
@@ -245,12 +244,37 @@ class Participant(models.Model):
     )
 
     applications = models.ManyToManyField(
-        Grade, verbose_name="Přihlášky", related_name="participants", blank=True
+        Grade, verbose_name="Přihlášky", related_name="participants", blank=True, through="GradeApplication"
     )
 
     class Meta:
-        verbose_name = "Účastník"
-        verbose_name_plural = "Účastníci"
+        verbose_name = "Řešitel"
+        verbose_name_plural = "Řešitelé"
 
     def __str__(self):
         return f"Profil účastníka pro <{self.user}>"
+
+
+class GradeApplication(models.Model):
+    grade = models.ForeignKey(Grade, on_delete=models.CASCADE)
+    participant = models.ForeignKey(Participant, on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = "Přihláška do ročníku"
+        verbose_name_plural = "Přihlášky do ročníku"
+
+    def __str__(self):
+        return f"Přihláška <{self.participant.user}> do ročníku <{self.grade}>"
+
+
+class TaskSolutionSubmission(models.Model):
+    application = models.ForeignKey(GradeApplication, verbose_name="Přihláška", null=False, blank=False, on_delete=models.CASCADE, related_name="solution_submissions")
+    task = models.ForeignKey(Task, verbose_name="Úloha", null=False, blank=False, on_delete=models.PROTECT, related_name="solution_submissions")
+    file = models.FileField(verbose_name="Soubor s řešením", upload_to="rocniky/reseni/", null=False, blank=False)
+
+    class Meta:
+        verbose_name = "Odevzdané řešení"
+        verbose_name_plural = "Odevzdaná řešení"
+
+    def __str__(self):
+        return f"Řešení <{self.task}> pro přihlášku <{self.application_id}>"

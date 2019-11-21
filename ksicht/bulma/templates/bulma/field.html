@@ -7,7 +7,7 @@
          class="field{% if wrapper_class %} {{ wrapper_class }}{% endif %}">
         {% spaceless %}
 
-            {% if field.label and not field|is_radioselect and not field|is_checkbox %}
+            {% if field.label and not field|is_radioselect and not field|is_checkbox and not field|is_file %}
                 <label for="" class="label">
                     {{ field.label|safe }}
                     {% if field.field.required %}

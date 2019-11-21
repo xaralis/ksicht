@@ -13,4 +13,9 @@ urlpatterns = [
         views.CurrentGradeApplicationView.as_view(),
         name="current_grade_application",
     ),
+    path(
+        "aktualni-rocnik/odevzdat-reseni/",
+        views.SolutionSubmitView.as_view(),
+        name="solution_submit",
+    ),
 ]

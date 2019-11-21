@@ -64,7 +64,7 @@
                         {% if series.accepts_solution_submissions and series == current_series and is_grade_participant %}
                         <footer class="card-footer">
                             <p class="card-footer-item">
-                                <a href="">Odevzdat řešení</a>
+                                <a href="{% url "core:solution_submit" %}">Odevzdat řešení</a>
                             </p>
                         </footer>
                         {% endif%}

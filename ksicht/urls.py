@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.urls import path, include
 from django.conf.urls import url
+from django.conf.urls.static import static
+from django.conf import settings
 from django.views.generic import TemplateView
 
 from django_registration.backends.activation import views as reg_views
@@ -101,4 +103,5 @@ urlpatterns = [
         ),
         name="django_registration_disallowed",
     ),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
