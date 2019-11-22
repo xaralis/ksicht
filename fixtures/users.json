@@ -1,0 +1,34 @@
+[
+{
+  "model": "core.user",
+  "fields": {
+    "password": "pbkdf2_sha256$150000$nDMtkb58e4tL$lBCJjSL7coMutL8yF1LdccbrZVsHXgJibZfOUXv/gpM=",
+    "last_login": "2019-11-16T10:47:05Z",
+    "is_superuser": true,
+    "email": "xaralis@centrum.cz",
+    "first_name": "Filip",
+    "last_name": "Varecha",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-11-16T10:45:47Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "core.user",
+  "fields": {
+    "password": "pbkdf2_sha256$150000$9Fvzav6KG12z$JPtLsnKy383lwzpt+7/CCLZyMExlRYCsN5FXkYB1rpA=",
+    "last_login": null,
+    "is_superuser": true,
+    "email": "jan.hrubes@pirati.cz",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-11-22T14:51:44.199Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
