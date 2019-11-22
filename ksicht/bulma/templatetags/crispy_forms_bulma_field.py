@@ -3,10 +3,10 @@ try:
 except ImportError:
     izip = zip
 
+from crispy_forms.utils import TEMPLATE_PACK
 from django import forms, template
 from django.conf import settings
 
-from crispy_forms.utils import TEMPLATE_PACK
 
 register = template.Library()
 
@@ -107,6 +107,7 @@ class CrispyBulmaFieldNode(template.Node):
 
         converters = {
             "textinput": "input",
+            "numberinput": "input",
             "fileinput": "fileinput fileUpload",
             "fileuploadinput": "file-input fileUpload",
             "passwordinput": "input",

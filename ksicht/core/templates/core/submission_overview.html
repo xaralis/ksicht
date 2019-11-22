@@ -1,6 +1,7 @@
 {% extends "page.html" %}
 
 {% block headline %}Přehled odevzdaných řešení{% endblock %}
+{% block header_sub %}<h3 class="subtitle">ročníku {{ grade }}</h3>{% endblock %}
 
 {% block article %}
     <form method="post" action=".">

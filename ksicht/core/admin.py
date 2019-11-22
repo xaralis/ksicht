@@ -1,13 +1,10 @@
-from django.contrib.auth.models import Permission
-from django.contrib import admin
-from django.db.models import TextField
-
 from cuser.admin import UserAdmin
+from django.contrib import admin
+from django.contrib.auth.models import Permission
+from django.db.models import TextField
 from markdownx.widgets import AdminMarkdownxWidget
 
 from . import models
-
-from django.contrib import admin
 
 
 class GradeSeriesInline(admin.TabularInline):
@@ -78,12 +75,15 @@ class SolutionSubmissionAdmin(admin.ModelAdmin):
         "task",
         "user",
         "series",
+        "score",
+        "submitted_at",
     )
     list_select_related = (
         "application__participant__user",
         "task__series",
     )
     autocomplete_fields = ("task", "application")
+    readonly_fields = ("submitted_at",)
 
     def user(self, obj):
         return obj.application.participant.user

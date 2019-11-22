@@ -1,12 +1,13 @@
-from django import forms
 from functools import partial
-from django.urls import reverse
-from django.template.defaultfilters import filesizeformat
 
 from crispy_forms.helper import FormHelper
+from django import forms
+from django.template.defaultfilters import filesizeformat
+from django.urls import reverse
 
 from ksicht.bulma.forms import FileField
 from ksicht.bulma.layout import Field, Layout, Submit
+from . import widgets
 
 
 class CurrentGradeAppliationForm(forms.Form):
@@ -87,3 +88,20 @@ class SubmissionForm(forms.Form):
 class SubmissionOverviewFormSet(forms.BaseFormSet):
     def get_form_kwargs(self, index):
         return self.form_kwargs.get(str(index))
+
+
+class ScoringForm(forms.ModelForm):
+    class Meta:
+        class ApplicationModelChoiceField(forms.ModelChoiceField):
+            widget = widgets.CurrentChoiceRendererWidget
+
+            def label_from_instance(self, obj):
+                return obj.participant.get_full_name()
+
+        field_classes = {"application": ApplicationModelChoiceField}
+
+    def __init__(self, *args, max_score, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["score"] = forms.DecimalField(
+            label="", max_value=max_score, min_value=0, max_digits=5, decimal_places=2
+        )

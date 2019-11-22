@@ -2,6 +2,7 @@ from django.urls import path
 
 from . import views
 
+
 app_name = "core"
 
 
@@ -19,8 +20,13 @@ urlpatterns = [
         name="solution_submit",
     ),
     path(
-        "rocniky/<grade_id>/bodovani/odevzdane-ulohy/",
+        "rocniky/<grade_id>/odevzdane-ulohy/",
         views.SubmissionOverview.as_view(),
         name="submission_overview",
+    ),
+    path(
+        "rocniky/<grade_id>/bodovani/<task_id>/",
+        views.ScoringView.as_view(),
+        name="scoring",
     ),
 ]

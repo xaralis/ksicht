@@ -1,12 +1,12 @@
-import uuid
-from django import forms
 from datetime import date, datetime
 from operator import attrgetter
-from django.db import models
-from django.core.validators import MinValueValidator
+import uuid
 
-import pydash as py_
 from cuser.models import AbstractCUser
+from django import forms
+from django.core.validators import MinValueValidator
+from django.db import models
+import pydash as py_
 
 from .constants import SCHOOLS
 
@@ -69,6 +69,10 @@ class Grade(models.Model):
         verbose_name = "Ročník"
         verbose_name_plural = "Ročníky"
         ordering = ("-end_date",)
+
+    @property
+    def is_in_progress(self):
+        return self.start_date <= date.today() <= self.end_date
 
     def __str__(self):
         return self.school_year
@@ -300,6 +304,9 @@ class TaskSolutionSubmission(models.Model):
         null=True,
         blank=True,
     )
+    score = models.DecimalField(
+        verbose_name="Skóre", max_digits=5, decimal_places=2, null=True, blank=True
+    )
     submitted_at = models.DateTimeField(verbose_name="Datum nahrání", auto_now_add=True)
 
     class Meta:
@@ -307,6 +314,7 @@ class TaskSolutionSubmission(models.Model):
         verbose_name_plural = "Odevzdaná řešení"
         permissions = (
             ("change_solution_submission_presence", "Úprava stavu odevzdání řešení"),
+            ("scoring", "Bodování"),
         )
 
     def __str__(self):

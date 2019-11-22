@@ -1,17 +1,16 @@
-from django import forms
-from django.core import validators
-
-import pydash as py_
-from cuser.forms import UserCreationForm, AuthenticationForm
 from crispy_forms.helper import FormHelper
+from cuser.forms import AuthenticationForm, UserCreationForm
+from django import forms
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.core import validators
 from django_registration import validators as reg_validators
+import pydash as py_
 from webpack_loader.templatetags.webpack_loader import webpack_static
 
+from ksicht.bulma.layout import Column, Layout, Row, Submit
 from ksicht.core import constants
-from ksicht.core.models import User, Grade, Participant
-from ksicht.bulma.layout import Row, Column, Layout, Submit
+from ksicht.core.models import Grade, Participant, User
 
-from django.contrib.auth.forms import SetPasswordForm, PasswordResetForm
 
 zip_validator = validators.RegexValidator(
     r"^\d{3} ?\d{2}$", "Zadejte PSČ ve formátu 123 45."

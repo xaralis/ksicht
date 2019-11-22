@@ -1,0 +1,37 @@
+{% extends "page.html" %}
+{% load crispy_forms_tags %}
+
+{% block headline %}Bodování úlohy {{ task }}{% endblock %}
+{% block header_sub %}<h3 class="subtitle">ze {{ task.series }} ročníku {{ task.series.grade }}</h3>{% endblock %}
+
+{% block article %}
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ form.management_form }}
+
+        <table class="table is-striped is-hoverable is-bordered">
+            <thead>
+                <tr>
+                    <th class="is-size-5">Řešitel</th>
+                    <th class="is-size-5">Skóre</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for f in form.forms %}
+                <tr>
+                    <th style="width: 70%">{{ f.application }}{{ f.id }}</th>
+                    <td>
+                        <div class="field">
+                            <div class="control">
+                                {{ f.score|as_crispy_field }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit" class="button is-primary">Uložit</button>
+    </form>
+{% endblock %}

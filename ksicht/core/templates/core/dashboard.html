@@ -25,10 +25,18 @@
             <p class="menu-label">{{ grade }}</p>
             <ul class="menu-list">
                 <li>
-                    <span>Bodování</span>
+                    <span>Odezvdaná řešení</span>
                     <ul>
                         {% if perms.core.change_solution_submission_presence %}
-                        <li><a href="{% url "core:submission_overview" grade_id=grade.id %}">Označení odevzdaných úloh</a></li>
+                        <li><a href="{% url "core:submission_overview" grade_id=grade.id %}">Přehled</a></li>
+                        {% endif %}
+                        {% if grade.is_in_progress %}
+                            {% with grade.get_current_series as series %}
+                                <li>
+                                    <span>Bodování:</span>
+                                    {% for task in series.tasks.all %}<a href="{% url "core:scoring" grade_id=grade.id task_id=task.id %}">{{ task.nr }}. úloha ({{ task.title }})</a>{% endfor %}
+                                </li>
+                            {% endwith %}
                         {% endif %}
                     </ul>
                 </li>

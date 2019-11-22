@@ -1,120 +1,28 @@
-from operator import or_
-from django.db import models, transaction
-from functools import reduce
 from collections import OrderedDict
-from django.contrib.auth.decorators import permission_required
-from django.forms import formset_factory
-from django.shortcuts import redirect
-from django.http.response import HttpResponseNotFound
-from django.views.generic import TemplateView
-from django.views.generic.edit import FormView, BaseFormView
-from django.views.generic.detail import DetailView
-
-import pydash as py_
-
-from . import forms
-from .models import Task, Grade, Participant, GradeApplication, TaskSolutionSubmission
-from .decorators import is_participant, current_grade_exists
+from functools import reduce
+from operator import or_
 
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.decorators import login_required, permission_required
+from django.db import models, transaction
+from django.forms import formset_factory, modelformset_factory
+from django.http.response import HttpResponseNotFound
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
+from django.views.generic.edit import FormView
+import pydash as py_
+
+from .. import forms
+from ..models import Grade, GradeApplication, Participant, Task, TaskSolutionSubmission
+from .decorators import current_grade_exists, is_participant
+from .helpers import CurrentGradeMixin
 
 
-def get_current_grade_context(user):
-    context = {}
-    context["current_grade"] = current_grade = Grade.objects.get_current()
-    context["current_series"] = (
-        current_grade.get_current_series() if current_grade else None
-    )
-    context["is_current_grade_participant"] = (
-        current_grade.participants.filter(user=user).exists()
-        if current_grade
-        else False
-    )
-    return context
-
-
-class CurrentGradeMixin:
-    def dispatch(self, *args, **kwargs):
-        self.grade_context = get_current_grade_context(self.request.user)
-        return super().dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(self.grade_context)
-        return context
-
-
-class HomeView(CurrentGradeMixin, TemplateView):
-    @property
-    def is_dashboard(self):
-        return self.request.user.is_authenticated
-
-    def get_template_names(self):
-        if self.is_dashboard:
-            return ["core/dashboard.html"]
-        return "core/home.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        if self.is_dashboard:
-            context["grades"] = Grade.objects.all()[:5]
-
-        return context
-
-
-@method_decorator(current_grade_exists, name="dispatch")
-class CurrentGradeView(DetailView):
-    template_name = "core/current_grade.html"
-
-    def get_object(self, *args, **kwargs):
-        return Grade.objects.get_current()
-
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data["is_participant"] = (
-            self.request.user.is_authenticated and self.request.user.is_participant
-        )
-        data["is_grade_participant"] = (
-            self.request.user.is_authenticated
-            and self.object.participants.filter(user=self.request.user).exists()
-        )
-        data["can_apply"] = data["is_participant"] and not data["is_grade_participant"]
-        data["application_form"] = forms.CurrentGradeAppliationForm()
-        return data
-
-
-@method_decorator(
-    [current_grade_exists, login_required, is_participant], name="dispatch"
+__all__ = (
+    "SolutionSubmitView",
+    "SubmissionOverview",
+    "ScoringView",
 )
-class CurrentGradeApplicationView(BaseFormView):
-    form_class = forms.CurrentGradeAppliationForm
-
-    def form_valid(self, *args, **kwargs):
-        user = self.request.user
-
-        if not user.is_authenticated:
-            return self.form_invalid()
-
-        grade = Grade.objects.get_current()
-
-        if not grade:
-            return self.form_invalid()
-
-        can_apply = (
-            user.is_participant and not grade.participants.filter(user=user).exists()
-        )
-
-        if can_apply:
-            grade.participants.add(user.participant_profile)
-
-        return redirect("core:current_grade")
-
-    def form_invalid(self, *args, **kwargs):
-        return redirect("core:current_grade")
 
 
 @method_decorator(
@@ -201,6 +109,11 @@ class SubmissionOverview(FormView):
             return HttpResponseNotFound()
 
         return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["grade"] = self.grade
+        return context
 
     def get_form_kwargs(self):
         participants = Participant.objects.filter(applications=self.grade)
@@ -302,6 +215,52 @@ class SubmissionOverview(FormView):
             self.request,
             messages.SUCCESS,
             "<i class='fas fa-check-circle notification-icon'></i> Odevzdaná řešení byla uložena.",
+        )
+
+        return redirect(".")
+
+
+@method_decorator([permission_required("scoring")], name="dispatch")
+class ScoringView(FormView):
+    template_name = "core/scoring.html"
+    form_class = modelformset_factory(
+        TaskSolutionSubmission,
+        form=forms.ScoringForm,
+        fields=("id", "application", "score"),
+        extra=0,
+    )
+
+    def dispatch(self, *args, task_id, **kwargs):
+        self.task = (
+            Task.objects.filter(id=task_id).select_related("series__grade").first()
+        )
+
+        if not self.task:
+            return HttpResponseNotFound()
+
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["task"] = self.task
+        return context
+
+    def get_form_kwargs(self):
+        return {
+            **super().get_form_kwargs(),
+            "queryset": TaskSolutionSubmission.objects.filter(
+                task=self.task
+            ).select_related("application__participant__user"),
+            "form_kwargs": {"max_score": self.task.points},
+        }
+
+    def form_valid(self, form):
+        form.save()
+
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            "<i class='fas fa-check-circle notification-icon'></i> Bodování bylo uloženo.",
         )
 
         return redirect(".")

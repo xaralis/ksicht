@@ -4,6 +4,7 @@ import pytest
 
 from ksicht.core import models
 
+
 pytestmark = [pytest.mark.django_db]
 
 

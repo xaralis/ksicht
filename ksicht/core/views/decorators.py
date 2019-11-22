@@ -1,11 +1,11 @@
 from functools import wraps
-from django.urls import reverse_lazy
-from django.shortcuts import redirect
-
-from .models import Grade, Participant
 
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+
+from ..models import Grade, Participant
 
 
 def is_participant(
