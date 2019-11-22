@@ -1,0 +1,152 @@
+[
+{
+  "model": "core.grade",
+  "pk": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
+  "fields": {
+    "school_year": "2019/2020",
+    "errata": "",
+    "start_date": "2019-08-01",
+    "end_date": "2020-07-31"
+  }
+},
+{
+  "model": "core.gradeseries",
+  "pk": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
+  "fields": {
+    "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
+    "series": "3",
+    "submission_deadline": "2019-12-16T10:48:02Z",
+    "task_file": ""
+  }
+},
+{
+  "model": "core.gradeseries",
+  "pk": "3c86ad82-4f55-42ca-a233-00c41fe0a874",
+  "fields": {
+    "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
+    "series": "4",
+    "submission_deadline": "2020-01-16T10:48:30Z",
+    "task_file": ""
+  }
+},
+{
+  "model": "core.gradeseries",
+  "pk": "9085c484-da8c-42d5-8dc7-254f3a9d8be9",
+  "fields": {
+    "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
+    "series": "2",
+    "submission_deadline": "2019-11-16T10:48:00Z",
+    "task_file": ""
+  }
+},
+{
+  "model": "core.gradeseries",
+  "pk": "91c2f68f-35a5-4aa4-a508-90d255dc8bda",
+  "fields": {
+    "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
+    "series": "1",
+    "submission_deadline": "2019-10-16T10:47:58Z",
+    "task_file": ""
+  }
+},
+{
+  "model": "core.task",
+  "pk": "11bf72e2-8320-47b3-850d-ad49dec7b396",
+  "fields": {
+    "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
+    "nr": "1",
+    "title": "uloha 1",
+    "points": 10
+  }
+},
+{
+  "model": "core.task",
+  "pk": "3e53de2e-b61e-484f-8c2d-54d9d1ac0d11",
+  "fields": {
+    "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
+    "nr": "4",
+    "title": "uloha \u010d",
+    "points": 10
+  }
+},
+{
+  "model": "core.task",
+  "pk": "52b659a6-5e57-427c-9711-4b5939181335",
+  "fields": {
+    "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
+    "nr": "3",
+    "title": "uloha 3",
+    "points": 10
+  }
+},
+{
+  "model": "core.task",
+  "pk": "b160f5f3-542d-4bda-85b5-135e3ae93a54",
+  "fields": {
+    "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
+    "nr": "5",
+    "title": "uloha 5",
+    "points": 10
+  }
+},
+{
+  "model": "core.task",
+  "pk": "e444589a-9da5-4b57-9dd4-805630e1c527",
+  "fields": {
+    "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
+    "nr": "2",
+    "title": "uloha 2",
+    "points": 10
+  }
+},
+{
+  "model": "core.participant",
+  "pk": 1,
+  "fields": {
+    "phone": "+420777883133",
+    "street": "Jir\u00e1nkova 2248",
+    "city": "Pardubice",
+    "zip_code": "53002",
+    "country": "cz",
+    "school": "gypce",
+    "school_year": "1",
+    "school_alt_name": null,
+    "school_alt_street": null,
+    "school_alt_city": null,
+    "school_alt_zip_code": null
+  }
+},
+{
+  "model": "core.participant",
+  "pk": 2,
+  "fields": {
+    "phone": "+420777883133",
+    "street": "Jir\u00e1nkova 2248",
+    "city": "Pardubice",
+    "zip_code": "53002",
+    "country": "cz",
+    "school": "gypce",
+    "school_year": "3",
+    "school_alt_name": null,
+    "school_alt_street": null,
+    "school_alt_city": null,
+    "school_alt_zip_code": null
+  }
+},
+{
+  "model": "core.gradeapplication",
+  "pk": 1,
+  "fields": {
+    "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
+    "participant": 1
+  }
+},
+{
+  "model": "core.gradeapplication",
+  "pk": 2,
+  "fields": {
+    "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
+    "participant": 2
+  }
+}
+]
