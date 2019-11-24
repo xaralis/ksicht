@@ -1,0 +1,48 @@
+{% extends "page.html" %}
+
+{% block breadcrumb %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="/">KSICHT</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Ročník {{ object }}</a></li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block headline %}Ročník {{ object }}{% endblock %}
+
+{% block article %}
+    <nav class="columns is-mobile is-multiline">
+        <div class="column is-6-mobile is-4-tablet">
+            <div>
+                <p class="heading">Začíná</p>
+                <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ object.start_date | date }}</p>
+            </div>
+        </div>
+        <div class="column is-6-mobile is-4-tablet">
+            <div>
+                <p class="heading">Končí</p>
+                <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ object.end_date | date }}</p>
+            </div>
+        </div>
+        <div class="column is-12-mobile is-4-tablet">
+            <div>
+                <p class="heading">Řešitelé</p>
+                <p class="title is-5"><i class="far fa-user-circle has-padding-r-3"></i>Celkem {{ object.applications.count }}</p>
+            </div>
+        </div>
+    </nav>
+
+    <div class="columns is-desktop has-margin-t-6">
+        {% for series in object.series.all %}
+            <div class="column is-one-fourth">
+                <div class="card">
+                    <div class="card-content">
+                        <h2 class="title is-6 is-uppercase has-text-weight-bold"><a href="{% url "core:series_detail" grade_id=object.pk pk=series.pk %}">{{ series }}</a></h2>
+                        <p class="subtitle is-6 has-text-grey">odevzdání do {{ series.submission_deadline | date:"SHORT_DATETIME_FORMAT" }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

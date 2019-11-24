@@ -15,6 +15,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 
+@import "./components/breadcrumb";
 @import "./components/layout";
 @import "./components/navbar";
 @import "./components/notifications";

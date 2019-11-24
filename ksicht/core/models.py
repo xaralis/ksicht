@@ -270,7 +270,7 @@ class Participant(models.Model):
 
 
 class GradeApplication(models.Model):
-    grade = models.ForeignKey(Grade, on_delete=models.CASCADE)
+    grade = models.ForeignKey(Grade, on_delete=models.CASCADE, related_name="applications")
     participant = models.ForeignKey(Participant, on_delete=models.PROTECT)
 
     class Meta:
@@ -320,3 +320,21 @@ class TaskSolutionSubmission(models.Model):
 
     def __str__(self):
         return f"Řešení <{self.task}> pro přihlášku <{self.application_id}>"
+
+
+
+class Sticker(models.Model):
+    title = models.CharField(verbose_name="Název", max_length=255, null=False, blank=False)
+    nr = models.PositiveSmallIntegerField(
+        verbose_name="Číslo",
+        null=False,
+        db_index=True,
+    )
+    uses = models.ManyToManyField(GradeApplication, blank=True, related_name="stickers")
+
+    class Meta:
+        verbose_name = "Nálepka"
+        verbose_name = "Nálepky"
+
+    def __str__(self):
+        return f"{self.nr} - {self.title}"

@@ -28,6 +28,16 @@ urlpatterns = [
         name="submission_overview",
     ),
     path(
+        "rocniky/<pk>/",
+        method_decorator([permission_required("grade_view")], name="dispatch")(
+            DetailView
+        ).as_view(
+            template_name="core/manage/grade_detail.html",
+            queryset=models.Grade.objects.all(),
+        ),
+        name="grade_detail",
+    ),
+    path(
         "rocniky/<grade_id>/serie/<pk>/",
         method_decorator([permission_required("gradeseries_view")], name="dispatch")(
             DetailView
