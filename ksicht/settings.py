@@ -162,8 +162,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "assets"),)
 # Media files (user-uploaded files)
 # https://docs.djangoproject.com/en/2.2/topics/files/
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/media/"
+MEDIA_ROOT = os.environ.get("MEDIA_ROOT", os.path.join(BASE_DIR, "media"))
+MEDIA_URL = os.environ.get("MEDIA_URL", "/media/")
 
 # Logging
 LOGGING = {
