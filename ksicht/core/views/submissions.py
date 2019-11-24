@@ -100,7 +100,7 @@ class SubmissionOverview(FormView):
     form_class = formset_factory(
         forms.SubmissionForm, formset=forms.SubmissionOverviewFormSet, extra=0
     )
-    template_name = "core/submission_overview.html"
+    template_name = "core/manage/submission_overview.html"
 
     def dispatch(self, *args, grade_id, **kwargs):
         self.grade = Grade.objects.filter(id=grade_id).first()
@@ -222,7 +222,7 @@ class SubmissionOverview(FormView):
 
 @method_decorator([permission_required("scoring")], name="dispatch")
 class ScoringView(FormView):
-    template_name = "core/scoring.html"
+    template_name = "core/manage/scoring.html"
     form_class = modelformset_factory(
         TaskSolutionSubmission,
         form=forms.ScoringForm,

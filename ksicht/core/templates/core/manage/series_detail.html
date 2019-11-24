@@ -1,0 +1,39 @@
+{% extends "page.html" %}
+
+{% block headline %}{{ object }}{% endblock %}
+{% block header_sub %}<h3 class="subtitle">ročníku {{ object.grade }}</h3>{% endblock %}
+
+{% block article %}
+
+{% with object.tasks.all as tasks %}
+    {% if tasks|length > 0 %}
+        <section class="tabs-wrapper">
+            <div class="tabs">
+                <ul>
+                    {% for task in tasks %}
+                    <li {% if forloop.first %}class="is-active"{% endif %}><a>{{ task }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="container section">
+                <div class="tabs-content">
+                    <ul>
+                        {% for task in tasks %}
+                        <li {% if forloop.first %}class="is-active"{% endif %}>
+                            <a href="{% url "core:scoring" grade_id=object.grade_id task_id=task.id %}">Bodování</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <article class="message is-warning is-size-5">
+            <div class="message-body">
+                <p>Žádné úlohy nebyly prozatím vypsány.</p>
+            </div>
+        </article>
+    {% endif %}
+{% endwith %}
+
+{% endblock %}

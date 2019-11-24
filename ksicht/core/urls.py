@@ -1,6 +1,7 @@
 from django.urls import path
+from django.views.generic import DetailView
 
-from . import views
+from . import views, models
 
 
 app_name = "core"
@@ -23,6 +24,11 @@ urlpatterns = [
         "rocniky/<grade_id>/odevzdane-ulohy/",
         views.SubmissionOverview.as_view(),
         name="submission_overview",
+    ),
+    path(
+        "rocniky/<grade_id>/serie/<pk>/",
+        DetailView.as_view(template_name="core/manage/series_detail.html", queryset=models.GradeSeries.objects.all()),
+        name="series_detail",
     ),
     path(
         "rocniky/<grade_id>/bodovani/<task_id>/",

@@ -9,7 +9,7 @@ def get_current_grade_context(user):
     )
     context["is_current_grade_participant"] = (
         current_grade.participants.filter(user=user).exists()
-        if current_grade
+        if current_grade and user.is_authenticated
         else False
     )
     return context
