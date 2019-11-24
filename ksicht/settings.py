@@ -123,7 +123,7 @@ CACHES = {"default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache",}
 # Mailing
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
 EMAIL_HOST = os.environ.get("EMAIL_HOST", None)
-EMAIL_PORT = os.environ.get("EMAIL_PORT", None)
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT")) if "EMAIL_PORT" in os.environ else None
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", None)
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", None)
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "0") == "1"
