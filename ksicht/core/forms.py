@@ -64,7 +64,7 @@ class SolutionSubmitForm(forms.Form):
             )
 
         layout_fields.append(
-            Submit("submit", "Odeslat", css_class="is-large has-margin-t-xl"),
+            Submit("submit", "Odeslat", css_class="is-large has-margin-t-6"),
         )
 
         self.helper = FormHelper()

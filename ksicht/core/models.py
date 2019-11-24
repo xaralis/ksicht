@@ -195,6 +195,7 @@ class Task(models.Model):
         verbose_name = "Úloha"
         verbose_name_plural = "Úlohy"
         ordering = ("series", "nr")
+        permissions = (("solution_export", "Export odevzdaných úloh"),)
 
     def __str__(self):
         return f"Úloha č. {self.nr}"

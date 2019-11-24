@@ -11,3 +11,4 @@ django-registration
 django-username-email
 gunicorn
 pydash
+pypdf2

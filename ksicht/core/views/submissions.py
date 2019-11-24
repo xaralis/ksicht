@@ -1,17 +1,21 @@
 from collections import OrderedDict
 from functools import reduce
 from operator import or_
+import tempfile
+from urllib.parse import quote
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import models, transaction
 from django.forms import formset_factory, modelformset_factory
-from django.http.response import HttpResponseNotFound
-from django.shortcuts import redirect
+from django.http.response import HttpResponse, HttpResponseNotFound
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
+from django.views import View
 from django.views.generic.edit import FormView
 import pydash as py_
 
+from ksicht import pdf
 from .. import forms
 from ..models import Grade, GradeApplication, Participant, Task, TaskSolutionSubmission
 from .decorators import current_grade_exists, is_participant
@@ -22,6 +26,7 @@ __all__ = (
     "SolutionSubmitView",
     "SubmissionOverview",
     "ScoringView",
+    "SolutionExportView",
 )
 
 
@@ -231,13 +236,9 @@ class ScoringView(FormView):
     )
 
     def dispatch(self, *args, task_id, **kwargs):
-        self.task = (
-            Task.objects.filter(id=task_id).select_related("series__grade").first()
+        self.task = get_object_or_404(
+            Task.objects.select_related("series__grade"), id=task_id
         )
-
-        if not self.task:
-            return HttpResponseNotFound()
-
         return super().dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -264,3 +265,39 @@ class ScoringView(FormView):
         )
 
         return redirect(".")
+
+
+@method_decorator([permission_required("scoring")], name="dispatch")
+class SolutionExportView(View):
+    def dispatch(self, *args, task_id, **kwargs):
+        self.task = get_object_or_404(Task, id=task_id)
+        return super().dispatch(*args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        submitted_solutions = TaskSolutionSubmission.objects.filter(
+            task=self.task, file__isnull=False
+        ).order_by("application__participant__user__last_name")
+        solution_files = [s.file for s in submitted_solutions]
+
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = "attachment; filename*=UTF-8''{}.pdf".format(
+            quote(str(self.task) + " - export řešení")
+        )
+
+        if bool(request.GET.get("duplex")):
+            # Ensure all files have even number of pages for simple duplex printing.
+            normalized_solution_files = [
+                pdf.ensure_even_pages(f, tempfile.TemporaryFile())
+                for f in solution_files
+            ]
+        else:
+            normalized_solution_files = solution_files
+
+        # Join all files in one large batch.
+        pdf.concatenate(normalized_solution_files, response)
+
+        # When finished, close the normalized files.
+        for f in normalized_solution_files:
+            f.close()
+
+        return response

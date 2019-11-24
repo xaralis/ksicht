@@ -28,9 +28,11 @@
                     {% if perms.core.change_solution_submission_presence %}
                     <li><a href="{% url "core:submission_overview" grade_id=grade.id %}">Přehled odevzdaných řešení</a></li>
                     {% endif %}
-                    {% for series in grade.series.all %}
-                    <li><a href="{% url "core:series_detail" grade_id=grade.id pk=series.id %}">{{ series }}</a></li>
-                    {% endfor %}
+                    {% if perms.core.gradeseries_view %}
+                        {% for series in grade.series.all %}
+                        <li><a href="{% url "core:series_detail" grade_id=grade.id pk=series.id %}">{{ series }}</a></li>
+                        {% endfor %}
+                    {% endif %}
                 </li>
             </ul>
             {% endfor %}
