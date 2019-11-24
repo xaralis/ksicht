@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700&display=swap&subset=latin-ext);
 
 
-@import "~bulmaswatch/flatly/_variables";
+// @import "~bulmaswatch/lumen/_variables";
 
 $bulmaswatch-import-font: false;
 $family-sans-serif: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
@@ -9,7 +9,7 @@ $family-monospace: "Inconsolata", "Consolas", "Monaco", monospace;
 $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 
 @import "~bulma/bulma";
-@import "~bulmaswatch/flatly/_overrides";
+// @import "~bulmaswatch/lumen/_overrides";
 
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~@fortawesome/fontawesome-free/scss/solid";
