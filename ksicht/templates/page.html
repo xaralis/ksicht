@@ -7,17 +7,21 @@
 
     <header class="hero">
         <div class="hero-body">
-            {% block header %}
-                {% block before_headline %}{% endblock %}
-                <h1 class="title">{% block page_title %}{% block headline %}{% endblock %}{% endblock %}</h1>
-            {% endblock %}
-            {% block header_sub %}{% endblock %}
+            <div class="container">
+                {% block header %}
+                    {% block before_headline %}{% endblock %}
+                    <h1 class="title">{% block page_title %}{% block headline %}{% endblock %}{% endblock %}</h1>
+                {% endblock %}
+                {% block header_sub %}{% endblock %}
+            </div>
         </div>
     </header>
 
     <div class="page-content {% block content_wrapper_classes %}{% endblock %}">
         <article class="page-article {% block article_classes %}section{% endblock %}">
-            {% block article %}{% endblock %}
+            <div class="container">
+                {% block article %}{% endblock %}
+            </div>
         </article>
 
         {% block after_article %}{% endblock %}

@@ -2,10 +2,12 @@
 
 {% block breadcrumb %}
 <nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-        <li><a href="/">KSICHT</a></li>
-        <li class="is-active"><a href="#" aria-current="page">Ročník {{ object }}</a></li>
-    </ul>
+    <div class="container">
+        <ul>
+            <li><a href="/">KSICHT</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Ročník {{ object }}</a></li>
+        </ul>
+    </div>
 </nav>
 {% endblock %}
 
@@ -28,7 +30,12 @@
         <div class="column is-12-mobile is-4-tablet">
             <div>
                 <p class="heading">Řešitelé</p>
-                <p class="title is-5"><i class="far fa-user-circle has-padding-r-3"></i>Celkem {{ object.applications.count }}</p>
+                <p class="title is-5">
+                    <i class="far fa-user-circle has-padding-r-3"></i>Celkem {{ object.applications.count }}
+                    {% if perms.core.change_solution_submission_presence %}
+                     &nbsp;·&nbsp; <a href="{% url "core:submission_overview" grade_id=grade.id %}">Přehled</a>
+                    {% endif %}
+                </p>
             </div>
         </div>
     </nav>

@@ -1,6 +1,19 @@
 {% extends "page.html" %}
 {% load crispy_forms_tags %}
 
+{% block breadcrumb %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <div class="container">
+        <ul>
+            <li><a href="/">KSICHT</a></li>
+            <li><a href="{% url "core:grade_detail" pk=task.series.grade_id %}">Ročník {{ task.series.grade }}</a></li>
+            <li><a href="{% url "core:series_detail" grade_id=task.series.grade_id pk=task.series_id %}">{{ task.series }}</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Bodování úlohy {{ task }}</a></li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
 {% block headline %}Bodování úlohy {{ task }}{% endblock %}
 {% block header_sub %}<h3 class="subtitle">ze {{ task.series }} ročníku {{ task.series.grade }}</h3>{% endblock %}
 
@@ -10,30 +23,35 @@
             {% csrf_token %}
             {{ form.management_form }}
 
-            <table class="table is-striped is-hoverable is-bordered">
-                <thead>
-                    <tr>
-                        <th class="is-size-5">Řešitel</th>
-                        <th class="is-size-5">Skóre</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for f in form.forms %}
-                    <tr>
-                        <th style="width: 70%">{{ f.application }}{{ f.id }}</th>
-                        <td>
-                            <div class="field">
-                                <div class="control">
-                                    {{ f.score|as_crispy_field }}
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="columns">
+                <div class="column is-12-mobile is-6-desktop">
+                    <table class="table is-fullwidth is-striped is-hoverable is-bordered">
+                        <thead>
+                            <tr>
+                                <th class="is-size-5">Řešitel</th>
+                                <th class="is-size-5">Skóre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for f in form.forms %}
+                            <tr>
+                                <th>{{ f.application }}{{ f.id }}</th>
+                                <td style="width: 100px;">
+                                    <div class="field">
+                                        <div class="control">
+                                            {{ f.score|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
 
-            <button type="submit" class="button is-primary">Uložit</button>
+                    <button type="submit" class="button is-primary is-medium">Uložit</button>
+                </div>
+            </div>
+
         </form>
     {% else %}
         <article class="message is-warning is-size-5">
