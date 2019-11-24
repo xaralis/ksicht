@@ -71,6 +71,9 @@ COPY --from=build --chown=ksicht /build/webpack-stats.json /ksicht/
 # Copy over entrypoint file
 COPY --chown=ksicht docker/entrypoint.sh /ksicht/
 
+# Prepare media directory
+RUN mkdir -p /media && chown ksicht:ksicht /media
+
 USER ksicht
 WORKDIR /ksicht
 
