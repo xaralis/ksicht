@@ -12,14 +12,12 @@ from django.http.response import HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic.edit import FormView
-import pydash as py_
+from django.views.generic import FormView, TemplateView
 
 from ksicht import pdf
 from .. import forms
 from ..models import Grade, GradeApplication, GradeSeries, Participant, Task, TaskSolutionSubmission
 from .decorators import current_grade_exists, is_participant
-from .helpers import CurrentGradeMixin
 
 
 __all__ = (
@@ -33,69 +31,93 @@ __all__ = (
 @method_decorator(
     [current_grade_exists, login_required, is_participant], name="dispatch"
 )
-class SolutionSubmitView(CurrentGradeMixin, FormView):
-    form_class = forms.SolutionSubmitForm
+class SolutionSubmitView(TemplateView):
     template_name = "core/solution_submit.html"
 
-    def get_application(self, current_grade):
-        return GradeApplication.objects.filter(
-            participant=self.request.user.participant_profile, grade=current_grade,
+    def dispatch(self, request, *args, **kwargs):
+        self.current_grade = Grade.objects.get_current()
+
+        if not self.current_grade:
+            return HttpResponseNotFound()
+
+        self.current_series = self.current_grade.get_current_series()
+
+        if not self.current_series:
+            return HttpResponseNotFound()
+
+        self.application = GradeApplication.objects.filter(
+            participant=self.request.user.participant_profile, grade=self.current_grade,
         ).first()
+
+        if not self.application:
+            return HttpResponseNotFound()
+
+        self.series_tasks = self.current_series.tasks.all()
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        application = self.get_application(context["current_grade"])
-
-        # User can only submit if there are not submissions yet.
-        context["can_submit"] = (
-            application is not None and not application.solution_submissions.exists()
+        context.update(
+            {
+                "current_grade": self.current_grade,
+                "curernt_series": self.current_series,
+                "forms": self.get_forms() if "forms" not in kwargs else kwargs["forms"],
+            }
         )
-
         return context
 
-    def get_form_kwargs(self):
-        current_series = Grade.objects.get_current().get_current_series()
+    def get_forms(self):
+        task_submission = set(
+            submission.task_id
+            for submission in TaskSolutionSubmission.objects.filter(
+                application=self.application, task__in=self.series_tasks
+            )
+        )
+        form_task_id = self.request.GET.get("task_id")
+        return [
+            (
+                task,
+                forms.SolutionSubmitForm(
+                    files=self.request.FILES
+                    if self.request.method == "POST" and str(task.id) == form_task_id
+                    else None,
+                    task=task,
+                )
+                if task.id not in task_submission
+                else None,
+            )
+            for task in self.series_tasks
+        ]
 
-        kwargs = super().get_form_kwargs()
-        kwargs["tasks"] = current_series.tasks.all()
+    def post(self, request, *args, **kwargs):
+        forms = self.get_forms()
 
-        return kwargs
+        for task, form in forms:
+            if form is not None and form.is_valid():
+                self.save_solution(task)
+                return redirect("core:solution_submit")
+
+        return self.render_to_response(self.get_context_data(forms=forms))
 
     @transaction.atomic
-    def form_valid(self, form):
+    def save_solution(self, task):
         """Create new solution submissions for given files."""
-        if not self.request.FILES:
-            messages.add_message(
-                self.request,
-                messages.WARNING,
-                "Žádné soubory s řešením <strong>nebyly odeslány</strong>.",
-            )
-            return redirect(".")
+        file_descriptor = self.request.FILES.get(f"file_{task.pk}")
 
-        application = self.get_application(self.grade_context["current_grade"])
-        tasks = self.grade_context["current_series"].tasks.all()
+        if not file_descriptor:
+            raise ValueError("Could not locate file date")
 
-        def _find_task(file_id):
-            return py_.find(tasks, lambda t: t.nr == file_id)
+        submission = TaskSolutionSubmission(
+            application=self.application, file=file_descriptor, task=task
+        )
+        submission.save()
 
-        for file_id, file_descriptor in self.request.FILES.items():
-            task = _find_task(file_id.split("_")[1])
-
-            if not task:
-                raise ValueError("Could not find proper task")
-
-            submission = TaskSolutionSubmission(
-                application=application, file=file_descriptor, task=task
-            )
-            submission.save()
-
-            messages.add_message(
-                self.request,
-                messages.SUCCESS,
-                "<i class='fas fa-check-circle notification-icon'></i> Vaše řešení úloh bylo <strong>úspěšně odesláno</strong>.",
-            )
-
-        return redirect("core:current_grade")
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f"<i class='fas fa-check-circle notification-icon'></i> Řešení úlohy {task} bylo <strong>úspěšně odesláno</strong>.",
+        )
 
 
 @method_decorator(

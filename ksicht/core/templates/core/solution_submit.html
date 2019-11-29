@@ -5,29 +5,33 @@
 {% block header_sub%}<h3 class="subtitle">pro {{ current_series.get_series_display }} sérii ročníku {{ current_grade }}</h3>{% endblock %}
 
 {% block article %}
-    {% if can_submit %}
-        <div class="columns">
-            <div class="column is-5">
+    <div class="columns">
+        <div class="column is-6">
+            {% for task, form in forms %}
+            <h2 class="subtitle">{{ task }}: {{ task.title }}</h2>
+            {% if form %}
                 {% crispy form %}
-            </div>
-            <div class="column is-5">
-                <article class="message">
-                    <div class="message-header">Poznámky k odeslání řešení</div>
-                    <div class="message-body content">
-                        <p>Každá série obsahuje <strong>5 úloh</strong>. Elektronické odevzdání řešení se odevzdává v samostatných souborech pro každou úlohu. Soubory s řešením jsou ve <strong>formátu PDF</strong>. Maximální velikost každého souboru je <strong>
-                            omezena na 2 MB
-                        </strong>.</p>
-                        <p>Z omezení velikost vyplývá, že zdrojem pro PDF soubory musí být elektronický dokument, nikoliv sken papírového řešení!</p>
-                        <p>Odeslání řešení vám bude <strong>umožněno pouze jednou</strong>, odesílejte tedy pouze <strong>zcela kompletní řešení</strong>.</p>
+            {% else %}
+                <article class="message is-warning is-size-5">
+                    <div class="message-body">
+                        <p>Pro tuto úlohu jste již řešení <strong>odevzdal/a </strong>. KSICHT umožňuje odeslat řešení <strong>pouze jednou</strong>.</p>
                     </div>
                 </article>
-            </div>
+            {% endif %}
+            {% if not forloop.last %}<hr>{% endif %}
+            {% endfor %}
         </div>
-    {% else %}
-        <article class="message is-warning is-size-5">
-            <div class="message-body">
-                <p>Pro tuto sérii jste již řešení <strong>odevzdal/a </strong>. KSICHT umožňuje odeslat řešení <strong>pouze jednou</strong>.</p>
-            </div>
-        </article>
-    {% endif %}
+        <div class="column is-4 is-offset-1">
+            <article class="message">
+                <div class="message-header">Poznámky k odeslání řešení</div>
+                <div class="message-body content">
+                    <p>Každá série obsahuje <strong>5 úloh</strong>. Elektronické odevzdání řešení se odevzdává v samostatných souborech pro každou úlohu. Soubory s řešením jsou ve <strong>formátu PDF</strong>. Maximální velikost každého souboru je <strong>
+                        omezena na 2 MB
+                    </strong>.</p>
+                    <p>Z omezení velikost vyplývá, že zdrojem pro PDF soubory musí být elektronický dokument, nikoliv sken papírového řešení!</p>
+                    <p>Odeslání řešení pro každou úlohu je <strong>umožněno pouze jednou</strong>, odesílejte tedy pouze <strong>zcela kompletní řešení</strong>.</p>
+                </div>
+            </article>
+        </div>
+    </div>
 {% endblock %}

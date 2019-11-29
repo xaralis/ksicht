@@ -32,4 +32,4 @@ webencodings==0.5.1       # via html5lib
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip==19.3.1               # via django-markdownx
-# setuptools==42.0.0        # via markdown
+# setuptools==42.0.1        # via markdown

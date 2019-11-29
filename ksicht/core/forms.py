@@ -6,7 +6,7 @@ from django.template.defaultfilters import filesizeformat
 from django.urls import reverse
 
 from ksicht.bulma.forms import FileField
-from ksicht.bulma.layout import Field, Layout, Submit
+from ksicht.bulma.layout import Column, Field, Layout, Row, Submit
 from . import widgets
 
 
@@ -28,10 +28,8 @@ class SolutionSubmitForm(forms.Form):
     # Add to your settings file
     SOLUTION_CONTENT_TYPES = ["application/pdf"]
 
-    def __init__(self, *args, tasks, **kwargs):
+    def __init__(self, *args, task, **kwargs):
         super().__init__(*args, **kwargs)
-
-        layout_fields = []
 
         def _clean_file(self, field_name):
             file = self.cleaned_data[field_name]
@@ -49,27 +47,29 @@ class SolutionSubmitForm(forms.Form):
 
             return file
 
-        for task in tasks:
-            self.fields[f"file_{task.nr}"] = FileField(
-                label=f"Vyberte soubor s řešením úlohy č. {task.nr} „{task.title}“",
-                required=False,
-                allow_empty_file=False,
-            )
-            layout_fields.append(Field(f"file_{task.nr}"))
+        self.fields[f"file_{task.pk}"] = FileField(
+            label=f"Vyberte soubor s řešením", required=True, allow_empty_file=False,
+        )
 
-            setattr(
-                self,
-                f"clean_file_{task.nr}",
-                partial(_clean_file, self=self, field_name=f"file_{task.nr}"),
-            )
-
-        layout_fields.append(
-            Submit("submit", "Odeslat", css_class="is-large has-margin-t-6"),
+        setattr(
+            self,
+            f"clean_file_{task.pk}",
+            partial(_clean_file, self=self, field_name=f"file_{task.pk}"),
         )
 
         self.helper = FormHelper()
-        self.helper.layout = Layout(*layout_fields)
-        self.helper.form_action = reverse("core:solution_submit")
+        self.helper.layout = Layout(
+            Row(
+                Column(Field(f"file_{task.pk}"), css_class="is-10"),
+                Column(
+                    Submit("submit", "Odeslat", css_class="is-outlined"),
+                    css_class="is-2 has-text-right",
+                ),
+            )
+        )
+        self.helper.form_action = (
+            reverse("core:solution_submit") + f"?task_id={task.pk}"
+        )
 
 
 class SubmissionForm(forms.Form):
