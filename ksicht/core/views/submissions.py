@@ -309,7 +309,7 @@ class SolutionExportView(View):
         submitted_solutions = TaskSolutionSubmission.objects.filter(
             task=self.task, file__isnull=False
         ).order_by("application__participant__user__last_name")
-        submitted_solutions = [s for s in submitted_solutions if s.file is not None]
+        submitted_solutions = [s for s in submitted_solutions if s.file.file is not None]
 
         response = HttpResponse(content_type="application/pdf")
         response["Content-Disposition"] = "attachment; filename*=UTF-8''{}.pdf".format(
