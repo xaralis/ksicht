@@ -82,6 +82,7 @@ RUN pip install -r /wheels/requirements.txt -f /wheels --user
 
 # Rest of source files
 COPY --chown=ksicht ./ksicht ./ksicht/
+COPY --chown=ksicht ./fonts ./fonts/
 
 # Collect static files
 RUN mkdir /ksicht/static && \
