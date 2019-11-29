@@ -72,15 +72,19 @@
                             <div class="tile is-ancestor">
                                 <div class="tile is-4 is-vertical is-parent">
                                     <div class="tile is-child box">
-                                        <h3 class="heading has-padding-b-3">Řešitelé</h3>
-                                        <p class="title is-6"><i class="far fa-user-circle has-padding-r-2"></i> {{ task.solution_submissions.count }} odevzdaných řešení</p>
-                                        {% if perms.core.scoring %}
-                                            <a href="{% url "core:task_scoring" grade_id=object.grade_id task_id=task.id %}">Bodování</a> &nbsp;·&nbsp;
-                                        {% endif %}
-                                        {% if perms.core.solution_export %}
-                                            <a href="{% url "core:task_solution_export" grade_id=object.grade_id task_id=task.id %}">Export do PDF</a> &nbsp;·&nbsp;
-                                            <a href="{% url "core:task_solution_export" grade_id=object.grade_id task_id=task.id %}?duplex=1">Export do PDF (pro duplex)</a>
-                                        {% endif %}
+                                        {% with task.solution_submissions.count as submission_count %}
+                                            <h3 class="heading has-padding-b-3">Řešitelé</h3>
+                                            <p class="title is-6"><i class="far fa-user-circle has-padding-r-2"></i> {{ submission_count }} odevzdaných řešení</p>
+                                            {% if submission_count > 0 %}
+                                                {% if perms.core.scoring %}
+                                                    <a href="{% url "core:task_scoring" grade_id=object.grade_id task_id=task.id %}">Bodování</a> &nbsp;·&nbsp;
+                                                {% endif %}
+                                                {% if perms.core.solution_export %}
+                                                    <a href="{% url "core:task_solution_export" grade_id=object.grade_id task_id=task.id %}">Export do PDF</a> &nbsp;·&nbsp;
+                                                    <a href="{% url "core:task_solution_export" grade_id=object.grade_id task_id=task.id %}?duplex=1">Export do PDF (pro duplex)</a>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endwith %}
                                     </div>
                                 </div>
                                 <div class="tile is-parent">

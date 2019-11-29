@@ -16,7 +16,14 @@ from django.views.generic import FormView, TemplateView
 
 from ksicht import pdf
 from .. import forms
-from ..models import Grade, GradeApplication, GradeSeries, Participant, Task, TaskSolutionSubmission
+from ..models import (
+    Grade,
+    GradeApplication,
+    GradeSeries,
+    Participant,
+    Task,
+    TaskSolutionSubmission,
+)
 from .decorators import current_grade_exists, is_participant
 
 
@@ -61,7 +68,7 @@ class SolutionSubmitView(TemplateView):
         context.update(
             {
                 "current_grade": self.current_grade,
-                "curernt_series": self.current_series,
+                "current_series": self.current_series,
                 "forms": self.get_forms() if "forms" not in kwargs else kwargs["forms"],
             }
         )
@@ -69,7 +76,8 @@ class SolutionSubmitView(TemplateView):
 
     def get_forms(self):
         task_submissions = {
-            submission.task_id: submission for submission in TaskSolutionSubmission.objects.filter(
+            submission.task_id: submission
+            for submission in TaskSolutionSubmission.objects.filter(
                 application=self.application, task__in=self.series_tasks
             )
         }
@@ -301,21 +309,30 @@ class SolutionExportView(View):
         submitted_solutions = TaskSolutionSubmission.objects.filter(
             task=self.task, file__isnull=False
         ).order_by("application__participant__user__last_name")
-        solution_files = [s.file for s in submitted_solutions]
+        submitted_solutions = [s for s in submitted_solutions if s.file is not None]
 
         response = HttpResponse(content_type="application/pdf")
         response["Content-Disposition"] = "attachment; filename*=UTF-8''{}.pdf".format(
             quote(str(self.task) + " - export řešení")
         )
+        is_duplex = bool(request.GET.get("duplex"))
+        normalized_solution_files = []
 
-        if bool(request.GET.get("duplex")):
+        for s in submitted_solutions:
             # Ensure all files have even number of pages for simple duplex printing.
-            normalized_solution_files = [
-                pdf.ensure_even_pages(f, tempfile.TemporaryFile())
-                for f in solution_files
-            ]
-        else:
-            normalized_solution_files = solution_files
+            normalized_file = (
+                pdf.ensure_even_pages(s.file, tempfile.TemporaryFile())
+                if is_duplex
+                else s.file
+            )
+            normalized_solution_files.append(
+                pdf.write_label_on_all_pages(
+                    f"Řešitel: {s.application.participant.get_full_name()}".encode("utf8"),
+                    normalized_file,
+                    tempfile.TemporaryFile(),
+                )
+            )
+            normalized_file.close()
 
         # Join all files in one large batch.
         pdf.concatenate(normalized_solution_files, response)

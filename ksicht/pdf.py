@@ -1,10 +1,24 @@
+import io
+
 from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
+import reportlab
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+
+from django.conf import settings
 
 
 __all__ = (
     "concatenate",
     "ensure_even_pages",
 )
+
+print(str(settings.BASE_DIR) + '/fonts')
+
+reportlab.rl_config.TTFSearchPath.append(str(settings.BASE_DIR) + '/fonts')
+pdfmetrics.registerFont(TTFont('Helvetica', 'Helvetica.ttf'))
 
 
 def concatenate(in_files, out_file):
@@ -35,4 +49,26 @@ def ensure_even_pages(in_file, out_file):
 
     out_pdf.write(out_file)
 
+    return out_file
+
+
+def write_label_on_all_pages(text, in_file, out_file):
+    packet = io.BytesIO()
+    can = canvas.Canvas(packet, pagesize=A4)
+    can.setFont("Helvetica", 24)
+    can.drawString(10, 10, text)
+    can.save()
+    packet.seek(0)
+
+    in_pdf = PdfFileReader(in_file)
+    label_pdf = PdfFileReader(packet)
+    out_pdf = PdfFileWriter()
+
+    for pagenum in range(in_pdf.getNumPages()):
+        # add the "watermark" (which is the new pdf) on the existing page
+        page = in_pdf.getPage(pagenum)
+        page.mergePage(label_pdf.getPage(0))
+        out_pdf.addPage(page)
+
+    out_pdf.write(out_file)
     return out_file

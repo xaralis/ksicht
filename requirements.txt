@@ -20,11 +20,12 @@ gunicorn==19.9.0
 html5lib==1.0.1           # via django-htmlmin
 markdown2==2.3.8          # via django-markdown-deux
 markdown==3.1.1           # via django-markdownx
-pillow==6.2.1             # via django-markdownx
+pillow==6.2.1             # via django-markdownx, reportlab
 psycopg2-binary==2.8.4
 pydash==4.7.5
 pypdf2==1.26.0
 pytz==2019.3              # via django
+reportlab==3.5.32
 six==1.12.0               # via html5lib
 soupsieve==1.9.5          # via beautifulsoup4
 sqlparse==0.3.0           # via django

@@ -12,3 +12,4 @@ django-username-email
 gunicorn
 pydash
 pypdf2
+reportlab
