@@ -15,8 +15,6 @@ __all__ = (
     "ensure_even_pages",
 )
 
-print(str(settings.BASE_DIR) + '/fonts')
-
 reportlab.rl_config.TTFSearchPath.append(str(settings.BASE_DIR) + '/fonts')
 pdfmetrics.registerFont(TTFont('Helvetica', 'Helvetica.ttf'))
 
