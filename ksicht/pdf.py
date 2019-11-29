@@ -1,13 +1,12 @@
 import io
 
+from django.conf import settings
 from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
 import reportlab
-from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-
-from django.conf import settings
+from reportlab.pdfgen import canvas
 
 
 __all__ = (
@@ -15,8 +14,8 @@ __all__ = (
     "ensure_even_pages",
 )
 
-reportlab.rl_config.TTFSearchPath.append(str(settings.BASE_DIR) + '/fonts')
-pdfmetrics.registerFont(TTFont('Helvetica', 'Helvetica.ttf'))
+reportlab.rl_config.TTFSearchPath.append(str(settings.BASE_DIR) + "/fonts")
+pdfmetrics.registerFont(TTFont("Helvetica", "Helvetica.ttf"))
 
 
 def concatenate(in_files, out_file):

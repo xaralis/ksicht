@@ -10,20 +10,14 @@ from django.db import models, transaction
 from django.forms import formset_factory, modelformset_factory
 from django.http.response import HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import FormView, TemplateView
 
 from ksicht import pdf
 from .. import forms
-from ..models import (
-    Grade,
-    GradeApplication,
-    GradeSeries,
-    Participant,
-    Task,
-    TaskSolutionSubmission,
-)
+from ..models import Grade, GradeApplication, GradeSeries, Participant, Task, TaskSolutionSubmission
 from .decorators import current_grade_exists, is_participant
 
 
@@ -306,10 +300,28 @@ class SolutionExportView(View):
         return super().dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        submitted_solutions = TaskSolutionSubmission.objects.filter(
-            task=self.task, file__isnull=False
-        ).order_by("application__participant__user__last_name")
-        submitted_solutions = [s for s in submitted_solutions if s.file.file is not None]
+        submitted_solutions = (
+            TaskSolutionSubmission.objects.filter(task=self.task)
+            .exclude(file="")
+            .order_by("application__participant__user__last_name")
+        )
+        submitted_solutions = [s for s in submitted_solutions if bool(s.file)]
+
+        if len(submitted_solutions) == 0:
+            messages.add_message(
+                self.request,
+                messages.WARNING,
+                "<i class='fas fa-exclamation-circle notification-icon'></i> Žádné řešení neobsahuje přiložené soubory.",
+            )
+            return redirect(
+                reverse(
+                    "core:series_detail",
+                    kwargs={
+                        "grade_id": self.task.series.grade_id,
+                        "pk": self.task.series.pk,
+                    },
+                )
+            )
 
         response = HttpResponse(content_type="application/pdf")
         response["Content-Disposition"] = "attachment; filename*=UTF-8''{}.pdf".format(
@@ -327,7 +339,9 @@ class SolutionExportView(View):
             )
             normalized_solution_files.append(
                 pdf.write_label_on_all_pages(
-                    f"Řešitel: {s.application.participant.get_full_name()}".encode("utf8"),
+                    f"Řešitel: {s.application.participant.get_full_name()}".encode(
+                        "utf8"
+                    ),
                     normalized_file,
                     tempfile.TemporaryFile(),
                 )
