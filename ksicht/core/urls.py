@@ -23,11 +23,6 @@ urlpatterns = [
         name="solution_submit",
     ),
     path(
-        "rocniky/<grade_id>/odevzdane-ulohy/",
-        views.SubmissionOverview.as_view(),
-        name="submission_overview",
-    ),
-    path(
         "rocniky/<pk>/",
         method_decorator([permission_required("grade_view")], name="dispatch")(
             DetailView
@@ -46,6 +41,11 @@ urlpatterns = [
             queryset=models.GradeSeries.objects.all(),
         ),
         name="series_detail",
+    ),
+    path(
+        "rocniky/<grade_id>/serie/<series_id>/odevzdana-reseni/",
+        views.SubmissionOverview.as_view(),
+        name="submission_overview",
     ),
     path(
         "rocniky/<grade_id>/bodovani/<task_id>/",

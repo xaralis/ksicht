@@ -7,25 +7,45 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0002_auto_20191124_1209'),
+        ("core", "0002_auto_20191124_1209"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='gradeapplication',
-            name='grade',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='applications', to='core.Grade'),
+            model_name="gradeapplication",
+            name="grade",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="applications",
+                to="core.Grade",
+            ),
         ),
         migrations.CreateModel(
-            name='Sticker',
+            name="Sticker",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, verbose_name='Název')),
-                ('nr', models.PositiveSmallIntegerField(db_index=True, verbose_name='Číslo')),
-                ('uses', models.ManyToManyField(blank=True, related_name='stickers', to='core.GradeApplication')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255, verbose_name="Název")),
+                (
+                    "nr",
+                    models.PositiveSmallIntegerField(
+                        db_index=True, verbose_name="Číslo"
+                    ),
+                ),
+                (
+                    "uses",
+                    models.ManyToManyField(
+                        blank=True, related_name="stickers", to="core.GradeApplication"
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Nálepky',
-            },
+            options={"verbose_name": "Nálepky",},
         ),
     ]

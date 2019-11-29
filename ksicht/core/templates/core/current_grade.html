@@ -15,8 +15,8 @@
         </div>
         <div class="column is-6-mobile is-3-tablet">
             <div>
-                <p class="heading">Končí</p>
-                <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ object.end_date | date }}</p>
+                <p class="heading">Řešitelé</p>
+                <p class="title is-5"><i class="far fa-user-circle has-padding-r-2"></i> {{ object.applications.count }} přihlášených řešitelů</p>
             </div>
         </div>
         {% if can_apply %}

@@ -32,9 +32,6 @@
                 <p class="heading">Řešitelé</p>
                 <p class="title is-5">
                     <i class="far fa-user-circle has-padding-r-3"></i>Celkem {{ object.applications.count }}
-                    {% if perms.core.change_solution_submission_presence %}
-                     &nbsp;·&nbsp; <a href="{% url "core:submission_overview" grade_id=grade.id %}">Přehled</a>
-                    {% endif %}
                 </p>
             </div>
         </div>

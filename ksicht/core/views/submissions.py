@@ -17,7 +17,7 @@ import pydash as py_
 
 from ksicht import pdf
 from .. import forms
-from ..models import Grade, GradeApplication, Participant, Task, TaskSolutionSubmission
+from ..models import Grade, GradeApplication, GradeSeries, Participant, Task, TaskSolutionSubmission
 from .decorators import current_grade_exists, is_participant
 from .helpers import CurrentGradeMixin
 
@@ -107,10 +107,11 @@ class SubmissionOverview(FormView):
     )
     template_name = "core/manage/submission_overview.html"
 
-    def dispatch(self, *args, grade_id, **kwargs):
+    def dispatch(self, *args, grade_id, series_id, **kwargs):
         self.grade = Grade.objects.filter(id=grade_id).first()
+        self.series = GradeSeries.objects.filter(grade=self.grade, pk=series_id).first()
 
-        if not self.grade:
+        if not self.grade or not self.series:
             return HttpResponseNotFound()
 
         return super().dispatch(*args, **kwargs)
@@ -118,11 +119,12 @@ class SubmissionOverview(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["grade"] = self.grade
+        context["series"] = self.series
         return context
 
     def get_form_kwargs(self):
-        participants = Participant.objects.filter(applications=self.grade)
-        tasks = Task.objects.filter(series__grade=self.grade)
+        participants = Participant.objects.filter(applications__series=self.series)
+        tasks = Task.objects.filter(series=self.series)
 
         submission_map = {}
 

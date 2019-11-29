@@ -43,9 +43,18 @@ class GradeSeriesAdmin(admin.ModelAdmin):
 class ParticipantAdmin(admin.ModelAdmin):
     list_display = (
         "user",
+        "first_name",
+        "last_name",
         "school",
     )
     list_select_related = ("user",)
+    readonly_fields = ("first_name", "last_name")
+
+    def first_name(self, obj):
+        return obj.user.first_name
+
+    def last_name(self, obj):
+        return obj.user.last_name
 
 
 @admin.register(models.Task)

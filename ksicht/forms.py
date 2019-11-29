@@ -16,8 +16,7 @@ zip_validator = validators.RegexValidator(
     r"^\d{3} ?\d{2}$", "Zadejte PSČ ve formátu 123 45."
 )
 phone_validator = validators.RegexValidator(
-    r"^(\+420)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$",
-    "Zadejte telefon ve formátu +420 777 123123.",
+    r"^\+?[0-9 ]{9,}$", "Zadejte platný telefon ve formátu +420 777 123123.",
 )
 
 
@@ -59,7 +58,7 @@ class KsichtRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("email",)
+        fields = ("email", "first_name", "last_name")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -71,6 +70,9 @@ class KsichtRegistrationForm(UserCreationForm):
             )
         )
 
+        self.fields["first_name"].required = True
+        self.fields["last_name"].required = True
+
         self.fields["tos"] = forms.BooleanField(
             widget=forms.CheckboxInput,
             label=f"Přečetl/a jsem si a souhlasím s <a href='{webpack_static('attachments/zpracovani-osobnich-udaju-pro-web.pdf')}' target='_blank' rel='noopener'>podmínkami použití a zpracováním osobních údajů</a>",
@@ -78,6 +80,7 @@ class KsichtRegistrationForm(UserCreationForm):
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
+            Row(Column("first_name"), Column("last_name")),
             Row(Column("email"), Column("phone")),
             Row(Column("password1"), Column("password2")),
             Row(Column("street", css_class="is-10"),),
