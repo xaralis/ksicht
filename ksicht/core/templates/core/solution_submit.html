@@ -1,5 +1,6 @@
 {% extends "page.html" %}
 {% load crispy_forms_tags %}
+{% load filename %}
 
 {% block headline %}Odeslání řešení{% endblock %}
 {% block header_sub%}<h3 class="subtitle">pro {{ current_series.get_series_display }} sérii ročníku {{ current_grade }}</h3>{% endblock %}
@@ -7,14 +8,15 @@
 {% block article %}
     <div class="columns">
         <div class="column is-6">
-            {% for task, form in forms %}
+            {% for task, form, submission in forms %}
             <h2 class="subtitle">{{ task }}: {{ task.title }}</h2>
             {% if form %}
                 {% crispy form %}
             {% else %}
-                <article class="message is-warning is-size-5">
+                <article class="message is-warning is-size-6">
                     <div class="message-body">
-                        <p>Pro tuto úlohu jste již řešení <strong>odevzdal/a </strong>. KSICHT umožňuje odeslat řešení <strong>pouze jednou</strong>.</p>
+                        <p>Pro tuto úlohu jste již <strong>odevzdal/a</strong> řešení <strong>{{ submission.file|filename }}</strong>.</p>
+                        <p>KSICHT umožňuje odeslat řešení <strong>pouze jednou</strong>.</p>
                     </div>
                 </article>
             {% endif %}

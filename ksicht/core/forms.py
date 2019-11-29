@@ -60,11 +60,12 @@ class SolutionSubmitForm(forms.Form):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
-                Column(Field(f"file_{task.pk}"), css_class="is-10"),
+                Column(Field(f"file_{task.pk}"), css_class="is-12-mobile is-10-desktop"),
                 Column(
                     Submit("submit", "Odeslat", css_class="is-outlined"),
-                    css_class="is-2 has-text-right",
+                    css_class="is-12-mobile is-2-desktop has-text-right-desktop",
                 ),
+                css_class="is-mobile is-multiline"
             )
         )
         self.helper.form_action = (

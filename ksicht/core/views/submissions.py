@@ -68,12 +68,11 @@ class SolutionSubmitView(TemplateView):
         return context
 
     def get_forms(self):
-        task_submission = set(
-            submission.task_id
-            for submission in TaskSolutionSubmission.objects.filter(
+        task_submissions = {
+            submission.task_id: submission for submission in TaskSolutionSubmission.objects.filter(
                 application=self.application, task__in=self.series_tasks
             )
-        )
+        }
         form_task_id = self.request.GET.get("task_id")
         return [
             (
@@ -84,8 +83,9 @@ class SolutionSubmitView(TemplateView):
                     else None,
                     task=task,
                 )
-                if task.id not in task_submission
+                if task.id not in task_submissions
                 else None,
+                task_submissions.get(task.id),
             )
             for task in self.series_tasks
         ]
