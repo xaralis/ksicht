@@ -266,7 +266,7 @@ class Participant(models.Model):
         return f"Profil účastníka pro <{self.user}>"
 
     def get_full_name(self):
-        return f"{self.user.get_full_name() or '?'} <{self.user.email}>"
+        return f"{self.user.get_full_name() or self.user.email}"
 
 
 class GradeApplication(models.Model):

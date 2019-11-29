@@ -24,18 +24,18 @@
             {{ form.management_form }}
 
             <div class="columns">
-                <div class="column is-12-mobile is-6-desktop">
+                <div class="column is-12-mobile is-5-desktop">
                     <table class="table is-fullwidth is-striped is-hoverable is-bordered">
                         <thead>
                             <tr>
-                                <th class="is-size-5">Řešitel</th>
-                                <th class="is-size-5">Skóre</th>
+                                <th class="is-size-6 has-text-right">Řešitel</th>
+                                <th class="is-size-6">Skóre</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for f in form.forms %}
                             <tr>
-                                <th>{{ f.application }}{{ f.id }}</th>
+                                <th class="is-size-5 has-text-right">{{ f.application }}{{ f.id }}</th>
                                 <td style="width: 100px;">
                                     <div class="field">
                                         <div class="control">
