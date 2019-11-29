@@ -5,6 +5,7 @@
 !assets/**
 !docker
 !ksicht/**
+!fonts/**
 !requirements.txt
 !package.json
 !browserlists
