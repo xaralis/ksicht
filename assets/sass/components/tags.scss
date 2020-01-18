@@ -1,0 +1,14 @@
+.tag-list{
+    display: flex;
+    margin-left: -0.5rem;
+    margin-bottom: -0.5rem;
+
+    .tags {
+        margin-bottom: 0.5rem;
+        margin-left: 0.5rem;
+    }
+
+    .tag {
+        margin-bottom: 0;
+    }
+}

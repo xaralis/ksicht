@@ -6,12 +6,17 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0004_sticker_description'),
+        ("core", "0004_sticker_description"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='sticker',
-            options={'permissions': (('auto_assign_stickers', 'Automatické nastavení nálepek'),), 'verbose_name': 'Nálepky'},
+            name="sticker",
+            options={
+                "permissions": (
+                    ("auto_assign_stickers", "Automatické nastavení nálepek"),
+                ),
+                "verbose_name": "Nálepky",
+            },
         ),
     ]

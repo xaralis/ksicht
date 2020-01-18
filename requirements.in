@@ -9,6 +9,7 @@ django-htmlmin
 django-capture-tag
 django-registration
 django-username-email
+django_select2
 gunicorn
 pydash
 pypdf2

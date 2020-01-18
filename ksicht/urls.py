@@ -32,6 +32,7 @@ urlpatterns = [
     path("", include("ksicht.core.urls", "core")),
     path("admin/", admin.site.urls),
     path("markdownx/", include("markdownx.urls")),
+    url(r"^select2/", include("django_select2.urls")),
     path(
         "sitemap.xml",
         sitemap,

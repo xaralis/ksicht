@@ -311,6 +311,9 @@ class TaskSolutionSubmission(models.Model):
         verbose_name="Skóre", max_digits=5, decimal_places=2, null=True, blank=True
     )
     submitted_at = models.DateTimeField(verbose_name="Datum nahrání", auto_now_add=True)
+    stickers = models.ManyToManyField(
+        "Sticker", blank=True, related_name="solution_uses"
+    )
 
     class Meta:
         verbose_name = "Odevzdané řešení"
@@ -332,14 +335,15 @@ class Sticker(models.Model):
     nr = models.PositiveSmallIntegerField(
         verbose_name="Číslo", null=False, db_index=True,
     )
+    handpicked = models.BooleanField(
+        verbose_name="Přiřazován ručně", default=True, null=False, db_index=True
+    )
     uses = models.ManyToManyField(GradeApplication, blank=True, related_name="stickers")
 
     class Meta:
         verbose_name = "Nálepka"
         verbose_name_plural = "Nálepky"
-        permissions = (
-            ("auto_assign_stickers", "Automatické nastavení nálepek"),
-        )
+        permissions = (("auto_assign_stickers", "Automatické nastavení nálepek"),)
 
     def __str__(self):
         return f"{self.nr} - {self.title}"
@@ -347,13 +351,17 @@ class Sticker(models.Model):
 
 def sticker_auto_assignment(listing):
     """Replace sticker numbers in eligibility listing with real sticker objects."""
-    sticker_nrs = py_.py_(list(nrs) for application, nrs in listing).flatten().uniq().value()
-    stickers_by_nr = {
-        s.nr: s for s in Sticker.objects.filter(nr__in=sticker_nrs)
-    }
+    sticker_nrs = (
+        py_.py_(list(nrs) for application, nrs in listing).flatten().uniq().value()
+    )
+    stickers_by_nr = {s.nr: s for s in Sticker.objects.filter(nr__in=sticker_nrs)}
+
     def _replace_with_sticker_objs(listing_item):
         application, sticker_nrs = listing_item
-        return application, [stickers_by_nr[nr] for nr in sticker_nrs if nr in stickers_by_nr]
+        return (
+            application,
+            [stickers_by_nr[nr] for nr in sticker_nrs if nr in stickers_by_nr],
+        )
 
     return py_.map_(listing, _replace_with_sticker_objs)
 
@@ -362,4 +370,3 @@ def sync_sticker_assignment(eligibility_listing):
     for application, stickers in eligibility_listing:
         for sticker in stickers:
             sticker.uses.add(application)
-    return

@@ -1,3 +1,5 @@
+from operator import attrgetter
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import transaction
@@ -69,9 +71,8 @@ class CurrentGradeApplicationView(BaseFormView):
     def form_invalid(self, *args, **kwargs):
         return redirect("core:current_grade")
 
-@method_decorator(
-    [permission_required("auto_assign_stickers")], name="dispatch"
-)
+
+@method_decorator([permission_required("auto_assign_stickers")], name="dispatch")
 class AutoAssignStickersView(DetailView):
     template_name = "core/manage/auto_assign_stickers.html"
     queryset = models.Grade.objects.all()
@@ -97,14 +98,29 @@ class AutoAssignStickersView(DetailView):
         return redirect(".")
 
 
-@method_decorator(
-    [login_required], name="dispatch"
-)
+@method_decorator([login_required], name="dispatch")
 class StickerAssignmentOverview(ListView):
     template_name = "core/manage/sticker_assignment_overview.html"
 
     def get_queryset(self):
-        return models.GradeApplication.objects.filter(grade__pk=self.kwargs["pk"]).select_related("participant").prefetch_related("stickers")
+        return (
+            models.GradeApplication.objects.filter(grade__pk=self.kwargs["pk"])
+            .select_related("participant")
+            .prefetch_related("stickers", "solution_submissions__stickers")
+        )
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(grade=models.Grade.objects.get(pk=self.kwargs["pk"]), **kwargs)
+        data = super().get_context_data(
+            grade=models.Grade.objects.get(pk=self.kwargs["pk"]), **kwargs
+        )
+
+        def _collect_stickers(application):
+            stickers = set(application.stickers.all())
+
+            for s in application.solution_submissions.all():
+                stickers = stickers.union(set(s.stickers.all()))
+
+            return sorted(stickers, key=attrgetter("nr"))
+
+        data["results"] = {a: _collect_stickers(a) for a in data["object_list"]}
+        return data

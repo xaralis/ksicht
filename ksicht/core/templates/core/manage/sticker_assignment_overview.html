@@ -17,7 +17,7 @@
 {% block header_sub %}<h3 class="subtitle">pro ročník {{ grade }}</h3>{% endblock %}
 
 {% block article %}
-    <table class="table is-striped is-hoverable is-bordered">
+    <table class="table is-fullwidth is-striped is-hoverable is-bordered">
         <thead>
             <tr>
                 <th class="is-size-6 has-text-right">Řešitel</th>
@@ -25,12 +25,12 @@
             </tr>
         </thead>
         <tbody>
-            {% for application in object_list %}
+            {% for application, stickers in results.items %}
             <tr>
                 <th class="is-size-5 has-text-right">{{ application.participant.get_full_name }}</th>
                 <td>
-                    <div class="tags">
-                        {% for s in application.stickers.all %}
+                    <div class="tag-list">
+                        {% for s in stickers %}
                             {% sticker s %}
                         {% endfor %}
                     </div>

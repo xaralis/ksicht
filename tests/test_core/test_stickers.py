@@ -228,9 +228,7 @@ def test_reached_150(context, result):
                         models.TaskSolutionSubmission(
                             task_id="1", score=Decimal("5.0")
                         ),
-                        models.TaskSolutionSubmission(
-                            task_id="2", score=None
-                        ),
+                        models.TaskSolutionSubmission(task_id="2", score=None),
                     )
                 },
             },

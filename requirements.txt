@@ -6,12 +6,14 @@
 #
 beautifulsoup4==4.8.1     # via django-htmlmin
 confusable-homoglyphs==3.2.0  # via django-registration
+django-appconf==1.0.3     # via django-select2
 django-capture-tag==1.0
 django-crispy-forms==1.7.2
 django-htmlmin==0.11.0
 django-markdown-deux==1.0.5
 django-markdownx==2.0.28
 django-registration==3.0.1
+django-select2==7.2.0
 django-username-email==2.2.4
 django-webpack-loader==0.6.0
 django==2.2.8
@@ -26,11 +28,11 @@ pydash==4.7.5
 pypdf2==1.26.0
 pytz==2019.3              # via django
 reportlab==3.5.32
-six==1.12.0               # via html5lib
+six==1.12.0               # via django-appconf, html5lib
 soupsieve==1.9.5          # via beautifulsoup4
 sqlparse==0.3.0           # via django
 webencodings==0.5.1       # via html5lib
 
 # The following packages are considered to be unsafe in a requirements file:
-# pip
-# setuptools
+# pip==19.3.1               # via django-markdownx
+# setuptools==45.0.0        # via markdown

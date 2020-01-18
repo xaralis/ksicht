@@ -4,10 +4,11 @@ from crispy_forms.helper import FormHelper
 from django import forms
 from django.template.defaultfilters import filesizeformat
 from django.urls import reverse
+from django_select2.forms import Select2MultipleWidget
 
 from ksicht.bulma.forms import FileField
 from ksicht.bulma.layout import Column, Field, Layout, Row, Submit
-from . import widgets
+from . import models, widgets
 
 
 class CurrentGradeAppliationForm(forms.Form):
@@ -107,4 +108,8 @@ class ScoringForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["score"] = forms.DecimalField(
             label="", max_value=max_score, min_value=0, max_digits=5, decimal_places=2
+        )
+        self.fields["stickers"] = forms.ModelMultipleChoiceField(
+            queryset=models.Sticker.objects.filter(handpicked=True),
+            widget=Select2MultipleWidget({"data-width": "100%"}),
         )

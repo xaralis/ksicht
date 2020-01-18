@@ -1,6 +1,10 @@
 {% extends "page.html" %}
 {% load crispy_forms_tags %}
 
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+{% endblock %}
+
 {% block breadcrumb %}
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <div class="container">
@@ -24,12 +28,13 @@
             {{ form.management_form }}
 
             <div class="columns">
-                <div class="column is-12-mobile is-5-desktop">
+                <div class="column is-12-mobile">
                     <table class="table is-fullwidth is-striped is-hoverable is-bordered">
                         <thead>
                             <tr>
                                 <th class="is-size-6 has-text-right">Řešitel</th>
                                 <th class="is-size-6">Skóre</th>
+                                <th class="is-size-6">Nálepky</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,6 +45,13 @@
                                     <div class="field">
                                         <div class="control">
                                             {{ f.score|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="width: 60%; min-width: 300px">
+                                    <div class="field">
+                                        <div class="control">
+                                            {{ f.stickers }}
                                         </div>
                                     </div>
                                 </td>
@@ -60,4 +72,9 @@
             </div>
         </article>
     {% endif %}
+{% endblock %}
+
+{% block after_body %}
+{{ form.media.css }}
+{{ form.media.js }}
 {% endblock %}

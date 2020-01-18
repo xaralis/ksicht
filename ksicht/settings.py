@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "markdown_deux",  # Markdown rendering template tags
     "capture_tag",  # Re-use same block multiple times
     "crispy_forms",
+    "django_select2",
     "cuser",
     "ksicht.core",
     "ksicht.bulma",

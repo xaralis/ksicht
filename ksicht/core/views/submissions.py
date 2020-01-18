@@ -257,7 +257,7 @@ class ScoringView(FormView):
     form_class = modelformset_factory(
         TaskSolutionSubmission,
         form=forms.ScoringForm,
-        fields=("id", "application", "score"),
+        fields=("id", "application", "score", "stickers"),
         extra=0,
     )
 
