@@ -4,12 +4,11 @@ from . import registry
 
 
 def sticker(sticker_nr):
-    def wrapped(resolver_fn):
+    def decorator(resolver_fn):
+        registry.register(sticker_nr, resolver_fn)
         return resolver_fn
 
-    registry.register(sticker_nr, wrapped)
-
-    return wrapped
+    return decorator
 
 
 @sticker(1)
@@ -24,7 +23,7 @@ def solved_all_tasks_in_series(context):
 
     def _is_eligible(tasks_in_series):
         series, tasks = tasks_in_series
-        return len(context["submissions"]["by_series"][series]) == len(tasks)
+        return len(tasks) > 0 and len(context["submissions"]["by_series"][series]) == len(tasks)
 
     return any(
         _is_eligible(tasks_in_series) for tasks_in_series in context["tasks_in_series"]
@@ -55,13 +54,13 @@ def zero_points(context):
 @sticker(9)
 def reached_100(context):
     """Given to anyone who has reached a sum of at least 100 points."""
-    return sum(sub.score for sub in context["submissions"]["all"]) >= Decimal("100")
+    return sum(sub.score or Decimal('0') for sub in context["submissions"]["all"]) >= Decimal("100")
 
 
 @sticker(10)
 def reached_150(context):
     """Given to anyone who has reached a sum of at least 150 points."""
-    return sum(sub.score for sub in context["submissions"]["all"]) >= Decimal("150")
+    return sum(sub.score or Decimal('0') for sub in context["submissions"]["all"]) >= Decimal("150")
 
 
 @sticker(12)

@@ -1,17 +1,21 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
+from django.db import transaction
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import BaseFormView
+from django.views.generic.list import ListView
 
-from .. import forms
-from ..models import Grade
+from .. import forms, models, stickers
 from .decorators import current_grade_exists, is_participant
 
 
 __all__ = (
+    "AutoAssignStickersView",
     "CurrentGradeView",
     "CurrentGradeApplicationView",
+    "StickerAssignmentOverview",
 )
 
 
@@ -20,7 +24,7 @@ class CurrentGradeView(DetailView):
     template_name = "core/current_grade.html"
 
     def get_object(self, *args, **kwargs):
-        return Grade.objects.get_current()
+        return models.Grade.objects.get_current()
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -48,7 +52,7 @@ class CurrentGradeApplicationView(BaseFormView):
         if not user.is_authenticated:
             return self.form_invalid()
 
-        grade = Grade.objects.get_current()
+        grade = models.Grade.objects.get_current()
 
         if not grade:
             return self.form_invalid()
@@ -64,3 +68,43 @@ class CurrentGradeApplicationView(BaseFormView):
 
     def form_invalid(self, *args, **kwargs):
         return redirect("core:current_grade")
+
+@method_decorator(
+    [permission_required("auto_assign_stickers")], name="dispatch"
+)
+class AutoAssignStickersView(DetailView):
+    template_name = "core/manage/auto_assign_stickers.html"
+    queryset = models.Grade.objects.all()
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        eligibility = stickers.engine.get_eligibility(data["object"])
+        data["eligibility"] = models.sticker_auto_assignment(eligibility)
+        return data
+
+    @transaction.atomic
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        models.sync_sticker_assignment(context["eligibility"])
+
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f"<i class='fas fa-check-circle notification-icon'></i> Přiřazení nálepek bylo uloženo</strong>.",
+        )
+
+        return redirect(".")
+
+
+@method_decorator(
+    [login_required], name="dispatch"
+)
+class StickerAssignmentOverview(ListView):
+    template_name = "core/manage/sticker_assignment_overview.html"
+
+    def get_queryset(self):
+        return models.GradeApplication.objects.filter(grade__pk=self.kwargs["pk"]).select_related("participant").prefetch_related("stickers")
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(grade=models.Grade.objects.get(pk=self.kwargs["pk"]), **kwargs)

@@ -336,7 +336,30 @@ class Sticker(models.Model):
 
     class Meta:
         verbose_name = "Nálepka"
-        verbose_name = "Nálepky"
+        verbose_name_plural = "Nálepky"
+        permissions = (
+            ("auto_assign_stickers", "Automatické nastavení nálepek"),
+        )
 
     def __str__(self):
         return f"{self.nr} - {self.title}"
+
+
+def sticker_auto_assignment(listing):
+    """Replace sticker numbers in eligibility listing with real sticker objects."""
+    sticker_nrs = py_.py_(list(nrs) for application, nrs in listing).flatten().uniq().value()
+    stickers_by_nr = {
+        s.nr: s for s in Sticker.objects.filter(nr__in=sticker_nrs)
+    }
+    def _replace_with_sticker_objs(listing_item):
+        application, sticker_nrs = listing_item
+        return application, [stickers_by_nr[nr] for nr in sticker_nrs if nr in stickers_by_nr]
+
+    return py_.map_(listing, _replace_with_sticker_objs)
+
+
+def sync_sticker_assignment(eligibility_listing):
+    for application, stickers in eligibility_listing:
+        for sticker in stickers:
+            sticker.uses.add(application)
+    return

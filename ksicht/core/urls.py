@@ -33,6 +33,16 @@ urlpatterns = [
         name="grade_detail",
     ),
     path(
+        "rocniky/<pk>/automaticke-nalepky/",
+        views.AutoAssignStickersView.as_view(),
+        name="grade_auto_assign_stickers",
+    ),
+    path(
+        "rocniky/<pk>/prehled-nalepek/",
+        views.StickerAssignmentOverview.as_view(),
+        name="grade_sticker_assignment_overview",
+    ),
+    path(
         "rocniky/<grade_id>/serie/<pk>/",
         method_decorator([permission_required("gradeseries_view")], name="dispatch")(
             DetailView

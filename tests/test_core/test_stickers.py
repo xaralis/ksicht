@@ -47,6 +47,13 @@ sub4 = models.TaskSolutionSubmission(task_id="4")
             },
             False,
         ),
+        (
+            {
+                "tasks_in_series": ((s1, ()), (s2, ())),
+                "submissions": {"by_series": {s1: (), s2: (),}},
+            },
+            False,
+        ),
     ),
 )
 def test_solved_all_tasks_in_series(context, result):
@@ -130,6 +137,18 @@ def test_zero_points(context, result):
             {
                 "submissions": {
                     "all": (
+                        models.TaskSolutionSubmission(score=Decimal("10.0")),
+                        models.TaskSolutionSubmission(score=Decimal("5.0")),
+                        models.TaskSolutionSubmission(score=None),
+                    )
+                }
+            },
+            False,
+        ),
+        (
+            {
+                "submissions": {
+                    "all": (
                         models.TaskSolutionSubmission(score=Decimal("90.0")),
                         models.TaskSolutionSubmission(score=Decimal("50.0")),
                     )
@@ -175,6 +194,17 @@ def test_reached_100(context, result):
                 "submissions": {
                     "all": (
                         models.TaskSolutionSubmission(score=Decimal("90.0")),
+                        models.TaskSolutionSubmission(score=None),
+                    )
+                }
+            },
+            False,
+        ),
+        (
+            {
+                "submissions": {
+                    "all": (
+                        models.TaskSolutionSubmission(score=Decimal("90.0")),
                         models.TaskSolutionSubmission(score=Decimal("60.0")),
                     )
                 }
@@ -197,6 +227,9 @@ def test_reached_150(context, result):
                     "all": (
                         models.TaskSolutionSubmission(
                             task_id="1", score=Decimal("5.0")
+                        ),
+                        models.TaskSolutionSubmission(
+                            task_id="2", score=None
                         ),
                     )
                 },

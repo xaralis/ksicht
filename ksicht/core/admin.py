@@ -105,5 +105,10 @@ class SolutionSubmissionAdmin(admin.ModelAdmin):
     series.short_description = "Série"
 
 
+@admin.register(models.Sticker)
+class StickerAdmin(admin.ModelAdmin):
+    search_fields = ("nr", "title")
+
+
 admin.site.register(Permission)
 admin.site.register(models.User, UserAdmin)
