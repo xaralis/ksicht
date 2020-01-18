@@ -8,6 +8,7 @@
 !fonts/**
 !requirements.txt
 !package.json
+!package-lock.json
 !browserlists
 !.babelrc
 !webpack.config.js

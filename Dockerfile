@@ -1,4 +1,4 @@
-FROM python:3.7-alpine as build
+FROM python:3.7-alpine3.11 as build
 
 ENV PYTHONUNBUFFERED 1
 
@@ -33,7 +33,7 @@ COPY ./assets/ ./assets/
 RUN ./node_modules/.bin/webpack --config webpack.config.js --mode production
 
 
-FROM python:3.7-alpine as production
+FROM python:3.7-alpine3.11 as production
 
 ENV PYTHONPATH /ksicht
 ENV DJANGO_SETTINGS_MODULE ksicht.settings
