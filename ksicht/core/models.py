@@ -160,27 +160,12 @@ class GradeSeries(models.Model):
 
 
 class Task(models.Model):
-    TASK_NR_CHOICES = (
-        ("1", "1"),
-        ("2", "2"),
-        ("3", "3"),
-        ("4", "4"),
-        ("5", "5"),
-    )
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     series = models.ForeignKey(
         GradeSeries,
         verbose_name="Série",
         on_delete=models.PROTECT,
         related_name="tasks",
-    )
-    nr = models.CharField(
-        verbose_name="Číslo",
-        max_length=1,
-        choices=TASK_NR_CHOICES,
-        null=False,
-        db_index=True,
     )
     title = models.CharField(verbose_name="Název", max_length=150, null=False)
     points = models.PositiveIntegerField(
@@ -191,14 +176,13 @@ class Task(models.Model):
     )
 
     class Meta:
-        unique_together = ("series", "nr")
         verbose_name = "Úloha"
         verbose_name_plural = "Úlohy"
-        ordering = ("series", "nr")
+        ordering = ("series", "id")
         permissions = (("solution_export", "Export odevzdaných úloh"),)
 
     def __str__(self):
-        return f"Úloha č. {self.nr}"
+        return self.title
 
 
 class Participant(models.Model):
