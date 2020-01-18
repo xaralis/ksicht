@@ -1,0 +1,354 @@
+[
+{
+  "model": "core.sticker",
+  "pk": 1,
+  "fields": {
+    "title": "\u0158e\u0161itel",
+    "description": "za \u00fasp\u011b\u0161n\u00e9 p\u0159ihl\u00e1\u0161en\u00ed do KSICHTu",
+    "nr": 1,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 2,
+  "fields": {
+    "title": "P\u011bt kousk\u016f",
+    "description": "za \u0159e\u0161en\u00ed v\u0161ech 5 \u00faloh v s\u00e9rii",
+    "nr": 2,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 3,
+  "fields": {
+    "title": "Vytrvalec",
+    "description": "za \u0159e\u0161en\u00ed \u00faloh v ka\u017ed\u00e9 s\u00e9rii",
+    "nr": 3,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 4,
+  "fields": {
+    "title": "Mohyk\u00e1n",
+    "description": "za \u0159e\u0161en\u00ed v\u0161ech \u00faloh v ro\u010dn\u00edku",
+    "nr": 4,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 5,
+  "fields": {
+    "title": "\u010cist\u00fd pr\u016fst\u0159el",
+    "description": "za 0 bod\u016f v odevzdan\u00e9 \u00faloze",
+    "nr": 8,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 6,
+  "fields": {
+    "title": "0.100 kBodu",
+    "description": "za dosa\u017een\u00ed hranice 100 bod\u016f",
+    "nr": 9,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 7,
+  "fields": {
+    "title": "15 dBod",
+    "description": "za dosa\u017een\u00ed hranice 150 bod\u016f",
+    "nr": 10,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 8,
+  "fields": {
+    "title": "Zaj\u00ed\u010dek na kl\u00ed\u010dek",
+    "description": "za pln\u00fd po\u010det bod\u016f v \u00faloze",
+    "nr": 12,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 9,
+  "fields": {
+    "title": "Za ...",
+    "description": "za ... zjist\u011bte za co",
+    "nr": 13,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 10,
+  "fields": {
+    "title": "Za 5 minut 12",
+    "description": "za pravideln\u00e9 odes\u00edl\u00e1n\u00ed \u0159e\u0161en\u00ed za 5 minut 12",
+    "nr": 14,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 11,
+  "fields": {
+    "title": "Pendolino",
+    "description": "za brzk\u00e9 odesl\u00e1n\u00ed \u0159e\u0161en\u00ed",
+    "nr": 15,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 12,
+  "fields": {
+    "title": "Posledn\u00ed zvon\u011bn\u00ed",
+    "description": "za \u0159e\u0161en\u00ed 4. s\u00e9rie v 4. ro\u010dn\u00edku",
+    "nr": 29,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 13,
+  "fields": {
+    "title": "\u010cty\u0159icetdva",
+    "description": "za um\u00edst\u011bn\u00ed na pr\u016fb\u011b\u017en\u00e9m 42. m\u00edst\u011b",
+    "nr": 42,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 14,
+  "fields": {
+    "title": "\u00dasp\u011b\u0161n\u00fd \u0159e\u0161itel",
+    "description": "za 50% bod\u016f nebo do 30. m\u00edsta",
+    "nr": 19,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 15,
+  "fields": {
+    "title": "Sedm state\u010dn\u00fdch",
+    "description": "za um\u00edst\u011bn\u00ed do 7. m\u00edsta v s\u00e9rii",
+    "nr": 18,
+    "handpicked": false,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 16,
+  "fields": {
+    "title": "Sv\u011bt byl stvo\u0159en za 6,9999942 dn\u00ed",
+    "description": "za p\u0159\u00edli\u0161n\u00e9 mno\u017estv\u00ed neplatn\u00e9 \u010d\u00edslice",
+    "nr": 7,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 17,
+  "fields": {
+    "title": "Selsk\u00fd rozum",
+    "description": "za nepou\u017eit\u00ed selsk\u00e9ho rozumu",
+    "nr": 16,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 18,
+  "fields": {
+    "title": "Zaj\u00fd\u010deq",
+    "description": "za vimalzeny \u010de\u0161tin aneb Kr\u00e1licy v chymikovo zahr\u00e1dky",
+    "nr": 20,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 19,
+  "fields": {
+    "title": "Leonardo daZaj\u00edc",
+    "description": "za um\u011bleck\u00fd p\u0159\u00ednos",
+    "nr": 21,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 20,
+  "fields": {
+    "title": "Piccaso",
+    "description": "za tot\u00e1ln\u011b ne\u010diteln\u00e9 \u0159e\u0161en\u00ed",
+    "nr": 22,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 21,
+  "fields": {
+    "title": "Alchymista",
+    "description": "za nedovolen\u00e9 transmutace (Cu + Al -> Cl + Au)",
+    "nr": 23,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 22,
+  "fields": {
+    "title": "Grafoman",
+    "description": "za opravdu dlouh\u00e9 \u0159e\u0161en\u00ed",
+    "nr": 24,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 23,
+  "fields": {
+    "title": "\u010c\u00edm v\u00edc mrkv\u00ed, t\u00edm m\u00ed\u0148 mrkv\u00ed",
+    "description": "za unik\u00e1tn\u00ed \u0159e\u0161en\u00ed troj\u010dlenky",
+    "nr": 25,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 24,
+  "fields": {
+    "title": "In\u017een\u00fdr",
+    "description": "za p\u0159ehledn\u00e9 v\u00fdpo\u010dty",
+    "nr": 26,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 25,
+  "fields": {
+    "title": "Na rovinu",
+    "description": "za jasn\u00e9 a p\u0159\u00edmo\u010dar\u00e9 odpov\u011bdi",
+    "nr": 27,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 26,
+  "fields": {
+    "title": "Politik",
+    "description": "za nejasn\u00e9, obs\u00e1hl\u00e9, nesouvisej\u00edc\u00ed, nesouvisl\u00e9 a nicne\u0159\u00edkaj\u00edc\u00ed kecy",
+    "nr": 28,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 27,
+  "fields": {
+    "title": "DAFUQ?",
+    "description": "za nejorigin\u00e1ln\u011bj\u0161\u00ed odpov\u011b\u010f",
+    "nr": 30,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 28,
+  "fields": {
+    "title": "Wikipedofil",
+    "description": "za zkop\u00edrov\u00e1n\u00ed odpov\u011bdi z Wikipedie",
+    "nr": 31,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 29,
+  "fields": {
+    "title": "Babica",
+    "description": "za tot\u00e1ln\u00ed vype\u010den\u00ed autora",
+    "nr": 32,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 30,
+  "fields": {
+    "title": "Minimalist",
+    "description": "za jedinou odpov\u011b\u010f v \u00faloze",
+    "nr": 17,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 31,
+  "fields": {
+    "title": "Opisova\u010d",
+    "description": "za opisov\u00e1n\u00ed",
+    "nr": 34,
+    "handpicked": true,
+    "uses": []
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 32,
+  "fields": {
+    "title": "Ryt\u00ed\u0159 Jedi",
+    "description": "za pou\u017eit\u00ed (hrub\u00e9) s\u00edly",
+    "nr": 33,
+    "handpicked": true,
+    "uses": []
+  }
+}
+]
