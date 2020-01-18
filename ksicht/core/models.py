@@ -328,6 +328,7 @@ class Sticker(models.Model):
     title = models.CharField(
         verbose_name="Název", max_length=255, null=False, blank=False
     )
+    description = models.TextField(verbose_name="Popis", null=True, blank=True)
     nr = models.PositiveSmallIntegerField(
         verbose_name="Číslo", null=False, db_index=True,
     )
