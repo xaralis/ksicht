@@ -54,7 +54,6 @@
   "pk": "11bf72e2-8320-47b3-850d-ad49dec7b396",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
-    "nr": "1",
     "title": "uloha 1",
     "points": 10
   }
@@ -64,7 +63,6 @@
   "pk": "3e53de2e-b61e-484f-8c2d-54d9d1ac0d11",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
-    "nr": "4",
     "title": "uloha \u010d",
     "points": 10
   }
@@ -74,7 +72,6 @@
   "pk": "52b659a6-5e57-427c-9711-4b5939181335",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
-    "nr": "3",
     "title": "uloha 3",
     "points": 10
   }
@@ -84,7 +81,6 @@
   "pk": "b160f5f3-542d-4bda-85b5-135e3ae93a54",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
-    "nr": "5",
     "title": "uloha 5",
     "points": 10
   }
@@ -94,7 +90,6 @@
   "pk": "e444589a-9da5-4b57-9dd4-805630e1c527",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
-    "nr": "2",
     "title": "uloha 2",
     "points": 10
   }
