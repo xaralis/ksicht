@@ -23,6 +23,10 @@ class GradeManager(models.Manager):
             start_date__lte=current_date, end_date__gte=current_date
         ).first()
 
+    def archive(self, current=None):
+        current_date = current or date.today()
+        return self.filter(end_date__lt=current_date)
+
 
 def default_grade_school_year():
     current_year = date.today()
@@ -186,7 +190,10 @@ class GradeSeries(models.Model):
         scoring = [(application, scores["by_tasks"], scores["total"]) for application, scores in scoring_dict.items()]
 
         return {
-            "max_score": Task.objects.filter(series__series__lte=self.series).aggregate(models.Sum("points"))["points__sum"],
+            "max_score": Task.objects.filter(
+                series__grade=self.grade,
+                series__series__lte=self.series
+            ).aggregate(models.Sum("points"))["points__sum"],
             "listing": sorted(scoring, key=lambda row: row[2], reverse=True)
         }
 

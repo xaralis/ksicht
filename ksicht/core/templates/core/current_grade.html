@@ -76,6 +76,10 @@
         {% endwith %}
     </div>
 {% else %}
-    <p class="notification">Momentálně není žádný ročník KSICHTu vypsán.</p>
+    <article class="message is-warning is-size-5">
+        <div class="message-body">
+            <p>Momentálně není žádný ročník KSICHTu vypsán.</p>
+        </div>
+    </article>
 {% endif %}
 {% endblock %}

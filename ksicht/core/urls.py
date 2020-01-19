@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import permission_required
 from django.urls import path
 from django.utils.decorators import method_decorator
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 from . import models, views
 
@@ -12,6 +12,11 @@ app_name = "core"
 urlpatterns = [
     path("", views.HomeView.as_view(), name="home"),
     path("aktualni-rocnik/", views.CurrentGradeView.as_view(), name="current_grade"),
+    path(
+        "archiv-rocniku/",
+        ListView.as_view(queryset=models.Grade.objects.archive().prefetch_related("series"), template_name="core/grade_archive.html"),
+        name="grade_archive",
+    ),
     path(
         "aktualni-rocnik/prihlasit-se/",
         views.CurrentGradeApplicationView.as_view(),
