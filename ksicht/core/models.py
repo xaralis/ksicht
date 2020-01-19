@@ -138,6 +138,7 @@ class GradeSeries(models.Model):
     task_file = models.FileField(
         verbose_name="Brožura", upload_to="rocniky/zadani/", null=True, blank=True
     )
+    results_published = models.BooleanField(verbose_name="Zveřejnit výsledky", null=False, blank=False, default=False, db_index=True)
 
     class Meta:
         unique_together = ("grade", "series")
@@ -154,9 +155,40 @@ class GradeSeries(models.Model):
             self.submission_deadline.tzinfo
         )
 
-    @property
-    def has_results_published(self):
-        return True
+    def calculate_results(self):
+        """Calculate results for series.
+
+        Adds detailed task listing for individual series tasks and a grand total with total score so far
+        (this series and the previous ones).
+        """
+        applications = self.grade.applications.all()
+        tasks = self.tasks.all()
+        submissions = TaskSolutionSubmission.objects.filter(
+            application__grade=self.grade,
+            task__series__series__lte=self.series
+        )
+
+        scoring_dict = {
+            a: {
+                "by_tasks": {
+                    t: None for t in tasks
+                },
+                "total": 0
+            } for a in applications
+        }
+
+        for s in submissions:
+            a = py_.find(applications, lambda a: a.pk == s.application_id)
+            t = py_.find(tasks, lambda t: t.pk == s.task_id)
+            scoring_dict[a]["by_tasks"][t] = s.score
+            scoring_dict[a]["total"] += s.score or 0
+
+        scoring = [(application, scores["by_tasks"], scores["total"]) for application, scores in scoring_dict.items()]
+
+        return {
+            "max_score": Task.objects.filter(series__series__lte=self.series).aggregate(models.Sum("points"))["points__sum"],
+            "listing": sorted(scoring, key=lambda row: row[2], reverse=True)
+        }
 
 
 class Task(models.Model):
@@ -178,7 +210,7 @@ class Task(models.Model):
     class Meta:
         verbose_name = "Úloha"
         verbose_name_plural = "Úlohy"
-        ordering = ("series", "id")
+        ordering = ("series", "title")
         permissions = (("solution_export", "Export odevzdaných úloh"),)
 
     def __str__(self):
@@ -192,10 +224,10 @@ class Participant(models.Model):
         ("sk", "Slovensko"),
     )
     GRADE_CHOICES = (
-        ("4", "4"),
-        ("3", "3"),
-        ("2", "2"),
-        ("1", "1"),
+        ("4", "4."),
+        ("3", "3."),
+        ("2", "2."),
+        ("1", "1."),
         ("l", "nižší"),
     )
 

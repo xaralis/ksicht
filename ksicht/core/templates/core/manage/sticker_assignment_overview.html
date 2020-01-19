@@ -17,26 +17,28 @@
 {% block header_sub %}<h3 class="subtitle">pro ročník {{ grade }}</h3>{% endblock %}
 
 {% block article %}
-    <table class="table is-fullwidth is-striped is-hoverable is-bordered">
-        <thead>
-            <tr>
-                <th class="is-size-6 has-text-right">Řešitel</th>
-                <th class="is-size-6">Nálepky</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for application, stickers in results.items %}
-            <tr>
-                <th class="is-size-5 has-text-right">{{ application.participant.get_full_name }}</th>
-                <td>
-                    <div class="tag-list">
-                        {% for s in stickers %}
-                            {% sticker s %}
-                        {% endfor %}
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table class="table is-fullwidth is-striped is-hoverable">
+            <thead>
+                <tr>
+                    <th class="is-size-6 has-text-right">Řešitel</th>
+                    <th class="is-size-6" style="width: 100%">Nálepky</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application, stickers in results.items %}
+                <tr>
+                    <th class="is-size-5 has-text-right">{{ application.participant.get_full_name }}</th>
+                    <td>
+                        <div class="tag-list">
+                            {% for s in stickers %}
+                                {% sticker s %}
+                            {% endfor %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

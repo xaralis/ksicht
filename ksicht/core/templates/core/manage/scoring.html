@@ -29,36 +29,38 @@
 
             <div class="columns">
                 <div class="column is-12-mobile">
-                    <table class="table is-fullwidth is-striped is-hoverable is-bordered">
-                        <thead>
-                            <tr>
-                                <th class="is-size-6 has-text-right">Řešitel</th>
-                                <th class="is-size-6">Skóre</th>
-                                <th class="is-size-6">Nálepky</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for f in form.forms %}
-                            <tr>
-                                <th class="is-size-5 has-text-right">{{ f.application }}{{ f.id }}</th>
-                                <td style="width: 100px;">
-                                    <div class="field">
-                                        <div class="control">
-                                            {{ f.score|as_crispy_field }}
+                    <div class="table-container">
+                        <table class="table is-fullwidth is-striped is-hoverable">
+                            <thead>
+                                <tr>
+                                    <th class="is-size-6 has-text-right" style="min-width: 200px;">Řešitel</th>
+                                    <th class="is-size-6" style="min-width: 100px;">Skóre</th>
+                                    <th class="is-size-6" style="width: 100%">Nálepky</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for f in form.forms %}
+                                <tr>
+                                    <th class="is-size-5 has-text-right">{{ f.application }}{{ f.id }}</th>
+                                    <td>
+                                        <div class="field">
+                                            <div class="control">
+                                                {{ f.score|as_crispy_field }}
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td style="width: 60%; min-width: 300px">
-                                    <div class="field">
-                                        <div class="control">
-                                            {{ f.stickers }}
+                                    </td>
+                                    <td>
+                                        <div class="field">
+                                            <div class="control">
+                                                {{ f.stickers }}
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
 
                     <button type="submit" class="button is-primary is-medium">Uložit</button>
                 </div>

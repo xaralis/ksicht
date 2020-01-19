@@ -53,6 +53,11 @@ urlpatterns = [
         name="series_detail",
     ),
     path(
+        "rocniky/<grade_id>/serie/<pk>/vysledkova-listina/",
+        views.SeriesResultsView.as_view(),
+        name="series_results",
+    ),
+    path(
         "rocniky/<grade_id>/serie/<series_id>/odevzdana-reseni/",
         views.SubmissionOverview.as_view(),
         name="submission_overview",

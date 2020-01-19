@@ -1,0 +1,65 @@
+{% extends "page.html" %}
+
+{% comment %} {% block breadcrumb %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <div class="container">
+        <ul>
+            <li><a href="/">KSICHT</a></li>
+            <li><a href="{% url "core:grade_detail" pk=object.grade_id %}">Ročník {{ object.grade }}</a></li>
+            <li class="is-active"><a href="#" aria-current="page">{{ object }}</a></li>
+        </ul>
+    </div>
+</nav>
+{% endblock %} {% endcomment %}
+
+{% block headline %}Výsledková listina{% endblock %}
+{% block header_sub %}<h3 class="subtitle">{{ object.get_series_display }} série ročníku {{ object.grade }}</h3>{% endblock %}
+
+{% block article %}
+    {% with object.calculate_results as results %}
+        <div class="table-container">
+            <table class="table is-striped is-hoverable is-bordered is-fullwidth is-narrow">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="is-size-6" style="min-width: 40px">Pořadí</th>
+                        <th rowspan="2" class="is-size-6" style="width: 100%">Jméno</th>
+                        <th rowspan="2" class="is-size-6" style="min-width: 80px">Ročník</th>
+                        <th colspan="5" class="is-size-6 has-text-centered">Úloha</th>
+                        <th rowspan="2" class="is-size-6" style="min-width: 70px">Body</th>
+                    </tr>
+                    <tr>
+                        <th style="min-width: 50px" class="has-text-centered">1.</th>
+                        <th style="min-width: 50px" class="has-text-centered">2.</th>
+                        <th style="min-width: 50px" class="has-text-centered">3.</th>
+                        <th style="min-width: 50px" class="has-text-centered">4.</th>
+                        <th style="min-width: 50px" class="has-text-centered">5.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i><strong>0.</strong></i></td>
+                        <td><i>Lapis Philosophorum</i></td>
+                        <td><i>5.</i></td>
+                        {% for task in object.tasks.all %}
+                            <td><i>{{ task.points|floatformat:2 }}</i></td>
+                        {% endfor %}
+                        <td><i>{{ results.max_score|floatformat:2 }}</i></td>
+                    </tr>
+                    {% for application, task_scores, total_score in results.listing %}
+                    <tr>
+                        <td><strong>{{ forloop.counter }}.</strong></td>
+                        <td>{{ application.participant.get_full_name }}</td>
+                        <td>{{ application.participant.get_school_year_display }}</td>
+
+                        {% for task, score in task_scores.items %}
+                            <td>{{ score|floatformat:2|default:"&mdash;" }}</td>
+                        {% endfor %}
+
+                        <td>{{ total_score|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endwith %}
+{% endblock %}
