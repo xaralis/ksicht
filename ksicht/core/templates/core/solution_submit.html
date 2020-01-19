@@ -9,7 +9,7 @@
     <div class="columns">
         <div class="column is-6">
             {% for task, form, submission in forms %}
-            <h2 class="subtitle">{{ task }}: {{ task.title }}</h2>
+            <h2 class="subtitle">{{ task.title }} úloha</h2>
             {% if form %}
                 {% crispy form %}
             {% else %}
