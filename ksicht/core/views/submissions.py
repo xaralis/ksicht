@@ -95,7 +95,7 @@ class SolutionSubmitView(TemplateView):
     def post(self, request, *args, **kwargs):
         forms = self.get_forms()
 
-        for task, form in forms:
+        for task, form, submission in forms:
             if form is not None and form.is_valid():
                 self.save_solution(task)
                 return redirect("core:solution_submit")

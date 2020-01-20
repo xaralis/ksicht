@@ -31,7 +31,7 @@ class CurrentGradeView(DetailView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data["is_participant"] = (
-            self.request.user.is_authenticated and self.request.user.is_participant
+            self.request.user.is_authenticated and self.request.user.is_participant()
         )
         data["is_grade_participant"] = (
             self.request.user.is_authenticated
