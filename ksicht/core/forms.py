@@ -110,6 +110,6 @@ class ScoringForm(forms.ModelForm):
             label="", max_value=max_score, min_value=0, max_digits=5, decimal_places=2
         )
         self.fields["stickers"] = forms.ModelMultipleChoiceField(
-            queryset=models.Sticker.objects.filter(handpicked=True),
+            queryset=models.Sticker.objects.filter(handpicked=True).order_by("nr"),
             widget=Select2MultipleWidget({"data-width": "100%"}),
         )
