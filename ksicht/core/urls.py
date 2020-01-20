@@ -17,6 +17,11 @@ urlpatterns = [
         name="grade_archive",
     ),
     path(
+        "akce/",
+        views.EventListView.as_view(),
+        name="event_listing",
+    ),
+    path(
         "aktualni-rocnik/prihlasit-se/",
         views.CurrentGradeApplicationView.as_view(),
         name="current_grade_application",

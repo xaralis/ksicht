@@ -110,5 +110,12 @@ class StickerAdmin(admin.ModelAdmin):
     search_fields = ("nr", "title")
 
 
+@admin.register(models.Event)
+class EventAdmin(admin.ModelAdmin):
+    search_fields = ("title",)
+    list_display = ("title", "place", "start_date", "end_date", "capacity",)
+    date_hierarchy = "start_date"
+
+
 admin.site.register(Permission)
 admin.site.register(models.User, UserAdmin)

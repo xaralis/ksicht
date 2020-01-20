@@ -10,13 +10,24 @@
   }
 },
 {
+  "model": "core.grade",
+  "pk": "8c4df62a-6ae6-46d0-a4f2-8b685246f39f",
+  "fields": {
+    "school_year": "2018/2019",
+    "errata": "",
+    "start_date": "2018-08-01",
+    "end_date": "2019-07-31"
+  }
+},
+{
   "model": "core.gradeseries",
   "pk": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
   "fields": {
     "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
     "series": "3",
     "submission_deadline": "2019-12-16T10:48:02Z",
-    "task_file": ""
+    "task_file": "",
+    "results_published": true
   }
 },
 {
@@ -25,8 +36,31 @@
   "fields": {
     "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
     "series": "4",
-    "submission_deadline": "2020-01-16T10:48:30Z",
-    "task_file": ""
+    "submission_deadline": "2020-08-16T10:48:30Z",
+    "task_file": "",
+    "results_published": false
+  }
+},
+{
+  "model": "core.gradeseries",
+  "pk": "3ebc4059-e96b-4f86-a7fb-c6b05b0e2a89",
+  "fields": {
+    "grade": "8c4df62a-6ae6-46d0-a4f2-8b685246f39f",
+    "series": "1",
+    "submission_deadline": "2018-01-19T14:25:42Z",
+    "task_file": "rocniky/zadani/Prezentace_-_Terminal_Jih_POlY4hL.pdf",
+    "results_published": true
+  }
+},
+{
+  "model": "core.gradeseries",
+  "pk": "7602f298-11db-4671-b760-26c73f50d07e",
+  "fields": {
+    "grade": "8c4df62a-6ae6-46d0-a4f2-8b685246f39f",
+    "series": "4",
+    "submission_deadline": "2018-01-22T14:26:03Z",
+    "task_file": "rocniky/zadani/Prezentace_-_Terminal_Jih_b9omCDl.pdf",
+    "results_published": true
   }
 },
 {
@@ -36,7 +70,8 @@
     "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
     "series": "2",
     "submission_deadline": "2019-11-16T10:48:00Z",
-    "task_file": ""
+    "task_file": "",
+    "results_published": true
   }
 },
 {
@@ -46,7 +81,48 @@
     "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
     "series": "1",
     "submission_deadline": "2019-10-16T10:47:58Z",
-    "task_file": ""
+    "task_file": "rocniky/zadani/Prezentace_-_Terminal_Jih.pdf",
+    "results_published": true
+  }
+},
+{
+  "model": "core.gradeseries",
+  "pk": "b317ae14-775e-4f95-b251-8986b8cde923",
+  "fields": {
+    "grade": "8c4df62a-6ae6-46d0-a4f2-8b685246f39f",
+    "series": "2",
+    "submission_deadline": "2018-01-20T14:25:48Z",
+    "task_file": "rocniky/zadani/Prezentace_-_Terminal_Jih_urTOBFR.pdf",
+    "results_published": true
+  }
+},
+{
+  "model": "core.gradeseries",
+  "pk": "e805f0c1-a333-4599-90c3-63cfa63c3a40",
+  "fields": {
+    "grade": "8c4df62a-6ae6-46d0-a4f2-8b685246f39f",
+    "series": "3",
+    "submission_deadline": "2018-01-21T14:25:51Z",
+    "task_file": "rocniky/zadani/Prezentace_-_Terminal_Jih_v0CLOWA.pdf",
+    "results_published": true
+  }
+},
+{
+  "model": "core.task",
+  "pk": "07b868f3-e1de-499d-accb-ce65f43986d5",
+  "fields": {
+    "series": "7602f298-11db-4671-b760-26c73f50d07e",
+    "title": "3.",
+    "points": 6
+  }
+},
+{
+  "model": "core.task",
+  "pk": "0b8d1cf9-f2da-44df-a824-c4c562e5a5a4",
+  "fields": {
+    "series": "b317ae14-775e-4f95-b251-8986b8cde923",
+    "title": "3.",
+    "points": 10
   }
 },
 {
@@ -60,6 +136,105 @@
 },
 {
   "model": "core.task",
+  "pk": "1415e79e-e6af-44cb-9695-4462eaf7a1b4",
+  "fields": {
+    "series": "3ebc4059-e96b-4f86-a7fb-c6b05b0e2a89",
+    "title": "4.",
+    "points": 9
+  }
+},
+{
+  "model": "core.task",
+  "pk": "14ea865a-6dde-4f37-9831-2e63080547ea",
+  "fields": {
+    "series": "3c86ad82-4f55-42ca-a233-00c41fe0a874",
+    "title": "1.",
+    "points": 7
+  }
+},
+{
+  "model": "core.task",
+  "pk": "19240918-ad1d-4c8b-a033-6c03c3ef8d6d",
+  "fields": {
+    "series": "7602f298-11db-4671-b760-26c73f50d07e",
+    "title": "4.",
+    "points": 8
+  }
+},
+{
+  "model": "core.task",
+  "pk": "1941e15a-6d36-4b03-bdd7-42c28cdc8b1a",
+  "fields": {
+    "series": "3ebc4059-e96b-4f86-a7fb-c6b05b0e2a89",
+    "title": "2.",
+    "points": 13
+  }
+},
+{
+  "model": "core.task",
+  "pk": "1b5b5fb4-47d5-44d8-865f-de8250985f0c",
+  "fields": {
+    "series": "b317ae14-775e-4f95-b251-8986b8cde923",
+    "title": "5.",
+    "points": 4
+  }
+},
+{
+  "model": "core.task",
+  "pk": "26b0b4c1-5f27-4ead-a3c0-6337e286f663",
+  "fields": {
+    "series": "91c2f68f-35a5-4aa4-a508-90d255dc8bda",
+    "title": "5.",
+    "points": 11
+  }
+},
+{
+  "model": "core.task",
+  "pk": "2b8ab788-e9a5-4839-bc7c-798f1fb0976c",
+  "fields": {
+    "series": "3c86ad82-4f55-42ca-a233-00c41fe0a874",
+    "title": "2.",
+    "points": 8
+  }
+},
+{
+  "model": "core.task",
+  "pk": "2fde49cd-100b-4ea9-be6f-94cee2c7a6db",
+  "fields": {
+    "series": "b317ae14-775e-4f95-b251-8986b8cde923",
+    "title": "4.",
+    "points": 6
+  }
+},
+{
+  "model": "core.task",
+  "pk": "37ac9280-c5c3-405c-9f9b-de60ffa17719",
+  "fields": {
+    "series": "3ebc4059-e96b-4f86-a7fb-c6b05b0e2a89",
+    "title": "3.",
+    "points": 12
+  }
+},
+{
+  "model": "core.task",
+  "pk": "382653ef-524f-49ee-bf5b-504a5af439aa",
+  "fields": {
+    "series": "91c2f68f-35a5-4aa4-a508-90d255dc8bda",
+    "title": "3.",
+    "points": 5
+  }
+},
+{
+  "model": "core.task",
+  "pk": "3cf33c7e-366f-49ee-bb16-037591cb5d30",
+  "fields": {
+    "series": "3c86ad82-4f55-42ca-a233-00c41fe0a874",
+    "title": "3.",
+    "points": 14
+  }
+},
+{
+  "model": "core.task",
   "pk": "3e53de2e-b61e-484f-8c2d-54d9d1ac0d11",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
@@ -69,9 +244,99 @@
 },
 {
   "model": "core.task",
+  "pk": "41ae283d-8e8e-4793-9198-dac35af0910a",
+  "fields": {
+    "series": "b317ae14-775e-4f95-b251-8986b8cde923",
+    "title": "1.",
+    "points": 12
+  }
+},
+{
+  "model": "core.task",
   "pk": "52b659a6-5e57-427c-9711-4b5939181335",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
+    "title": "uloha 3",
+    "points": 10
+  }
+},
+{
+  "model": "core.task",
+  "pk": "5aca5b67-6feb-4f42-9695-987890ebc41e",
+  "fields": {
+    "series": "7602f298-11db-4671-b760-26c73f50d07e",
+    "title": "2.",
+    "points": 4
+  }
+},
+{
+  "model": "core.task",
+  "pk": "63fdd68e-d7bd-43be-91f7-5e873ffada02",
+  "fields": {
+    "series": "91c2f68f-35a5-4aa4-a508-90d255dc8bda",
+    "title": "2.",
+    "points": 8
+  }
+},
+{
+  "model": "core.task",
+  "pk": "78b4ddb7-c97b-4aeb-8dba-e2ba120cecc3",
+  "fields": {
+    "series": "e805f0c1-a333-4599-90c3-63cfa63c3a40",
+    "title": "3.",
+    "points": 7
+  }
+},
+{
+  "model": "core.task",
+  "pk": "7d610a58-edd5-4675-8722-73261f056f35",
+  "fields": {
+    "series": "3ebc4059-e96b-4f86-a7fb-c6b05b0e2a89",
+    "title": "1.",
+    "points": 7
+  }
+},
+{
+  "model": "core.task",
+  "pk": "8d2dbe48-1339-4958-afad-cabb6e11b603",
+  "fields": {
+    "series": "e805f0c1-a333-4599-90c3-63cfa63c3a40",
+    "title": "5.",
+    "points": 11
+  }
+},
+{
+  "model": "core.task",
+  "pk": "9f38a126-4524-43eb-8d60-f5e199af0e05",
+  "fields": {
+    "series": "9085c484-da8c-42d5-8dc7-254f3a9d8be9",
+    "title": "uloha 2",
+    "points": 10
+  }
+},
+{
+  "model": "core.task",
+  "pk": "a57c3352-5484-405e-be3b-8270af3469ae",
+  "fields": {
+    "series": "3c86ad82-4f55-42ca-a233-00c41fe0a874",
+    "title": "4.",
+    "points": 10
+  }
+},
+{
+  "model": "core.task",
+  "pk": "a609fb64-0945-460f-b861-638543d11482",
+  "fields": {
+    "series": "9085c484-da8c-42d5-8dc7-254f3a9d8be9",
+    "title": "uloha 4",
+    "points": 10
+  }
+},
+{
+  "model": "core.task",
+  "pk": "a6d0bb25-d007-4707-b538-42c4cbb70fe4",
+  "fields": {
+    "series": "9085c484-da8c-42d5-8dc7-254f3a9d8be9",
     "title": "uloha 3",
     "points": 10
   }
@@ -87,10 +352,118 @@
 },
 {
   "model": "core.task",
+  "pk": "b65c2fac-9d83-498d-9058-99f8c0e6617c",
+  "fields": {
+    "series": "3c86ad82-4f55-42ca-a233-00c41fe0a874",
+    "title": "5.",
+    "points": 3
+  }
+},
+{
+  "model": "core.task",
+  "pk": "b93a723d-2905-49fa-aa66-c72b924c1073",
+  "fields": {
+    "series": "7602f298-11db-4671-b760-26c73f50d07e",
+    "title": "1.",
+    "points": 12
+  }
+},
+{
+  "model": "core.task",
+  "pk": "b952b663-74e2-47fc-addd-349622192765",
+  "fields": {
+    "series": "9085c484-da8c-42d5-8dc7-254f3a9d8be9",
+    "title": "uloha 5",
+    "points": 10
+  }
+},
+{
+  "model": "core.task",
+  "pk": "cda682ae-c525-497c-8162-21febe37aed5",
+  "fields": {
+    "series": "e805f0c1-a333-4599-90c3-63cfa63c3a40",
+    "title": "1.",
+    "points": 12
+  }
+},
+{
+  "model": "core.task",
+  "pk": "d11c4bb2-352c-485e-a0e8-6da90db2f62d",
+  "fields": {
+    "series": "e805f0c1-a333-4599-90c3-63cfa63c3a40",
+    "title": "4.",
+    "points": 8
+  }
+},
+{
+  "model": "core.task",
+  "pk": "d78c4880-8199-4d08-8d14-7cbdbd6da05c",
+  "fields": {
+    "series": "91c2f68f-35a5-4aa4-a508-90d255dc8bda",
+    "title": "1.",
+    "points": 7
+  }
+},
+{
+  "model": "core.task",
+  "pk": "ded3fe7e-af18-4d4f-9a93-d9e129aa21cc",
+  "fields": {
+    "series": "7602f298-11db-4671-b760-26c73f50d07e",
+    "title": "5.",
+    "points": 10
+  }
+},
+{
+  "model": "core.task",
   "pk": "e444589a-9da5-4b57-9dd4-805630e1c527",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
     "title": "uloha 2",
+    "points": 10
+  }
+},
+{
+  "model": "core.task",
+  "pk": "e6337af0-2fe8-491d-a526-8691b2d561c6",
+  "fields": {
+    "series": "91c2f68f-35a5-4aa4-a508-90d255dc8bda",
+    "title": "4.",
+    "points": 9
+  }
+},
+{
+  "model": "core.task",
+  "pk": "e67139f3-3b61-4669-b4e5-9a1cce8a10ed",
+  "fields": {
+    "series": "b317ae14-775e-4f95-b251-8986b8cde923",
+    "title": "2.",
+    "points": 13
+  }
+},
+{
+  "model": "core.task",
+  "pk": "eacf824b-162a-4d90-9338-16752403cf56",
+  "fields": {
+    "series": "3ebc4059-e96b-4f86-a7fb-c6b05b0e2a89",
+    "title": "5.",
+    "points": 14
+  }
+},
+{
+  "model": "core.task",
+  "pk": "eb12986f-9821-4eff-b6dc-1a8d74d2a7c2",
+  "fields": {
+    "series": "e805f0c1-a333-4599-90c3-63cfa63c3a40",
+    "title": "2.",
+    "points": 10
+  }
+},
+{
+  "model": "core.task",
+  "pk": "eb94ce48-3cce-4713-97a5-905fb91dfb98",
+  "fields": {
+    "series": "9085c484-da8c-42d5-8dc7-254f3a9d8be9",
+    "title": "uloha 1",
     "points": 10
   }
 },
@@ -142,6 +515,55 @@
   "fields": {
     "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
     "participant": 2
+  }
+},
+{
+  "model": "core.event",
+  "pk": 1,
+  "fields": {
+    "title": "Podzimn\u00ed v\u00fdlet",
+    "description": "",
+    "place": "P\u00edsek",
+    "start_date": "2020-01-20",
+    "end_date": "2020-01-22",
+    "capacity": 30,
+    "enlistment_message": "",
+    "attendees": []
+  }
+},
+{
+  "model": "core.event",
+  "pk": 2,
+  "fields": {
+    "title": "Zimn\u00ed v\u00fdlet",
+    "description": "",
+    "place": "Praha",
+    "start_date": "2019-12-05",
+    "end_date": "2019-12-07",
+    "capacity": 20,
+    "enlistment_message": "",
+    "attendees": []
+  }
+},
+{
+  "model": "core.event",
+  "pk": 3,
+  "fields": {
+    "title": "Star\u0161\u00ed v\u00fdlet",
+    "description": "",
+    "place": "Olbramovice",
+    "start_date": "2018-01-20",
+    "end_date": "2018-01-25",
+    "capacity": 30,
+    "enlistment_message": "",
+    "attendees": [
+      [
+        "xaralis@centrum.cz"
+      ],
+      [
+        "jan.hrubes@pirati.cz"
+      ]
+    ]
   }
 }
 ]

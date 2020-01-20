@@ -393,3 +393,44 @@ def sync_sticker_assignment(eligibility_listing):
     for application, stickers in eligibility_listing:
         for sticker in stickers:
             sticker.uses.add(application)
+
+
+class EventManager(models.Manager):
+    def future(self, current=None):
+        current_date = current or date.today()
+        return self.filter(end_date__gte=current_date)
+
+    def past(self, current=None):
+        current_date = current or date.today()
+        return self.filter(end_date__lt=current_date)
+
+
+class Event(models.Model):
+    title = models.CharField(verbose_name="Název", max_length=150, null=False)
+    description = models.TextField(verbose_name="Popis", null=False, blank=True)
+    place = models.CharField(verbose_name="Místo konání", max_length=150, null=True)
+    start_date = models.DateField(
+        verbose_name="Začíná",
+        null=False,
+        blank=False,
+        db_index=True,
+    )
+    end_date = models.DateField(
+        verbose_name="Končí",
+        null=False,
+        blank=False,
+        db_index=True,
+    )
+    capacity = models.PositiveSmallIntegerField(verbose_name="Doporučený max. počet účastníků", null=True, blank=True)
+    enlistment_message = models.TextField(verbose_name="Zpráva po přihlášení", null=False, blank=True)
+    attendees = models.ManyToManyField(User, verbose_name="Účastníci", blank=True)
+
+    objects = EventManager()
+
+    class Meta:
+        verbose_name = "Akce"
+        verbose_name_plural = "Akce"
+        ordering = ("-start_date",)
+
+    def __str__(self):
+        return self.title
