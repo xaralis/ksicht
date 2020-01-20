@@ -123,7 +123,7 @@ class SolutionSubmitView(TemplateView):
 
 
 @method_decorator(
-    [permission_required("change_solution_submission_presence")], name="dispatch"
+    [permission_required("core.change_solution_submission_presence")], name="dispatch"
 )
 class SubmissionOverview(FormView):
     form_class = formset_factory(
@@ -251,7 +251,7 @@ class SubmissionOverview(FormView):
         return redirect(".")
 
 
-@method_decorator([permission_required("scoring")], name="dispatch")
+@method_decorator([permission_required("core.scoring")], name="dispatch")
 class ScoringView(FormView):
     template_name = "core/manage/scoring.html"
     form_class = modelformset_factory(
@@ -293,7 +293,7 @@ class ScoringView(FormView):
         return redirect(".")
 
 
-@method_decorator([permission_required("scoring")], name="dispatch")
+@method_decorator([permission_required("core.scoring")], name="dispatch")
 class SolutionExportView(View):
     def dispatch(self, *args, task_id, **kwargs):
         self.task = get_object_or_404(Task, id=task_id)

@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import permission_required
 from django.urls import path
-from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView
 
 from . import models, views
@@ -29,11 +28,11 @@ urlpatterns = [
     ),
     path(
         "rocniky/<pk>/",
-        method_decorator([permission_required("grade_view")], name="dispatch")(
-            DetailView
-        ).as_view(
-            template_name="core/manage/grade_detail.html",
-            queryset=models.Grade.objects.all(),
+        permission_required("core.view_grade")(
+            DetailView.as_view(
+                template_name="core/manage/grade_detail.html",
+                queryset=models.Grade.objects.all(),
+            )
         ),
         name="grade_detail",
     ),
@@ -49,11 +48,11 @@ urlpatterns = [
     ),
     path(
         "rocniky/<grade_id>/serie/<pk>/",
-        method_decorator([permission_required("gradeseries_view")], name="dispatch")(
-            DetailView
-        ).as_view(
-            template_name="core/manage/series_detail.html",
-            queryset=models.GradeSeries.objects.all(),
+        permission_required("core.view_gradeseries")(
+            DetailView.as_view(
+                template_name="core/manage/series_detail.html",
+                queryset=models.GradeSeries.objects.all(),
+            )
         ),
         name="series_detail",
     ),

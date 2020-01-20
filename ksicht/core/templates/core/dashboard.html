@@ -19,6 +19,7 @@
             </aside>
         </div>
     {% endif %}
+    {% if perms.core.view_grade %}
     <div class="column">
         <aside class="menu">
             <p class="menu-label">Ročníky</p>
@@ -39,6 +40,8 @@
             {% endfor %}
         </aside>
     </div>
+    {% endif %}
+    {% if user.is_staff %}
     <div class="column">
         <aside class="menu">
             <p class="menu-label">Administrace</p>
@@ -47,6 +50,7 @@
             </ul>
         </aside>
     </div>
+    {% endif %}
 </div>
 
 

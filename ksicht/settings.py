@@ -143,6 +143,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_REDIRECT_URL = "core:home"
 LOGOUT_REDIRECT_URL = "core:home"
+LOGIN_URL = "login"
 
 
 # Internationalization

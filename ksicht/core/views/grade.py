@@ -72,7 +72,7 @@ class CurrentGradeApplicationView(BaseFormView):
         return redirect("core:current_grade")
 
 
-@method_decorator([permission_required("auto_assign_stickers")], name="dispatch")
+@method_decorator([permission_required("core.auto_assign_stickers")], name="dispatch")
 class AutoAssignStickersView(DetailView):
     template_name = "core/manage/auto_assign_stickers.html"
     queryset = models.Grade.objects.all()
