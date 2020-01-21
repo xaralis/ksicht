@@ -9,7 +9,7 @@
     {% if is_current_grade_participant %}
         <div class="column">
             <aside class="menu">
-                <p class="menu-label">Aktuální ročník {{ current_grade }}</p>
+                <p class="menu-label is-size-6">Aktuální ročník {{ current_grade }}</p>
                 <ul class="menu-list">
                     <li><a href="{% url "core:current_grade" %}">Detailní informace</a></li>
                     {% if current_series.accepts_solution_submissions %}
@@ -19,10 +19,27 @@
             </aside>
         </div>
     {% endif %}
+    <div class="column">
+        <aside class="menu">
+            <p class="menu-label is-size-6">Akce</p>
+            <ul class="menu-list">
+            <li class="heading is-size-9">Nadcházející</li>
+            {% for event in future_events %}
+                <li><a href="{{ event.get_absolute_url }}">{{ event }}</a></li>
+            {% endfor %}
+            </ul>
+            <ul class="menu-list">
+            <li class="heading is-size-9">Proběhlé</li>
+            {% for event in past_events %}
+                <li><a href="{{ event.get_absolute_url }}">{{ event }}</a></li>
+            {% endfor %}
+            </ul>
+        </aside>
+    </div>
     {% if perms.core.view_grade %}
     <div class="column">
         <aside class="menu">
-            <p class="menu-label">Ročníky</p>
+            <p class="menu-label is-size-6">Ročníky</p>
             {% for grade in grades %}
             <ul class="menu-list">
                 <li><a href="{% url "core:grade_detail" pk=grade.pk %}">{{ grade }}</a></li>
@@ -44,7 +61,7 @@
     {% if user.is_staff %}
     <div class="column">
         <aside class="menu">
-            <p class="menu-label">Administrace</p>
+            <p class="menu-label is-size-6">Administrace</p>
             <ul class="menu-list">
                 <li><a href="{% url "admin:index" %}">Vstup do administrační části</a></li>
             </ul>

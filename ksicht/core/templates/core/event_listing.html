@@ -1,5 +1,15 @@
 {% extends "page.html" %}
-{% load webpack_static from webpack_loader %}
+
+{% block breadcrumb %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <div class="container">
+        <ul>
+            <li><a href="/">KSICHT</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Akce</a></li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
 
 {% block headline %}Akce{% endblock %}
 
@@ -12,8 +22,9 @@
                 <div class="column is-one-quarter">
                     <div class="card">
                         <div class="card-content">
-                            <h2 class="title is-5 has-text-weight-bold">{{ event }}</h2>
-                            <p class="subtitle is-6 has-text-grey">{{ event.start_date|date:"SHORT_DATE_FORMAT" }} - {{ event.end_date|date:"SHORT_DATE_FORMAT" }}, {{ event.place }}</p>
+                            <h2 class="title is-5 has-text-weight-bold"><a href="{{ event.get_absolute_url }}">{{ event }}</a></h2>
+                            <p class="subtitle is-6 has-text-grey has-margin-b-0">{{ event.start_date|date:"d.m." }} - {{ event.end_date|date:"SHORT_DATE_FORMAT" }}</p>
+                            <p class="subtitle is-6 has-text-grey">{{ event.place }}</p>
                             <p class="is-6 has-text-grey"><i class="far fa-user-circle has-padding-r-2"></i> {{ event.attendees.count }} účastníků</p>
                         </div>
                     </div>
@@ -21,6 +32,8 @@
             {% endfor %}
         </div>
     {% endfor %}
+
+    {% include "includes/pagination.html" %}
 {% else %}
     <article class="message is-warning is-size-5">
         <div class="message-body">

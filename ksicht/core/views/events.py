@@ -6,7 +6,7 @@ from .. import models
 
 
 class EventListView(ListView):
-    queryset = models.Event.objects.past()
+    queryset = models.Event.objects.all()
     template_name = "core/event_listing.html"
 
     def get_context_data(self, **kwargs):

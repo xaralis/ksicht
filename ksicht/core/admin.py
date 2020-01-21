@@ -113,8 +113,18 @@ class StickerAdmin(admin.ModelAdmin):
 @admin.register(models.Event)
 class EventAdmin(admin.ModelAdmin):
     search_fields = ("title",)
-    list_display = ("title", "place", "start_date", "end_date", "capacity",)
+    list_display = (
+        "title",
+        "place",
+        "start_date",
+        "end_date",
+        "capacity",
+    )
     date_hierarchy = "start_date"
+
+    formfield_overrides = {
+        TextField: {"widget": AdminMarkdownxWidget},
+    }
 
 
 admin.site.register(Permission)

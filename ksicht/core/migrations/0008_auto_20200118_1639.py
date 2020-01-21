@@ -6,20 +6,19 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0007_tasksolutionsubmission_stickers'),
+        ("core", "0007_tasksolutionsubmission_stickers"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='task',
-            options={'ordering': ('series', 'id'), 'permissions': (('solution_export', 'Export odevzdaných úloh'),), 'verbose_name': 'Úloha', 'verbose_name_plural': 'Úlohy'},
+            name="task",
+            options={
+                "ordering": ("series", "id"),
+                "permissions": (("solution_export", "Export odevzdaných úloh"),),
+                "verbose_name": "Úloha",
+                "verbose_name_plural": "Úlohy",
+            },
         ),
-        migrations.AlterUniqueTogether(
-            name='task',
-            unique_together=set(),
-        ),
-        migrations.RemoveField(
-            model_name='task',
-            name='nr',
-        ),
+        migrations.AlterUniqueTogether(name="task", unique_together=set(),),
+        migrations.RemoveField(model_name="task", name="nr",),
     ]

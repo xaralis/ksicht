@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0008_auto_20200118_1639'),
+        ("core", "0008_auto_20200118_1639"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='gradeseries',
-            name='results_published',
-            field=models.BooleanField(db_index=True, default=False, verbose_name='Zveřejnit výsledky'),
+            model_name="gradeseries",
+            name="results_published",
+            field=models.BooleanField(
+                db_index=True, default=False, verbose_name="Zveřejnit výsledky"
+            ),
         ),
     ]

@@ -13,13 +13,20 @@ urlpatterns = [
     path("aktualni-rocnik/", views.CurrentGradeView.as_view(), name="current_grade"),
     path(
         "archiv-rocniku/",
-        ListView.as_view(queryset=models.Grade.objects.archive().prefetch_related("series"), template_name="core/grade_archive.html"),
+        ListView.as_view(
+            queryset=models.Grade.objects.archive().prefetch_related("series"),
+            template_name="core/grade_archive.html",
+            paginate_by=10,
+        ),
         name="grade_archive",
     ),
+    path("akce/", views.EventListView.as_view(paginate_by=10), name="event_listing",),
     path(
-        "akce/",
-        views.EventListView.as_view(),
-        name="event_listing",
+        "akce/<int:pk>-<slug:slug>/",
+        DetailView.as_view(
+            template_name="core/event_detail.html", queryset=models.Event.objects.all()
+        ),
+        name="event_detail",
     ),
     path(
         "aktualni-rocnik/prihlasit-se/",

@@ -6,6 +6,8 @@ from cuser.models import AbstractCUser
 from django import forms
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.urls import reverse
+from django.utils.text import slugify
 import pydash as py_
 
 from .constants import SCHOOLS
@@ -142,7 +144,13 @@ class GradeSeries(models.Model):
     task_file = models.FileField(
         verbose_name="Brožura", upload_to="rocniky/zadani/", null=True, blank=True
     )
-    results_published = models.BooleanField(verbose_name="Zveřejnit výsledky", null=False, blank=False, default=False, db_index=True)
+    results_published = models.BooleanField(
+        verbose_name="Zveřejnit výsledky",
+        null=False,
+        blank=False,
+        default=False,
+        db_index=True,
+    )
 
     class Meta:
         unique_together = ("grade", "series")
@@ -168,33 +176,36 @@ class GradeSeries(models.Model):
         applications = self.grade.applications.all()
         tasks = self.tasks.all()
         submissions = TaskSolutionSubmission.objects.filter(
-            application__grade=self.grade,
-            task__series__series__lte=self.series
+            application__grade=self.grade, task__series__series__lte=self.series
         )
 
         scoring_dict = {
-            a: {
-                "by_tasks": {
-                    t: None for t in tasks
-                },
-                "total": 0
-            } for a in applications
+            a: {"by_tasks": {t: None for t in tasks}, "total": 0} for a in applications
         }
 
+        def _find_application(app_id):
+            return py_.find(applications, lambda a: a.pk == app_id)
+
+        def _find_task(task_id):
+            return py_.find(tasks, lambda t: t.pk == task_id)
+
         for s in submissions:
-            a = py_.find(applications, lambda a: a.pk == s.application_id)
-            t = py_.find(tasks, lambda t: t.pk == s.task_id)
+            a = _find_application(s.application_id)
+            t = _find_task(s.task_id)
+
             scoring_dict[a]["by_tasks"][t] = s.score
             scoring_dict[a]["total"] += s.score or 0
 
-        scoring = [(application, scores["by_tasks"], scores["total"]) for application, scores in scoring_dict.items()]
+        scoring = [
+            (application, scores["by_tasks"], scores["total"])
+            for application, scores in scoring_dict.items()
+        ]
 
         return {
             "max_score": Task.objects.filter(
-                series__grade=self.grade,
-                series__series__lte=self.series
+                series__grade=self.grade, series__series__lte=self.series
             ).aggregate(models.Sum("points"))["points__sum"],
-            "listing": sorted(scoring, key=lambda row: row[2], reverse=True)
+            "listing": sorted(scoring, key=lambda row: row[2], reverse=True),
         }
 
 
@@ -410,19 +421,17 @@ class Event(models.Model):
     description = models.TextField(verbose_name="Popis", null=False, blank=True)
     place = models.CharField(verbose_name="Místo konání", max_length=150, null=True)
     start_date = models.DateField(
-        verbose_name="Začíná",
-        null=False,
-        blank=False,
-        db_index=True,
+        verbose_name="Začíná", null=False, blank=False, db_index=True,
     )
     end_date = models.DateField(
-        verbose_name="Končí",
-        null=False,
-        blank=False,
-        db_index=True,
+        verbose_name="Končí", null=False, blank=False, db_index=True,
     )
-    capacity = models.PositiveSmallIntegerField(verbose_name="Doporučený max. počet účastníků", null=True, blank=True)
-    enlistment_message = models.TextField(verbose_name="Zpráva po přihlášení", null=False, blank=True)
+    capacity = models.PositiveSmallIntegerField(
+        verbose_name="Doporučený max. počet účastníků", null=True, blank=True
+    )
+    enlistment_message = models.TextField(
+        verbose_name="Zpráva po přihlášení", null=False, blank=True
+    )
     attendees = models.ManyToManyField(User, verbose_name="Účastníci", blank=True)
 
     objects = EventManager()
@@ -434,3 +443,8 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse(
+            "core:event_detail", kwargs={"pk": self.pk, "slug": slugify(self.title)}
+        )

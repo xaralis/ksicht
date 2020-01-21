@@ -36,10 +36,10 @@ $positions: (
         $posKey: nth($position, 1);
         $posValue: nth($position, 2);
         .#{$marginKey}#{$separator}#{$posKey}#{$separator}#{$sizeKey} {
-            margin-#{$posValue}: sizeValue($sizeKey, $sizeValue);
+            margin-#{$posValue}: sizeValue($sizeKey, $sizeValue)!important;
         }
         .#{$paddingKey}#{$separator}#{$posKey}#{$separator}#{$sizeKey} {
-            padding-#{$posValue}: sizeValue($sizeKey, $sizeValue);
+            padding-#{$posValue}: sizeValue($sizeKey, $sizeValue)!important;
         }
     }
 }

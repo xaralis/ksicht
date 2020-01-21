@@ -2,7 +2,16 @@
 {% load webpack_static from webpack_loader %}
 {% load crispy_forms_tags %}
 
-{% block headline %}Aktuální ročník{% if object %} ({{ object }}){% endif %}{% endblock %}
+{% block breadcrumb %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <div class="container">
+        <ul>
+            <li><a href="/">KSICHT</a></li>
+            <li class="is-active"><a href="#" aria-current="page">{% block headline %}Aktuální ročník{% if object %} ({{ object }}){% endif %}{% endblock %}</a></li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
 
 {% block article %}
 {% if object %}

@@ -16,6 +16,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import "~@fortawesome/fontawesome-free/scss/regular";
 
 @import "./components/breadcrumb";
+@import "./components/columns";
 @import "./components/card";
 @import "./components/layout";
 @import "./components/navbar";
@@ -26,5 +27,6 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import "./views/home";
 @import "./views/dashboard";
 
+@import "./helpers/content";
 @import "./helpers/border-radius";
 @import "./helpers/spacing";
