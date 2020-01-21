@@ -502,6 +502,40 @@
   }
 },
 {
+  "model": "core.participant",
+  "pk": 4,
+  "fields": {
+    "phone": "+420777123123",
+    "street": "Jir\u00e1nkova 2248",
+    "city": "Pardubice",
+    "zip_code": "53002",
+    "country": "cz",
+    "school": "gypce",
+    "school_year": "4",
+    "school_alt_name": "",
+    "school_alt_street": null,
+    "school_alt_city": "",
+    "school_alt_zip_code": ""
+  }
+},
+{
+  "model": "core.participant",
+  "pk": 5,
+  "fields": {
+    "phone": "+444 7888 12333123",
+    "street": "Jirankova",
+    "city": "Pardubice",
+    "zip_code": "53002",
+    "country": "other",
+    "school": "gypce",
+    "school_year": "4",
+    "school_alt_name": "",
+    "school_alt_street": null,
+    "school_alt_city": "",
+    "school_alt_zip_code": ""
+  }
+},
+{
   "model": "core.gradeapplication",
   "pk": 1,
   "fields": {
@@ -518,11 +552,27 @@
   }
 },
 {
+  "model": "core.gradeapplication",
+  "pk": 3,
+  "fields": {
+    "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
+    "participant": 4
+  }
+},
+{
+  "model": "core.gradeapplication",
+  "pk": 4,
+  "fields": {
+    "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
+    "participant": 5
+  }
+},
+{
   "model": "core.event",
   "pk": 1,
   "fields": {
     "title": "Podzimn\u00ed v\u00fdlet",
-    "description": "",
+    "description": "A small Django app that provides template tags for using\r\n[Markdown](http://daringfireball.net/projects/markdown/) using the\r\n[python-markdown2](https://github.com/trentm/python-markdown2) library.\r\n\r\n# What's with the \"deux\" in the name?\r\n\r\nThe obvious name for this project is `django-markdown2`. However, there\r\n[already is one!](http://github.com/svetlyak40wt/django-markdown2) and name\r\nconfusion doesn't help anybody. Plus, I took French immersion in school for 12\r\nyears: might as well put it to use.\r\n\r\n# So why another project then?\r\n\r\nBecause I wanted to do something slightly different. Django-markdown2's\r\n`markdown` filter takes\r\n[\"extras\"](https://github.com/trentm/python-markdown2/wiki/Extras) as arguments\r\n-- with the one exception that \"safe\" is transformed to python-markdown2's\r\n`safe_mode` argument. This is handy for quick usage. My use case is more\r\ncommonly: lots of `markdown` filter and block usage in my Django templates with\r\nthe same set of python-markdown2 options.\r\n\r\n\r\n# Installation\r\n\r\nChoose the *one* of the following that works best for you:\r\n\r\n- Install the latest release from PyPI:\r\n\r\n        pip install django-markdown-deux\r\n\r\n    or, if you use [ActivePython](http://www.activestate.com/activepython):\r\n\r\n        pypm install django-markdown-deux\r\n\r\n    These should install the dependent `python-markdown2` package.\r\n\r\n- Get a git clone of the source tree:\r\n\r\n        git clone git://github.com/trentm/django-markdown-deux.git\r\n\r\n    You might want a particular tag:\r\n\r\n        cd django-markdown-deux\r\n        git tag -l   # list available tags\r\n        git checkout $tagname\r\n\r\n    Then you'll need the \"lib\" subdir on your PYTHONPATH:\r\n\r\n        python setup.py install # or 'export PYTHONPATH=`pwd`/lib:$PYTHONPATH'\r\n\r\n    You'll also need the [python-markdown2\r\n    library](https://github.com/trentm/python-markdown2):\r\n\r\n        git clone git@github.com:trentm/python-markdown2.git\r\n        cd python-markdown2\r\n        python setup.py install   # or 'export PYTHONPATH=`pwd`/python-markdown2/lib'\r\n\r\n\r\n# Django project setup\r\n\r\n1. Add `markdown_deux` to `INSTALLED_APPS` in your project's \"settings.py\".\r\n\r\n2. Optionally set some of the `MARKDOWN_DEUX_*` settings. See the \"Settings\"\r\n   section below.",
     "place": "P\u00edsek",
     "start_date": "2020-01-20",
     "end_date": "2020-01-22",
