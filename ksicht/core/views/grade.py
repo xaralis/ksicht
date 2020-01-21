@@ -66,6 +66,12 @@ class CurrentGradeApplicationView(BaseFormView):
         if can_apply:
             grade.participants.add(user.participant_profile)
 
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            f"<i class='fas fa-check-circle notification-icon'></i> Přihlášení do ročníku proběhlo úspěšně a od teďka můžete nahrát svoje řešení</strong>.",
+        )
+
         return redirect("core:current_grade")
 
     def form_invalid(self, *args, **kwargs):

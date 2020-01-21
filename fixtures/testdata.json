@@ -486,53 +486,19 @@
 },
 {
   "model": "core.participant",
-  "pk": 2,
+  "pk": 3,
   "fields": {
-    "phone": "+420777883133",
-    "street": "Jir\u00e1nkova 2248",
-    "city": "Pardubice",
-    "zip_code": "53002",
+    "phone": "+420123123123",
+    "street": "Nejaka",
+    "city": "Jina",
+    "zip_code": "12312",
     "country": "cz",
     "school": "gypce",
-    "school_year": "3",
+    "school_year": "1",
     "school_alt_name": null,
     "school_alt_street": null,
     "school_alt_city": null,
     "school_alt_zip_code": null
-  }
-},
-{
-  "model": "core.participant",
-  "pk": 4,
-  "fields": {
-    "phone": "+420777123123",
-    "street": "Jir\u00e1nkova 2248",
-    "city": "Pardubice",
-    "zip_code": "53002",
-    "country": "cz",
-    "school": "gypce",
-    "school_year": "4",
-    "school_alt_name": "",
-    "school_alt_street": null,
-    "school_alt_city": "",
-    "school_alt_zip_code": ""
-  }
-},
-{
-  "model": "core.participant",
-  "pk": 5,
-  "fields": {
-    "phone": "+444 7888 12333123",
-    "street": "Jirankova",
-    "city": "Pardubice",
-    "zip_code": "53002",
-    "country": "other",
-    "school": "gypce",
-    "school_year": "4",
-    "school_alt_name": "",
-    "school_alt_street": null,
-    "school_alt_city": "",
-    "school_alt_zip_code": ""
   }
 },
 {
@@ -545,26 +511,10 @@
 },
 {
   "model": "core.gradeapplication",
-  "pk": 2,
+  "pk": 7,
   "fields": {
     "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
-    "participant": 2
-  }
-},
-{
-  "model": "core.gradeapplication",
-  "pk": 3,
-  "fields": {
-    "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
-    "participant": 4
-  }
-},
-{
-  "model": "core.gradeapplication",
-  "pk": 4,
-  "fields": {
-    "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
-    "participant": 5
+    "participant": 3
   }
 },
 {
