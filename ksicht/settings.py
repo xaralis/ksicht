@@ -21,6 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "0") == "1"
+DEBUG_TOOLBAR = os.environ.get("DEBUG_TOOLBAR", "0") == "1"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -85,7 +86,7 @@ MIDDLEWARE = [
     "htmlmin.middleware.MarkRequestMiddleware",
 ]
 
-if DEBUG and os.getenv("DEBUG_TOOLBAR", "0") == "1":
+if DEBUG_TOOLBAR:
     INSTALLED_APPS += ["debug_toolbar",]
     MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware",]
 
