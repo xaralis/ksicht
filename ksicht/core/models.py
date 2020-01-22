@@ -108,10 +108,14 @@ class Grade(models.Model):
                     f"Datum konání se překrývá s ročníkem '{g}'."
                 )
 
+    def prefetch_series(self):
+        series = self.series.all().prefetch_related("tasks")
+        return series
+
     def get_current_series(self):
         """Return first series that can still accept solution submissions from participants."""
         return (
-            py_.chain(list(self.series.all()))
+            py_.chain(list(self.prefetch_series()))
             .filter(attrgetter("accepts_solution_submissions"))
             .sort(key=attrgetter("submission_deadline"))
             .head()
@@ -173,7 +177,7 @@ class GradeSeries(models.Model):
         Adds detailed task listing for individual series tasks and a grand total with total score so far
         (this series and the previous ones).
         """
-        applications = self.grade.applications.all()
+        applications = self.grade.applications.all().select_related("participant__user")
         tasks = self.tasks.all()
         submissions = TaskSolutionSubmission.objects.filter(
             application__grade=self.grade, task__series__series__lte=self.series

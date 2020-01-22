@@ -67,10 +67,10 @@ INSTALLED_APPS = [
     "crispy_forms",
     "django_select2",
     "cuser",
-    "debug_toolbar",
     "ksicht.core",
     "ksicht.bulma",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -83,8 +83,11 @@ MIDDLEWARE = [
     "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
     "htmlmin.middleware.HtmlMinifyMiddleware",
     "htmlmin.middleware.MarkRequestMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
+
+if DEBUG and os.getenv("DEBUG_TOOLBAR", "0") == "1":
+    INSTALLED_APPS += ["debug_toolbar",]
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware",]
 
 ROOT_URLCONF = "ksicht.urls"
 

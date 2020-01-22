@@ -64,10 +64,7 @@ urlpatterns = [
     path(
         "rocniky/<grade_id>/serie/<pk>/",
         permission_required("core.view_gradeseries")(
-            DetailView.as_view(
-                template_name="core/manage/series_detail.html",
-                queryset=models.GradeSeries.objects.all(),
-            )
+            views.SeriesDetailView.as_view()
         ),
         name="series_detail",
     ),

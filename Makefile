@@ -12,7 +12,7 @@ install-dev:
 	pip install --upgrade -r requirements-dev.txt
 
 run:
-	DEBUG=1 ./node_modules/.bin/concurrently -r -k "python manage.py runserver 8080" "./node_modules/.bin/webpack --config webpack.config.js --mode development --watch"
+	DEBUG=1 DEBUG_TOOLBAR=1 ./node_modules/.bin/concurrently -r -k "python manage.py runserver 8080" "./node_modules/.bin/webpack --config webpack.config.js --mode development --watch"
 
 dep-freeze:
 	pip-compile requirements.in

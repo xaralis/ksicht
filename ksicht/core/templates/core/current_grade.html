@@ -42,7 +42,7 @@
 
     <div class="columns is-desktop">
         {% with object.get_current_series as current_series %}
-            {% for series in object.series.all %}
+            {% for series in object.prefetch_series %}
                 <div class="column is-one-fourth">
                     <div class="card">
                         <div class="card-content">
