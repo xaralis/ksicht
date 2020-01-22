@@ -23,10 +23,13 @@ urlpatterns = [
     path("akce/", views.EventListView.as_view(paginate_by=10), name="event_listing",),
     path(
         "akce/<int:pk>-<slug:slug>/",
-        DetailView.as_view(
-            template_name="core/event_detail.html", queryset=models.Event.objects.all()
-        ),
+        views.EventDetailView.as_view(),
         name="event_detail",
+    ),
+    path(
+        "akce/<int:pk>-<slug:slug>/prihlasit-se/",
+        views.EventEnlistView.as_view(),
+        name="event_enlist",
     ),
     path(
         "aktualni-rocnik/prihlasit-se/",

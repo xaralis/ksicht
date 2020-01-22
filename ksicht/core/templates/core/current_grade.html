@@ -15,21 +15,21 @@
 
 {% block article %}
 {% if object %}
-    <nav class="columns is-mobile is-multiline">
-        <div class="column is-6-mobile is-3-tablet">
+    <nav class="columns is-multiline">
+        <div class="column is-4-tablet is-3-tablet">
             <div>
                 <p class="heading">Začíná</p>
                 <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ object.start_date | date }}</p>
             </div>
         </div>
-        <div class="column is-6-mobile is-3-tablet">
+        <div class="column is-4-tablet is-3-tablet">
             <div>
                 <p class="heading">Řešitelé</p>
                 <p class="title is-5"><i class="far fa-user-circle has-padding-r-2"></i> {{ object.applications.count }} přihlášených řešitelů</p>
             </div>
         </div>
         {% if can_apply %}
-        <div class="column is-12-mobile is-6-tablet">
+        <div class="column is-4-tablet">
             <div>
                 <p class="heading">Přihláška</p>
                 {% crispy application_form %}
@@ -47,7 +47,7 @@
                     <div class="card">
                         <div class="card-content">
                             <h2 class="title is-6 is-uppercase has-text-weight-bold">{{ series }}</h2>
-                            <p class="subtitle is-6 has-text-grey">odevzdání do {{ series.submission_deadline | date:"SHORT_DATETIME_FORMAT" }}</p>
+                            <p class="subtitle is-6 has-text-grey">odevzdání do {{ series.submission_deadline | date:"d.m." }}</p>
 
                             {% with series.tasks.all as tasks %}
                                 {% if tasks.count > 0 %}

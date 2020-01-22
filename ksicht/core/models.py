@@ -415,6 +415,9 @@ class EventManager(models.Manager):
         current_date = current or date.today()
         return self.filter(end_date__lt=current_date)
 
+    def accepting_enlistments(self, current=None):
+        return self.future(current).filter(enlistment_enabled=True)
+
 
 class Event(models.Model):
     title = models.CharField(verbose_name="Název", max_length=150, null=False)
@@ -432,6 +435,7 @@ class Event(models.Model):
     enlistment_message = models.TextField(
         verbose_name="Zpráva po přihlášení", null=False, blank=True
     )
+    enlistment_enabled = models.BooleanField(verbose_name="Přihlášení je umožněno", default=False)
     attendees = models.ManyToManyField(User, verbose_name="Účastníci", blank=True)
 
     objects = EventManager()
@@ -448,3 +452,12 @@ class Event(models.Model):
         return reverse(
             "core:event_detail", kwargs={"pk": self.pk, "slug": slugify(self.title)}
         )
+
+    def get_enlist_url(self):
+        return reverse(
+            "core:event_enlist", kwargs={"pk": self.pk, "slug": slugify(self.title)}
+        )
+
+    @property
+    def is_accepting_enlistments(self):
+        return self.enlistment_enabled and date.today() <= self.end_date

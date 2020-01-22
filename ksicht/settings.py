@@ -41,6 +41,11 @@ if not ALLOWED_HOSTS == "" and DEBUG:
     ALLOWED_HOSTS = "*"
 
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -62,6 +67,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "django_select2",
     "cuser",
+    "debug_toolbar",
     "ksicht.core",
     "ksicht.bulma",
 ]
@@ -77,6 +83,7 @@ MIDDLEWARE = [
     "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
     "htmlmin.middleware.HtmlMinifyMiddleware",
     "htmlmin.middleware.MarkRequestMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "ksicht.urls"

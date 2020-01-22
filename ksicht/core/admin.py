@@ -119,6 +119,7 @@ class EventAdmin(admin.ModelAdmin):
         "start_date",
         "end_date",
         "capacity",
+        "enlistment_enabled",
     )
     date_hierarchy = "start_date"
 
