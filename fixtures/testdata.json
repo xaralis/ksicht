@@ -511,7 +511,7 @@
 },
 {
   "model": "core.gradeapplication",
-  "pk": 7,
+  "pk": 8,
   "fields": {
     "grade": "0db105a0-14ec-48e7-8a56-2e4ad27fb964",
     "participant": 3
@@ -527,8 +527,13 @@
     "start_date": "2020-01-20",
     "end_date": "2020-01-22",
     "capacity": 30,
-    "enlistment_message": "",
-    "attendees": []
+    "enlistment_message": "A small Django app that provides template tags for using\r\n[Markdown](http://daringfireball.net/projects/markdown/) using the\r\n[python-markdown2](https://github.com/trentm/python-markdown2) library.",
+    "enlistment_enabled": true,
+    "attendees": [
+      [
+        "jan.hrubes@pirati.cz"
+      ]
+    ]
   }
 },
 {
@@ -542,6 +547,7 @@
     "end_date": "2019-12-07",
     "capacity": 20,
     "enlistment_message": "",
+    "enlistment_enabled": false,
     "attendees": []
   }
 },
@@ -556,6 +562,7 @@
     "end_date": "2018-01-25",
     "capacity": 30,
     "enlistment_message": "",
+    "enlistment_enabled": false,
     "attendees": [
       [
         "xaralis@centrum.cz"
