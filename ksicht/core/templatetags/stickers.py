@@ -6,4 +6,8 @@ register = template.Library()
 
 @register.inclusion_tag("core/includes/sticker.html")
 def sticker(sticker):
-    return {"nr": sticker.nr, "title": sticker.title}
+    return {
+        "nr": sticker.nr,
+        "title": sticker.title,
+        "automatic": not sticker.handpicked,
+    }

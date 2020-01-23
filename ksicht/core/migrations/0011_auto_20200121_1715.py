@@ -7,22 +7,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0010_auto_20200120_1117'),
+        ("core", "0010_auto_20200120_1117"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='event',
-            options={'ordering': ('-start_date',), 'verbose_name': 'Akce', 'verbose_name_plural': 'Akce'},
+            name="event",
+            options={
+                "ordering": ("-start_date",),
+                "verbose_name": "Akce",
+                "verbose_name_plural": "Akce",
+            },
         ),
         migrations.AddField(
-            model_name='event',
-            name='enlistment_enabled',
-            field=models.BooleanField(default=False, verbose_name='Přihlášení je umožněno'),
+            model_name="event",
+            name="enlistment_enabled",
+            field=models.BooleanField(
+                default=False, verbose_name="Přihlášení je umožněno"
+            ),
         ),
         migrations.AlterField(
-            model_name='event',
-            name='attendees',
-            field=models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL, verbose_name='Účastníci'),
+            model_name="event",
+            name="attendees",
+            field=models.ManyToManyField(
+                blank=True, to=settings.AUTH_USER_MODEL, verbose_name="Účastníci"
+            ),
         ),
     ]

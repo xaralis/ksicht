@@ -35,20 +35,6 @@
                 </p>
             </div>
         </div>
-        <div class="column is-12-mobile is-3-tablet">
-            <div>
-                <p class="heading">Akce</p>
-                {% if perms.core.auto_assign_stickers %}
-                <p class="is-5">
-                    <a href="{% url "core:grade_auto_assign_stickers" pk=object.id %}" class="has-margin-r-4"><i class="fas fa-sticky-note has-padding-r-2"></i> Automatické přiřazení samolepek</a>
-                </p>
-                {% endif %}
-                <p class="is-5">
-                    <a href="{% url "core:grade_sticker_assignment_overview" pk=object.id %}" class="has-margin-r-4"><i class="fas fa-sticky-note has-padding-r-2"></i> Přehled přiřazených samolepek</a>
-                </p>
-            </div>
-        </div>
-
     </nav>
 
     <div class="columns is-desktop has-margin-t-6">

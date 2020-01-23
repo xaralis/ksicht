@@ -45,7 +45,7 @@
                 <li><a href="{% url "core:grade_detail" pk=grade.pk %}">{{ grade }}</a></li>
                 {% comment %} <li>
                     {% if perms.core.change_solution_submission_presence %}
-                    <li><a href="{% url "core:submission_overview" grade_id=grade.id %}">Přehled odevzdaných řešení</a></li>
+                    <li><a href="{% url "core:series_submission_overview" grade_id=grade.id %}">Přehled odevzdaných řešení</a></li>
                     {% endif %}
                     {% if perms.core.gradeseries_view %}
                         {% for series in grade.series.all %}

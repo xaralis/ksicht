@@ -52,20 +52,8 @@ urlpatterns = [
         name="grade_detail",
     ),
     path(
-        "rocniky/<pk>/automaticke-nalepky/",
-        views.AutoAssignStickersView.as_view(),
-        name="grade_auto_assign_stickers",
-    ),
-    path(
-        "rocniky/<pk>/prehled-nalepek/",
-        views.StickerAssignmentOverview.as_view(),
-        name="grade_sticker_assignment_overview",
-    ),
-    path(
         "rocniky/<grade_id>/serie/<pk>/",
-        permission_required("core.view_gradeseries")(
-            views.SeriesDetailView.as_view()
-        ),
+        permission_required("core.view_gradeseries")(views.SeriesDetailView.as_view()),
         name="series_detail",
     ),
     path(
@@ -76,7 +64,14 @@ urlpatterns = [
     path(
         "rocniky/<grade_id>/serie/<series_id>/odevzdana-reseni/",
         views.SubmissionOverview.as_view(),
-        name="submission_overview",
+        name="series_submission_overview",
+    ),
+    path(
+        "rocniky/<grade_id>/serie/<pk>/nalepky/",
+        permission_required("core.view_gradeseries")(
+            views.StickerAssignmentOverview.as_view(),
+        ),
+        name="series_sticker_assignment_overview",
     ),
     path(
         "rocniky/<grade_id>/bodovani/<task_id>/",

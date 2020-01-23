@@ -6,7 +6,7 @@
     <div class="container">
         <ul>
             <li><a href="/">KSICHT</a></li>
-            <li><a href="{% url "core:grade_detail" pk=grade.pk %}">Ročník {{ grade }}</a></li>
+            <li><a href="{% url "core:grade_detail" pk=object.grade_id %}">Ročník {{ object.grade }}</a></li>
             <li class="is-active"><a href="#" aria-current="page">Přehled přiřazených nálepek</a></li>
         </ul>
     </div>
@@ -14,22 +14,16 @@
 {% endblock %}
 
 {% block headline %}Přehled přiřazených nálepek{% endblock %}
-{% block header_sub %}<h3 class="subtitle">pro ročník {{ grade }}</h3>{% endblock %}
+{% block header_sub %}<h3 class="subtitle">pro ročník {{ object.grade }}</h3>{% endblock %}
 
 {% block article %}
     <div class="table-container">
-        <table class="table is-fullwidth is-striped is-hoverable">
-            <thead>
-                <tr>
-                    <th class="is-size-6 has-text-right">Řešitel</th>
-                    <th class="is-size-6" style="width: 100%">Nálepky</th>
-                </tr>
-            </thead>
+        <table class="table is-fullwidth sticker-table">
             <tbody>
                 {% for application, stickers in results.items %}
                 <tr>
-                    <th class="is-size-5 has-text-right">{{ application.participant.get_full_name }}</th>
-                    <td>
+                    <td class="is-size-5 has-text-right has-text-weight-bold">{{ application.participant.get_full_name }}</td>
+                    <td style="width: 100%;">
                         <div class="tag-list">
                             {% for s in stickers %}
                                 {% sticker s %}

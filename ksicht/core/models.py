@@ -171,7 +171,7 @@ class GradeSeries(models.Model):
             self.submission_deadline.tzinfo
         )
 
-    def calculate_results(self):
+    def get_rankings(self):
         """Calculate results for series.
 
         Adds detailed task listing for individual series tasks and a grand total with total score so far
@@ -201,15 +201,15 @@ class GradeSeries(models.Model):
             scoring_dict[a]["total"] += s.score or 0
 
         scoring = [
-            (application, scores["by_tasks"], scores["total"])
-            for application, scores in scoring_dict.items()
+            (application, index + 1, scores["by_tasks"], scores["total"])
+            for index, (application, scores) in enumerate(scoring_dict.items())
         ]
 
         return {
             "max_score": Task.objects.filter(
                 series__grade=self.grade, series__series__lte=self.series
             ).aggregate(models.Sum("points"))["points__sum"],
-            "listing": sorted(scoring, key=lambda row: row[2], reverse=True),
+            "listing": sorted(scoring, key=lambda row: row[3], reverse=True),
         }
 
 
@@ -376,38 +376,13 @@ class Sticker(models.Model):
     handpicked = models.BooleanField(
         verbose_name="Přiřazován ručně", default=True, null=False, db_index=True
     )
-    uses = models.ManyToManyField(GradeApplication, blank=True, related_name="stickers")
 
     class Meta:
         verbose_name = "Nálepka"
         verbose_name_plural = "Nálepky"
-        permissions = (("auto_assign_stickers", "Automatické nastavení nálepek"),)
 
     def __str__(self):
         return f"{self.nr} - {self.title}"
-
-
-def sticker_auto_assignment(listing):
-    """Replace sticker numbers in eligibility listing with real sticker objects."""
-    sticker_nrs = (
-        py_.py_(list(nrs) for application, nrs in listing).flatten().uniq().value()
-    )
-    stickers_by_nr = {s.nr: s for s in Sticker.objects.filter(nr__in=sticker_nrs)}
-
-    def _replace_with_sticker_objs(listing_item):
-        application, sticker_nrs = listing_item
-        return (
-            application,
-            [stickers_by_nr[nr] for nr in sticker_nrs if nr in stickers_by_nr],
-        )
-
-    return py_.map_(listing, _replace_with_sticker_objs)
-
-
-def sync_sticker_assignment(eligibility_listing):
-    for application, stickers in eligibility_listing:
-        for sticker in stickers:
-            sticker.uses.add(application)
 
 
 class EventManager(models.Manager):
@@ -439,7 +414,9 @@ class Event(models.Model):
     enlistment_message = models.TextField(
         verbose_name="Zpráva po přihlášení", null=False, blank=True
     )
-    enlistment_enabled = models.BooleanField(verbose_name="Přihlášení je umožněno", default=False)
+    enlistment_enabled = models.BooleanField(
+        verbose_name="Přihlášení je umožněno", default=False
+    )
     attendees = models.ManyToManyField(User, verbose_name="Účastníci", blank=True)
 
     objects = EventManager()
