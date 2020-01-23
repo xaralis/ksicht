@@ -397,6 +397,8 @@ class Sticker(models.Model):
         verbose_name="Přiřazován ručně", default=True, null=False, db_index=True
     )
 
+    objects = StickerManager()
+
     class Meta:
         verbose_name = "Nálepka"
         verbose_name_plural = "Nálepky"
@@ -406,7 +408,7 @@ class Sticker(models.Model):
         return f"{self.nr} - {self.title}"
 
     def natural_key(self):
-        return self.nr
+        return (self.nr,)
 
 
 class EventManager(models.Manager):
