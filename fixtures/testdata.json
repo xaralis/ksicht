@@ -112,7 +112,8 @@
   "pk": "07b868f3-e1de-499d-accb-ce65f43986d5",
   "fields": {
     "series": "7602f298-11db-4671-b760-26c73f50d07e",
-    "title": "3.",
+    "nr": "3",
+    "title": "uloha 3",
     "points": 6
   }
 },
@@ -121,7 +122,8 @@
   "pk": "0b8d1cf9-f2da-44df-a824-c4c562e5a5a4",
   "fields": {
     "series": "b317ae14-775e-4f95-b251-8986b8cde923",
-    "title": "3.",
+    "nr": "3",
+    "title": "uloha 3",
     "points": 10
   }
 },
@@ -130,6 +132,7 @@
   "pk": "11bf72e2-8320-47b3-850d-ad49dec7b396",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
+    "nr": "1",
     "title": "uloha 1",
     "points": 10
   }
@@ -139,7 +142,8 @@
   "pk": "1415e79e-e6af-44cb-9695-4462eaf7a1b4",
   "fields": {
     "series": "3ebc4059-e96b-4f86-a7fb-c6b05b0e2a89",
-    "title": "4.",
+    "nr": "4",
+    "title": "uloha 4",
     "points": 9
   }
 },
@@ -148,7 +152,8 @@
   "pk": "14ea865a-6dde-4f37-9831-2e63080547ea",
   "fields": {
     "series": "3c86ad82-4f55-42ca-a233-00c41fe0a874",
-    "title": "1.",
+    "nr": "1",
+    "title": "uloha 1",
     "points": 7
   }
 },
@@ -157,7 +162,8 @@
   "pk": "19240918-ad1d-4c8b-a033-6c03c3ef8d6d",
   "fields": {
     "series": "7602f298-11db-4671-b760-26c73f50d07e",
-    "title": "4.",
+    "nr": "4",
+    "title": "uloha 4",
     "points": 8
   }
 },
@@ -166,7 +172,8 @@
   "pk": "1941e15a-6d36-4b03-bdd7-42c28cdc8b1a",
   "fields": {
     "series": "3ebc4059-e96b-4f86-a7fb-c6b05b0e2a89",
-    "title": "2.",
+    "nr": "2",
+    "title": "uloha 2",
     "points": 13
   }
 },
@@ -175,7 +182,8 @@
   "pk": "1b5b5fb4-47d5-44d8-865f-de8250985f0c",
   "fields": {
     "series": "b317ae14-775e-4f95-b251-8986b8cde923",
-    "title": "5.",
+    "nr": "5",
+    "title": "uloha 5",
     "points": 4
   }
 },
@@ -184,7 +192,8 @@
   "pk": "26b0b4c1-5f27-4ead-a3c0-6337e286f663",
   "fields": {
     "series": "91c2f68f-35a5-4aa4-a508-90d255dc8bda",
-    "title": "5.",
+    "nr": "5",
+    "title": "uloha 5",
     "points": 11
   }
 },
@@ -193,7 +202,8 @@
   "pk": "2b8ab788-e9a5-4839-bc7c-798f1fb0976c",
   "fields": {
     "series": "3c86ad82-4f55-42ca-a233-00c41fe0a874",
-    "title": "2.",
+    "nr": "3",
+    "title": "uloha 3",
     "points": 8
   }
 },
@@ -202,7 +212,8 @@
   "pk": "2fde49cd-100b-4ea9-be6f-94cee2c7a6db",
   "fields": {
     "series": "b317ae14-775e-4f95-b251-8986b8cde923",
-    "title": "4.",
+    "nr": "4",
+    "title": "uloha 4",
     "points": 6
   }
 },
@@ -211,7 +222,8 @@
   "pk": "37ac9280-c5c3-405c-9f9b-de60ffa17719",
   "fields": {
     "series": "3ebc4059-e96b-4f86-a7fb-c6b05b0e2a89",
-    "title": "3.",
+    "nr": "3",
+    "title": "uloha 3",
     "points": 12
   }
 },
@@ -220,7 +232,8 @@
   "pk": "382653ef-524f-49ee-bf5b-504a5af439aa",
   "fields": {
     "series": "91c2f68f-35a5-4aa4-a508-90d255dc8bda",
-    "title": "3.",
+    "nr": "3",
+    "title": "uloha 3",
     "points": 5
   }
 },
@@ -229,7 +242,8 @@
   "pk": "3cf33c7e-366f-49ee-bb16-037591cb5d30",
   "fields": {
     "series": "3c86ad82-4f55-42ca-a233-00c41fe0a874",
-    "title": "3.",
+    "nr": "2",
+    "title": "uloha 2",
     "points": 14
   }
 },
@@ -238,7 +252,8 @@
   "pk": "3e53de2e-b61e-484f-8c2d-54d9d1ac0d11",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
-    "title": "uloha \u010d",
+    "nr": "4",
+    "title": "uloha 4",
     "points": 10
   }
 },
@@ -247,7 +262,8 @@
   "pk": "41ae283d-8e8e-4793-9198-dac35af0910a",
   "fields": {
     "series": "b317ae14-775e-4f95-b251-8986b8cde923",
-    "title": "1.",
+    "nr": "1",
+    "title": "uloha 1",
     "points": 12
   }
 },
@@ -256,6 +272,7 @@
   "pk": "52b659a6-5e57-427c-9711-4b5939181335",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
+    "nr": "3",
     "title": "uloha 3",
     "points": 10
   }
@@ -265,7 +282,8 @@
   "pk": "5aca5b67-6feb-4f42-9695-987890ebc41e",
   "fields": {
     "series": "7602f298-11db-4671-b760-26c73f50d07e",
-    "title": "2.",
+    "nr": "2",
+    "title": "uloha 2",
     "points": 4
   }
 },
@@ -274,7 +292,8 @@
   "pk": "63fdd68e-d7bd-43be-91f7-5e873ffada02",
   "fields": {
     "series": "91c2f68f-35a5-4aa4-a508-90d255dc8bda",
-    "title": "2.",
+    "nr": "2",
+    "title": "uloha 2",
     "points": 8
   }
 },
@@ -283,7 +302,8 @@
   "pk": "78b4ddb7-c97b-4aeb-8dba-e2ba120cecc3",
   "fields": {
     "series": "e805f0c1-a333-4599-90c3-63cfa63c3a40",
-    "title": "3.",
+    "nr": "3",
+    "title": "uloha 3",
     "points": 7
   }
 },
@@ -292,7 +312,8 @@
   "pk": "7d610a58-edd5-4675-8722-73261f056f35",
   "fields": {
     "series": "3ebc4059-e96b-4f86-a7fb-c6b05b0e2a89",
-    "title": "1.",
+    "nr": "1",
+    "title": "uloha 1",
     "points": 7
   }
 },
@@ -301,7 +322,8 @@
   "pk": "8d2dbe48-1339-4958-afad-cabb6e11b603",
   "fields": {
     "series": "e805f0c1-a333-4599-90c3-63cfa63c3a40",
-    "title": "5.",
+    "nr": "5",
+    "title": "uloha 5",
     "points": 11
   }
 },
@@ -310,6 +332,7 @@
   "pk": "9f38a126-4524-43eb-8d60-f5e199af0e05",
   "fields": {
     "series": "9085c484-da8c-42d5-8dc7-254f3a9d8be9",
+    "nr": "2",
     "title": "uloha 2",
     "points": 10
   }
@@ -319,7 +342,8 @@
   "pk": "a57c3352-5484-405e-be3b-8270af3469ae",
   "fields": {
     "series": "3c86ad82-4f55-42ca-a233-00c41fe0a874",
-    "title": "4.",
+    "nr": "4",
+    "title": "uloha 4",
     "points": 10
   }
 },
@@ -328,6 +352,7 @@
   "pk": "a609fb64-0945-460f-b861-638543d11482",
   "fields": {
     "series": "9085c484-da8c-42d5-8dc7-254f3a9d8be9",
+    "nr": "4",
     "title": "uloha 4",
     "points": 10
   }
@@ -337,6 +362,7 @@
   "pk": "a6d0bb25-d007-4707-b538-42c4cbb70fe4",
   "fields": {
     "series": "9085c484-da8c-42d5-8dc7-254f3a9d8be9",
+    "nr": "3",
     "title": "uloha 3",
     "points": 10
   }
@@ -346,6 +372,7 @@
   "pk": "b160f5f3-542d-4bda-85b5-135e3ae93a54",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
+    "nr": "5",
     "title": "uloha 5",
     "points": 10
   }
@@ -355,7 +382,8 @@
   "pk": "b65c2fac-9d83-498d-9058-99f8c0e6617c",
   "fields": {
     "series": "3c86ad82-4f55-42ca-a233-00c41fe0a874",
-    "title": "5.",
+    "nr": "5",
+    "title": "uloha 5",
     "points": 3
   }
 },
@@ -364,7 +392,8 @@
   "pk": "b93a723d-2905-49fa-aa66-c72b924c1073",
   "fields": {
     "series": "7602f298-11db-4671-b760-26c73f50d07e",
-    "title": "1.",
+    "nr": "1",
+    "title": "uloha 1",
     "points": 12
   }
 },
@@ -373,6 +402,7 @@
   "pk": "b952b663-74e2-47fc-addd-349622192765",
   "fields": {
     "series": "9085c484-da8c-42d5-8dc7-254f3a9d8be9",
+    "nr": "5",
     "title": "uloha 5",
     "points": 10
   }
@@ -382,7 +412,8 @@
   "pk": "cda682ae-c525-497c-8162-21febe37aed5",
   "fields": {
     "series": "e805f0c1-a333-4599-90c3-63cfa63c3a40",
-    "title": "1.",
+    "nr": "1",
+    "title": "uloha 1",
     "points": 12
   }
 },
@@ -391,7 +422,8 @@
   "pk": "d11c4bb2-352c-485e-a0e8-6da90db2f62d",
   "fields": {
     "series": "e805f0c1-a333-4599-90c3-63cfa63c3a40",
-    "title": "4.",
+    "nr": "4",
+    "title": "uloha 4",
     "points": 8
   }
 },
@@ -400,7 +432,8 @@
   "pk": "d78c4880-8199-4d08-8d14-7cbdbd6da05c",
   "fields": {
     "series": "91c2f68f-35a5-4aa4-a508-90d255dc8bda",
-    "title": "1.",
+    "nr": "1",
+    "title": "uloha 1",
     "points": 7
   }
 },
@@ -409,7 +442,8 @@
   "pk": "ded3fe7e-af18-4d4f-9a93-d9e129aa21cc",
   "fields": {
     "series": "7602f298-11db-4671-b760-26c73f50d07e",
-    "title": "5.",
+    "nr": "5",
+    "title": "uloha 5",
     "points": 10
   }
 },
@@ -418,6 +452,7 @@
   "pk": "e444589a-9da5-4b57-9dd4-805630e1c527",
   "fields": {
     "series": "1902234b-e68c-4577-a054-bfd1f41e3ffd",
+    "nr": "2",
     "title": "uloha 2",
     "points": 10
   }
@@ -427,7 +462,8 @@
   "pk": "e6337af0-2fe8-491d-a526-8691b2d561c6",
   "fields": {
     "series": "91c2f68f-35a5-4aa4-a508-90d255dc8bda",
-    "title": "4.",
+    "nr": "4",
+    "title": "uloha 4",
     "points": 9
   }
 },
@@ -436,7 +472,8 @@
   "pk": "e67139f3-3b61-4669-b4e5-9a1cce8a10ed",
   "fields": {
     "series": "b317ae14-775e-4f95-b251-8986b8cde923",
-    "title": "2.",
+    "nr": "2",
+    "title": "uloha 2",
     "points": 13
   }
 },
@@ -445,7 +482,8 @@
   "pk": "eacf824b-162a-4d90-9338-16752403cf56",
   "fields": {
     "series": "3ebc4059-e96b-4f86-a7fb-c6b05b0e2a89",
-    "title": "5.",
+    "nr": "5",
+    "title": "uloha 5",
     "points": 14
   }
 },
@@ -454,7 +492,8 @@
   "pk": "eb12986f-9821-4eff-b6dc-1a8d74d2a7c2",
   "fields": {
     "series": "e805f0c1-a333-4599-90c3-63cfa63c3a40",
-    "title": "2.",
+    "nr": "2",
+    "title": "uloha 2",
     "points": 10
   }
 },
@@ -463,6 +502,7 @@
   "pk": "eb94ce48-3cce-4713-97a5-905fb91dfb98",
   "fields": {
     "series": "9085c484-da8c-42d5-8dc7-254f3a9d8be9",
+    "nr": "1",
     "title": "uloha 1",
     "points": 10
   }
@@ -533,6 +573,10 @@
       [
         "jan.hrubes@pirati.cz"
       ]
+    ],
+    "reward_stickers": [
+      5,
+      6
     ]
   }
 },
@@ -548,7 +592,11 @@
     "capacity": 20,
     "enlistment_message": "",
     "enlistment_enabled": false,
-    "attendees": []
+    "attendees": [],
+    "reward_stickers": [
+      5,
+      6
+    ]
   }
 },
 {
@@ -562,7 +610,7 @@
     "end_date": "2018-01-25",
     "capacity": 30,
     "enlistment_message": "",
-    "enlistment_enabled": false,
+    "enlistment_enabled": true,
     "attendees": [
       [
         "xaralis@centrum.cz"
@@ -570,7 +618,8 @@
       [
         "jan.hrubes@pirati.cz"
       ]
-    ]
+    ],
+    "reward_stickers": []
   }
 }
 ]

@@ -214,12 +214,27 @@ class GradeSeries(models.Model):
 
 
 class Task(models.Model):
+    NR_CHOICES = (
+        ("1", "1."),
+        ("2", "2."),
+        ("3", "3."),
+        ("4", "4."),
+        ("5", "5."),
+    )
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     series = models.ForeignKey(
         GradeSeries,
         verbose_name="Série",
         on_delete=models.PROTECT,
         related_name="tasks",
+    )
+    nr = models.CharField(
+        verbose_name="Číslo úlohy",
+        max_length=1,
+        choices=NR_CHOICES,
+        null=False,
+        db_index=True,
     )
     title = models.CharField(verbose_name="Název", max_length=150, null=False)
     points = models.PositiveIntegerField(
@@ -232,7 +247,7 @@ class Task(models.Model):
     class Meta:
         verbose_name = "Úloha"
         verbose_name_plural = "Úlohy"
-        ordering = ("series", "title")
+        ordering = ("series", "nr")
         permissions = (("solution_export", "Export odevzdaných úloh"),)
 
     def __str__(self):
@@ -365,13 +380,18 @@ class TaskSolutionSubmission(models.Model):
         return f"Řešení <{self.task}> pro přihlášku <{self.application_id}>"
 
 
+class StickerManager(models.Manager):
+    def get_by_natural_key(self, nr):
+        return self.get(nr=nr)
+
+
 class Sticker(models.Model):
     title = models.CharField(
         verbose_name="Název", max_length=255, null=False, blank=False
     )
     description = models.TextField(verbose_name="Popis", null=True, blank=True)
     nr = models.PositiveSmallIntegerField(
-        verbose_name="Číslo", null=False, db_index=True,
+        verbose_name="Číslo", null=False, db_index=True, unique=True
     )
     handpicked = models.BooleanField(
         verbose_name="Přiřazován ručně", default=True, null=False, db_index=True
@@ -384,6 +404,9 @@ class Sticker(models.Model):
 
     def __str__(self):
         return f"{self.nr} - {self.title}"
+
+    def natural_key(self):
+        return self.nr
 
 
 class EventManager(models.Manager):

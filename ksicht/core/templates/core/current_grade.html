@@ -54,7 +54,7 @@
                                 <h2 class="is-size-6 has-text-weight-bold">Úlohy</h2>
                                 <ul>
                                     {% for task in tasks %}
-                                        <li>{{ task.title }} <span class="has-text-grey">(max. {{ task.points }} bodů)</span></li>
+                                        <li>{{ task.nr }}. {{ task.title }} <span class="has-text-grey">(max. {{ task.points }} bodů)</span></li>
                                     {% endfor %}
                                 </ul>
                                 {% endif %}

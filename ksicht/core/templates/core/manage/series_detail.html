@@ -63,7 +63,7 @@
             <div class="tabs is-size-5 is-boxed">
                 <ul>
                     {% for task in tasks %}
-                    <li {% if forloop.first %}class="is-active"{% endif %}><a>{{ task }}</a></li>
+                    <li {% if forloop.first %}class="is-active"{% endif %}><a>{{ task.nr }}. úloha</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -74,6 +74,8 @@
                         <div class="tile is-ancestor">
                             <div class="tile is-4 is-vertical is-parent">
                                 <div class="tile is-child box">
+                                    <h3 class="heading has-padding-b-3">Název</h3>
+                                    <p class="title is-6">{{ task.title }}</p>
                                     <h3 class="heading has-padding-b-3">Řešitelé</h3>
                                     <p class="title is-6"><i class="far fa-user-circle has-padding-r-2"></i> {{ task.submission_count }} odevzdaných řešení</p>
                                     {% if task.submission_count > 0 %}

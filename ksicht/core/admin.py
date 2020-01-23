@@ -1,16 +1,28 @@
 from cuser.admin import UserAdmin
 from django.contrib import admin
 from django.contrib.auth.models import Permission
+from django.forms.models import BaseInlineFormSet
 from django.db.models import TextField
 from markdownx.widgets import AdminMarkdownxWidget
 
 from . import models
 
 
+class GradeSeriesInlineFormSet(BaseInlineFormSet):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.initial = [
+            {"series": "1"},
+            {"series": "2"},
+            {"series": "3"},
+            {"series": "4"},
+        ]
+
 class GradeSeriesInline(admin.TabularInline):
     model = models.GradeSeries
     min_num = 4
     max_num = 4
+    formset = GradeSeriesInlineFormSet
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -25,10 +37,23 @@ class GradeAdmin(admin.ModelAdmin):
     }
 
 
+class TaskInlineFormSet(BaseInlineFormSet):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.initial = [
+            {"nr": "1"},
+            {"nr": "2"},
+            {"nr": "3"},
+            {"nr": "4"},
+            {"nr": "5"},
+        ]
+
+
 class TaskInline(admin.TabularInline):
     model = models.Task
     min_num = 5
     max_num = 5
+    formset = TaskInlineFormSet
 
 
 @admin.register(models.GradeSeries)
@@ -59,9 +84,10 @@ class ParticipantAdmin(admin.ModelAdmin):
 
 @admin.register(models.Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ("__str__", "series", "school_year")
+    list_display = ("nr", "title", "series", "school_year")
     search_fields = ("title", "nr", "series__grade__school_year")
     list_select_related = ("series__grade",)
+    list_filter = ("series__grade",)
 
     def school_year(self, obj):
         return obj.series.grade.school_year
