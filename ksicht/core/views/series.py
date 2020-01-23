@@ -54,6 +54,26 @@ def sticker_nrs_to_objects(listing):
     return dict([_replace_with_sticker_objs(l) for l in listing])
 
 
+def get_event_stickers(series):
+    """Resolve stickers to be collected from events.
+
+    These are assigned to everyone who attended.
+    """
+    prev_series = (
+        models.GradeSeries.objects
+        .filter(grade=series.grade, submission_deadline__lte=series.submission_deadline)
+        .exclude(pk=series.pk)
+        .order_by("-submission_deadline", "-pk")
+        .first()
+    )
+    related_events = models.Event.objects.filter(
+        start_date__gte=prev_series.submission_deadline if prev_series else series.grade.start_date,
+        end_date__lte=series.submission_deadline
+    ).prefetch_related("reward_stickers", "attendees")
+
+    return [(e, e.reward_stickers.all()) for e in related_events]
+
+
 class StickerAssignmentOverview(DetailView):
     template_name = "core/manage/sticker_assignment_overview.html"
     queryset = models.GradeSeries.objects.all().select_related("grade")
@@ -68,9 +88,17 @@ class StickerAssignmentOverview(DetailView):
             task__series=series
         ).prefetch_related("stickers")
         auto_stickers = sticker_nrs_to_objects(stickers.engine.get_eligibility(series))
+        event_stickers = get_event_stickers(series)
 
         def _collect_stickers(application):
             stickers = set(auto_stickers[application])
+
+            for event, stickers_from_event in event_stickers:
+                user = application.participant.user
+
+                if user in event.attendees.all():
+                    stickers = stickers.union(set(stickers_from_event))
+
             application_submissions = [
                 s for s in series_submissions if s.application_id == application.pk
             ]

@@ -380,6 +380,7 @@ class Sticker(models.Model):
     class Meta:
         verbose_name = "Nálepka"
         verbose_name_plural = "Nálepky"
+        ordering = ("nr", "title")
 
     def __str__(self):
         return f"{self.nr} - {self.title}"
@@ -418,6 +419,7 @@ class Event(models.Model):
         verbose_name="Přihlášení je umožněno", default=False
     )
     attendees = models.ManyToManyField(User, verbose_name="Účastníci", blank=True)
+    reward_stickers = models.ManyToManyField(Sticker, verbose_name="Nálepky pro účastníky", blank=True, help_text="Každý účastník získá zvolené nálepky. Uděleny budou v rámci série, která datumově následuje po akci.", related_name="event_uses")
 
     objects = EventManager()
 

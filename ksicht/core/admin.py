@@ -108,6 +108,7 @@ class SolutionSubmissionAdmin(admin.ModelAdmin):
 @admin.register(models.Sticker)
 class StickerAdmin(admin.ModelAdmin):
     search_fields = ("nr", "title")
+    list_display = ("nr", "title", "handpicked")
 
 
 @admin.register(models.Event)
