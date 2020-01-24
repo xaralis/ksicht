@@ -1,14 +1,18 @@
 from operator import attrgetter
+from urllib.parse import quote
 
 from django.db.models import Count
-from django.views.generic.detail import DetailView
+from django.http import HttpResponse
+from django.views.generic.detail import BaseDetailView, DetailView
 import pydash as py_
 
+from ksicht import pdf
 from .. import models, stickers
 
 
 __all__ = (
     "SeriesDetailView",
+    "SeriesEnvelopesPrintout",
     "SeriesResultsView",
     "StickerAssignmentOverview",
 )
@@ -113,3 +117,30 @@ class StickerAssignmentOverview(DetailView):
 
         data["results"] = {a: _collect_stickers(a) for a in applications}
         return data
+
+
+class SeriesEnvelopesPrintout(BaseDetailView):
+    queryset = models.GradeSeries.objects.all()
+
+    def render_to_response(self, context):
+        series = context["object"]
+        active_participants = models.Participant.objects.active_in_series(series)
+
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = "attachment; filename*=UTF-8''{}.pdf".format(
+            quote(str(series) + " - obálky")
+        )
+
+        lines = [
+            (
+                p.get_full_name(),
+                p.street,
+                f"{p.zip_code} {p.city}",
+                p.get_country_display(),
+            )
+            for p in active_participants
+        ]
+
+        pdf.envelopes(lines, response)
+
+        return response

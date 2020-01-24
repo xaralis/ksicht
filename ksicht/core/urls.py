@@ -81,6 +81,13 @@ urlpatterns = [
         name="series_sticker_assignment_overview",
     ),
     path(
+        "rocniky/<grade_id>/serie/<pk>/obalky-s-resenim/",
+        permission_required("core.series_envelopes_printout")(
+            views.SeriesEnvelopesPrintout.as_view()
+        ),
+        name="series_envelopes_printout",
+    ),
+    path(
         "rocniky/<grade_id>/bodovani/<task_id>/",
         views.ScoringView.as_view(),
         name="task_scoring",

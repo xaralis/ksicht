@@ -161,6 +161,7 @@ class GradeSeries(models.Model):
         verbose_name = "Série"
         verbose_name_plural = "Série"
         ordering = ("grade", "series")
+        permissions = (("series_envelopes_printout", "Export obálek s řešením"),)
 
     def __str__(self):
         return f"{self.get_series_display()} série"
@@ -254,6 +255,47 @@ class Task(models.Model):
         return self.title
 
 
+class ParticipantManager(models.Manager):
+    def active_in_series(self, current_series):
+        """Return active participants for series.
+
+        - Everyone who has submitted a solution
+        - Everyone who has filed a GradeApplication after the previous
+          GradeSeries deadline and before the current GradeSeries deadline
+        """
+        grade = current_series.grade
+        grade.prefetch_series()
+        grade_series = list(grade.series.all())
+
+        current_series_index = grade_series.index(current_series)
+
+        # All applications in grade with some submission
+        applications_with_submission = GradeApplication.objects.filter(
+            grade=grade,
+        ).exclude(solution_submissions=None)
+
+        # Has applied in this grade and has some submission
+        query = models.Q(gradeapplication__in=applications_with_submission)
+
+        if current_series_index != 0:
+            previous_series = grade_series[current_series_index - 1]
+
+            # Has applied after previous series
+            applications_in_deadline_range = GradeApplication.objects.filter(
+                grade=grade,
+                created_at__range=(
+                    previous_series.submission_deadline,
+                    current_series.submission_deadline,
+                ),
+            )
+
+            query = query | models.Q(
+                gradeapplication__in=applications_in_deadline_range
+            )
+
+        return self.filter(query).distinct()
+
+
 class Participant(models.Model):
     COUNTRY_CHOICES = (
         ("other", "-- jiný --"),
@@ -311,6 +353,8 @@ class Participant(models.Model):
         through="GradeApplication",
     )
 
+    objects = ParticipantManager()
+
     class Meta:
         verbose_name = "Řešitel"
         verbose_name_plural = "Řešitelé"
@@ -335,13 +379,14 @@ class GradeApplication(models.Model):
         Grade, on_delete=models.CASCADE, related_name="applications"
     )
     participant = models.ForeignKey(Participant, on_delete=models.PROTECT)
+    created_at = models.DateTimeField(verbose_name="Datum vytvoření", auto_now_add=True)
 
     class Meta:
         verbose_name = "Přihláška do ročníku"
         verbose_name_plural = "Přihlášky do ročníku"
 
     def __str__(self):
-        return f"Přihláška <{self.participant.user}> do ročníku <{self.grade}>"
+        return f"Přihláška <{self.participant.user}> do ročníku <{self.grade}> z {self.created_at}"
 
 
 class TaskSolutionSubmission(models.Model):

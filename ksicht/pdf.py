@@ -3,10 +3,12 @@ import io
 from django.conf import settings
 from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
 import reportlab
-from reportlab.lib.pagesizes import A4
+from reportlab.lib.pagesizes import A4, C3, landscape
+from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
+from reportlab.platypus import Paragraph
 
 
 __all__ = (
@@ -16,6 +18,36 @@ __all__ = (
 
 reportlab.rl_config.TTFSearchPath.append(str(settings.BASE_DIR) + "/fonts")
 pdfmetrics.registerFont(TTFont("Helvetica", "Helvetica.ttf"))
+
+
+def envelopes(recipient_lines, out_file):
+    """Generate envelopes with address block."""
+    out_pdf = PdfFileWriter()
+
+    for lines in recipient_lines:
+        packet = io.BytesIO()
+        can = canvas.Canvas(packet, pagesize=landscape(C3))
+        paragraph_style = ParagraphStyle(
+            "Normal",
+            fontName="Helvetica",
+            fontSize=44,
+            leading=56,
+            borderWidth=1,
+            borderRadius=8,
+            borderPadding=24,
+            borderColor="#000",
+        )
+        paragraph = Paragraph("<br />".join(lines), style=paragraph_style)
+        w, h = paragraph.wrap(620, 1000)
+        paragraph.drawOn(can, 600, 300)
+
+        can.save()
+        packet.seek(0)
+
+        out_pdf.addPage(PdfFileReader(packet).getPage(0))
+
+    out_pdf.write(out_file)
+    return out_file
 
 
 def concatenate(in_files, out_file):
