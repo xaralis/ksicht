@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0012_auto_20200123_0955'),
+        ("core", "0012_auto_20200123_0955"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='event',
-            name='reward_stickers',
-            field=models.ManyToManyField(blank=True, help_text='Každý účastník získá zvolené nálepky. Uděleny budou v rámci série, která datumově následuje po akci.', to='core.Sticker', verbose_name='Nálepky pro účastníky'),
+            model_name="event",
+            name="reward_stickers",
+            field=models.ManyToManyField(
+                blank=True,
+                help_text="Každý účastník získá zvolené nálepky. Uděleny budou v rámci série, která datumově následuje po akci.",
+                to="core.Sticker",
+                verbose_name="Nálepky pro účastníky",
+            ),
         ),
     ]

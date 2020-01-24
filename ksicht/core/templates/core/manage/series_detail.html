@@ -41,7 +41,7 @@
                     <p class="heading">Přehledy</p>
                     {% if perms.core.change_solution_submission_presence %}
                     <p class="is-5">
-                        <a href="{% url "core:series_submission_overview" grade_id=object.grade.id series_id=object.id %}" class="has-margin-r-4"><i class="fas fa-user-circle has-padding-r-2"></i> Přehled odevzdaných řešení</a>
+                        <a href="{% url "core:series_submission_overview" grade_id=object.grade.id series_id=object.id %}" class="has-margin-r-4"><i class="fas fa-user-friends has-padding-r-2"></i> Přehled odevzdaných řešení</a>
                     </p>
                     {% endif %}
                     <p class="is-5">
@@ -77,7 +77,7 @@
                                     <h3 class="heading has-padding-b-3">Název</h3>
                                     <p class="title is-6">{{ task.title }}</p>
                                     <h3 class="heading has-padding-b-3">Řešitelé</h3>
-                                    <p class="title is-6"><i class="far fa-user-circle has-padding-r-2"></i> {{ task.submission_count }} odevzdaných řešení</p>
+                                    <p class="title is-6"><i class="fas fa-user-friends has-padding-r-2"></i> {{ task.submission_count }} odevzdaných řešení</p>
                                     {% if task.submission_count > 0 %}
                                         {% if perms.core.scoring %}
                                             <a href="{% url "core:task_scoring" grade_id=object.grade_id task_id=task.id %}">Bodování</a> &nbsp;·&nbsp;

@@ -1,10 +1,13 @@
 from collections import defaultdict
+import csv
+from urllib.parse import quote
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView
+from django.views.generic.detail import BaseDetailView
 
 from .. import models
 
@@ -88,3 +91,53 @@ class EventEnlistView(DetailView):
         context["is_substitue"] = self.object.capacity > context["attendee_count"]
 
         return self.render_to_response(context)
+
+
+class EventAttendeesExportView(BaseDetailView):
+    queryset = models.Event.objects.all()
+
+    def render_to_response(self, context):
+        event = context["object"]
+        attendees = event.attendees.all().order_by("pk")
+        participants = models.Participant.objects.filter(user__in=attendees)
+
+        response = HttpResponse(content_type="text/csv")
+        file_expr = "filename*=utf-8''{}".format(quote(f"{event} - účastníci.csv"))
+        response["Content-Disposition"] = "attachment; {}".format(file_expr)
+
+        writer = csv.writer(response)
+        writer.writerow(
+            [
+                "Pořadí",
+                "Email",
+                "Jméno",
+                "Příjmení",
+                "Status",
+                "(Telefon)",
+                "(Škola)",
+                "(Město)",
+            ]
+        )
+
+        for idx, user in enumerate(attendees):
+            rank = idx + 1
+            is_substitute = rank > event.capacity
+            row = [
+                f"{rank}.",
+                user.email,
+                user.first_name,
+                user.last_name,
+                "Náhradník" if is_substitute else "Účastník",
+            ]
+
+            participant = next((p for p in participants if p.user_id == user.pk), None)
+
+            if participant:
+                row += [participant.phone, participant.school_name, participant.city]
+
+            writer.writerow(row)
+
+            if rank == event.capacity:
+                writer.writerow([])
+
+        return response

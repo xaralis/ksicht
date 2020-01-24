@@ -60,15 +60,18 @@ def get_event_stickers(series):
     These are assigned to everyone who attended.
     """
     prev_series = (
-        models.GradeSeries.objects
-        .filter(grade=series.grade, submission_deadline__lte=series.submission_deadline)
+        models.GradeSeries.objects.filter(
+            grade=series.grade, submission_deadline__lte=series.submission_deadline
+        )
         .exclude(pk=series.pk)
         .order_by("-submission_deadline", "-pk")
         .first()
     )
     related_events = models.Event.objects.filter(
-        start_date__gte=prev_series.submission_deadline if prev_series else series.grade.start_date,
-        end_date__lte=series.submission_deadline
+        start_date__gte=prev_series.submission_deadline
+        if prev_series
+        else series.grade.start_date,
+        end_date__lte=series.submission_deadline,
     ).prefetch_related("reward_stickers", "attendees")
 
     return [(e, e.reward_stickers.all()) for e in related_events]

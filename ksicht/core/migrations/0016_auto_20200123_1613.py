@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0015_auto_20200123_1557'),
+        ("core", "0015_auto_20200123_1557"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='sticker',
-            name='nr',
-            field=models.PositiveSmallIntegerField(db_index=True, unique=True, verbose_name='Číslo'),
+            model_name="sticker",
+            name="nr",
+            field=models.PositiveSmallIntegerField(
+                db_index=True, unique=True, verbose_name="Číslo"
+            ),
         ),
     ]

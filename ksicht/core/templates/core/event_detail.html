@@ -41,11 +41,15 @@
         </div>
         <div class="has-margin-b-4">
             <p class="heading">Volná místa</p>
-            <p class="title is-5">{{ free_places }}/{{ object.capacity }}</p>
+            <p class="title is-5"><i class="fas fa-chair has-padding-r-2"></i> {{ free_places }}/{{ object.capacity }}</p>
         </div>
         <div class="has-margin-b-4">
             <p class="heading">Účastníci</p>
-            <p class="title is-5">{{ object.attendees.count }} přihlášených</p>
+            {% if perms.core.export_event_attendees %}
+                <p class="title is-5"><a href="{{ object.get_export_url }}" title="Exportovat do CSV"><i class="fas fa-file-csv has-padding-r-2"></i> {{ object.attendees.count }} přihlášených</a></p>
+            {% else %}
+                <p class="title is-5"><i class="fas fa-user-friends has-padding-r-2"></i> {{ object.attendees.count }} přihlášených</p>
+            {% endif %}
         </div>
 
         {% if not user.is_authenticated %}

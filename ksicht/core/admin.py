@@ -1,8 +1,8 @@
 from cuser.admin import UserAdmin
 from django.contrib import admin
 from django.contrib.auth.models import Permission
-from django.forms.models import BaseInlineFormSet
 from django.db.models import TextField
+from django.forms.models import BaseInlineFormSet
 from markdownx.widgets import AdminMarkdownxWidget
 
 from . import models
@@ -17,6 +17,7 @@ class GradeSeriesInlineFormSet(BaseInlineFormSet):
             {"series": "3"},
             {"series": "4"},
         ]
+
 
 class GradeSeriesInline(admin.TabularInline):
     model = models.GradeSeries

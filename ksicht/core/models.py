@@ -315,6 +315,14 @@ class Participant(models.Model):
         verbose_name = "Řešitel"
         verbose_name_plural = "Řešitelé"
 
+    @property
+    def school_name(self):
+        return (
+            self.get_school_display()
+            if self.school != "--jiná--"
+            else self.school_alt_name
+        )
+
     def __str__(self):
         return f"Profil účastníka pro <{self.user}>"
 
@@ -444,7 +452,13 @@ class Event(models.Model):
         verbose_name="Přihlášení je umožněno", default=False
     )
     attendees = models.ManyToManyField(User, verbose_name="Účastníci", blank=True)
-    reward_stickers = models.ManyToManyField(Sticker, verbose_name="Nálepky pro účastníky", blank=True, help_text="Každý účastník získá zvolené nálepky. Uděleny budou v rámci série, která datumově následuje po akci.", related_name="event_uses")
+    reward_stickers = models.ManyToManyField(
+        Sticker,
+        verbose_name="Nálepky pro účastníky",
+        blank=True,
+        help_text="Každý účastník získá zvolené nálepky. Uděleny budou v rámci série, která datumově následuje po akci.",
+        related_name="event_uses",
+    )
 
     objects = EventManager()
 
@@ -452,19 +466,22 @@ class Event(models.Model):
         verbose_name = "Akce"
         verbose_name_plural = "Akce"
         ordering = ("-start_date",)
+        permissions = (("export_event_attendees", "Export účastníků akce"),)
 
     def __str__(self):
         return self.title
 
+    def _build_url(self, name):
+        return reverse(name, kwargs={"pk": self.pk, "slug": slugify(self.title)})
+
     def get_absolute_url(self):
-        return reverse(
-            "core:event_detail", kwargs={"pk": self.pk, "slug": slugify(self.title)}
-        )
+        return self._build_url("core:event_detail")
 
     def get_enlist_url(self):
-        return reverse(
-            "core:event_enlist", kwargs={"pk": self.pk, "slug": slugify(self.title)}
-        )
+        return self._build_url("core:event_enlist")
+
+    def get_export_url(self):
+        return self._build_url("core:event_attendees_export")
 
     @property
     def is_accepting_enlistments(self):

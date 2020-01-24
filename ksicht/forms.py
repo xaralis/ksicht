@@ -124,9 +124,12 @@ class KsichtRegistrationForm(UserCreationForm):
                     cd.get("school_alt_city"),
                 )
             ):
-                self.add_error("school", validators.ValidationError(
-                    "Vyberte konkrétní školu, nebo vyplňte dodatečné informace níže."
-                ))
+                self.add_error(
+                    "school",
+                    validators.ValidationError(
+                        "Vyberte konkrétní školu, nebo vyplňte dodatečné informace níže."
+                    ),
+                )
 
         return cd
 

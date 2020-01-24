@@ -32,6 +32,13 @@ urlpatterns = [
         name="event_enlist",
     ),
     path(
+        "akce/<int:pk>-<slug:slug>/export-ucastniku/",
+        permission_required("core.export_event_attendees")(
+            views.EventAttendeesExportView.as_view()
+        ),
+        name="event_attendees_export",
+    ),
+    path(
         "aktualni-rocnik/prihlasit-se/",
         views.CurrentGradeApplicationView.as_view(),
         name="current_grade_application",
