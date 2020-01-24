@@ -20,9 +20,19 @@ reportlab.rl_config.TTFSearchPath.append(str(settings.BASE_DIR) + "/fonts")
 pdfmetrics.registerFont(TTFont("Helvetica", "Helvetica.ttf"))
 
 
-def envelopes(recipient_lines, out_file):
+def envelopes(recipient_lines, our_lines, out_file):
     """Generate envelopes with address block."""
     out_pdf = PdfFileWriter()
+
+    w, h = landscape(C3)
+
+    ksicht_contact_paragraph_style = ParagraphStyle(
+        "Normal", fontName="Helvetica", fontSize=28, leading=32,
+    )
+    ksicht_contact_paragraph = Paragraph(
+        "<br />".join(our_lines), style=ksicht_contact_paragraph_style
+    )
+    cw, ch = ksicht_contact_paragraph.wrap(620, 1000)
 
     for lines in recipient_lines:
         packet = io.BytesIO()
@@ -38,8 +48,9 @@ def envelopes(recipient_lines, out_file):
             borderColor="#000",
         )
         paragraph = Paragraph("<br />".join(lines), style=paragraph_style)
-        w, h = paragraph.wrap(620, 1000)
-        paragraph.drawOn(can, 600, 300)
+        pw, ph = paragraph.wrap(620, 1000)
+        paragraph.drawOn(can, w - pw - 48, 270)
+        ksicht_contact_paragraph.drawOn(can, 24, h - 24 - ch)
 
         can.save()
         packet.seek(0)

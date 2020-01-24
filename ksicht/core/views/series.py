@@ -1,6 +1,7 @@
 from operator import attrgetter
 from urllib.parse import quote
 
+from django.conf import settings
 from django.db.models import Count
 from django.http import HttpResponse
 from django.views.generic.detail import BaseDetailView, DetailView
@@ -141,6 +142,6 @@ class SeriesEnvelopesPrintout(BaseDetailView):
             for p in active_participants
         ]
 
-        pdf.envelopes(lines, response)
+        pdf.envelopes(lines, settings.KSICHT_CONTACT_ADDRESS_LINES, response)
 
         return response

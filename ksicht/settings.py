@@ -275,3 +275,11 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = (
 )
 
 CRISPY_TEMPLATE_PACK = "bulma"
+
+
+KSICHT_CONTACT_ADDRESS_LINES = [
+    "KSICHT",
+    "Přírodovědecká fakulta Univerzity Karlovy",
+    "Hlavova 2030",
+    "128 43 Praha 2",
+]
