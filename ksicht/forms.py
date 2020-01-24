@@ -111,7 +111,7 @@ class KsichtRegistrationForm(UserCreationForm):
 
         return phone
 
-    def clean_school(self):
+    def clean(self):
         cd = self.cleaned_data
         school = cd.get("school")
 
@@ -124,11 +124,11 @@ class KsichtRegistrationForm(UserCreationForm):
                     cd.get("school_alt_city"),
                 )
             ):
-                raise validators.ValidationError(
+                self.add_error("school", validators.ValidationError(
                     "Vyberte konkrétní školu, nebo vyplňte dodatečné informace níže."
-                )
+                ))
 
-        return school
+        return cd
 
     def save(self, commit=True):
         user = super().save(commit)
