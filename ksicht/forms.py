@@ -71,7 +71,9 @@ class KsichtRegistrationForm(UserCreationForm):
         )
 
         self.fields["first_name"].required = True
+        self.fields["first_name"].widget.attrs["autofocus"] = True
         self.fields["last_name"].required = True
+        self.fields["email"].widget.attrs["autofocus"] = False
 
         self.fields["tos"] = forms.BooleanField(
             widget=forms.CheckboxInput,
@@ -81,7 +83,7 @@ class KsichtRegistrationForm(UserCreationForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(Column("first_name"), Column("last_name")),
-            Row(Column("email"), Column("phone")),
+            Row(Column("email", input_type="email"), Column("phone", input_type="tel")),
             Row(Column("password1"), Column("password2")),
             Row(Column("street", css_class="is-10"),),
             Row(
