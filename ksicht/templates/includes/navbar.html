@@ -46,17 +46,32 @@
 
             <div class="navbar-end">
                 {% if user.is_authenticated %}
-                <div class="navbar-item">
-                    <span class="icon"><i class="fas fa-user"></i></span>
-                    <span class="is-size-6 has-padding-l-3 has-text-weight-bold">{{ user }}</span>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <span class="icon"><i class="fas fa-user"></i></span>
+                        <span class="is-size-6 has-padding-l-3 has-text-weight-bold">{{ user }}</span>
+                    </a>
+                    <div class="navbar-dropdown">
+
+                        {% comment %} <a href="" class="navbar-item">Můj profil</a>
+                        <a href="" class="navbar-item">Změnit heslo</a> {% endcomment %}
+                        {% if user.is_staff %}
+                            <hr class="dropdown-divider">
+                            <a href="{% url "admin:index" %}" class="navbar-item">Vstup do administrace</a>
+                        {% endif %}
+                        <hr class="dropdown-divider">
+                        <div class="dropdown-item">
+                            <a class="button is-danger is-small is-fullwidth" href="{% url "logout" %}">
+                                <strong>Odhlásit se</strong>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 {% endif %}
                 <div class="navbar-item">
                     <div class="buttons">
                         {% if user.is_authenticated %}
-                        <a class="button is-danger" href="{% url "logout" %}">
-                            <strong>Odhlásit se</strong>
-                        </a>
+
                         {% else %}
                         <a class="button is-primary" href="{% url "django_registration_register" %}">
                             <strong>Registrace</strong>
