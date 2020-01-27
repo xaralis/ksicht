@@ -107,7 +107,7 @@ class ScoringForm(forms.ModelForm):
     def __init__(self, *args, max_score, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["score"] = forms.DecimalField(
-            label="", max_value=max_score, min_value=0, max_digits=5, decimal_places=2
+            label="", max_value=max_score, min_value=0, max_digits=5, decimal_places=2, required=False
         )
         self.fields["stickers"] = forms.ModelMultipleChoiceField(
             queryset=models.Sticker.objects.filter(handpicked=True).order_by("nr"),
