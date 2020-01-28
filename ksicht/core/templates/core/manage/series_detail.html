@@ -52,9 +52,14 @@
                         <a href="{% url "core:series_results" grade_id=object.grade_id pk=object.pk %}" class="has-margin-r-4"><i class="fas fa-trophy has-padding-r-2"></i> Výsledková listina</a>
                     </p>
                     {% endif %}
-                    {% if perms.core.series_envelopes_printout %}
+                    {% if perms.core.series_task_envelopes_printout %}
                     <p class="is-5">
-                        <a href="{% url "core:series_envelopes_printout" grade_id=object.grade_id pk=object.pk %}" class="has-margin-r-4"><i class="fas fa-envelope has-padding-r-2"></i> Tisk obálek s řešením</a>
+                        <a href="{% url "core:series_task_envelopes_printout" grade_id=object.grade_id pk=object.pk %}" class="has-margin-r-4"><i class="fas fa-envelope has-padding-r-2"></i> Tisk obálek se zadáním pro školy</a>
+                    </p>
+                    {% endif %}
+                    {% if perms.core.series_solution_envelopes_printout %}
+                    <p class="is-5">
+                        <a href="{% url "core:series_solution_envelopes_printout" grade_id=object.grade_id pk=object.pk %}" class="has-margin-r-4"><i class="fas fa-envelope has-padding-r-2"></i> Tisk obálek s řešením</a>
                     </p>
                     {% endif %}
                 </div>

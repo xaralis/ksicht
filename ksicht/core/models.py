@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 import pydash as py_
 
-from .constants import SCHOOLS
+from .constants import SCHOOLS_CHOICES
 
 
 class User(AbstractCUser):
@@ -161,7 +161,10 @@ class GradeSeries(models.Model):
         verbose_name = "Série"
         verbose_name_plural = "Série"
         ordering = ("grade", "series")
-        permissions = (("series_envelopes_printout", "Export obálek s řešením"),)
+        permissions = (
+            ("series_task_envelopes_printout", "Export obálek pro školy se zadáním"),
+            ("series_solution_envelopes_printout", "Export obálek s řešením"),
+        )
 
     def __str__(self):
         return f"{self.get_series_display()} série"
@@ -326,7 +329,7 @@ class Participant(models.Model):
     )
 
     school = models.CharField(
-        verbose_name="Škola", max_length=80, null=False, choices=SCHOOLS
+        verbose_name="Škola", max_length=80, null=False, choices=SCHOOLS_CHOICES,
     )
     school_year = models.CharField(
         verbose_name="Ročník", max_length=1, null=False, choices=GRADE_CHOICES,

@@ -4,17 +4,20 @@ from urllib.parse import quote
 from django.conf import settings
 from django.db.models import Count
 from django.http import HttpResponse
+from django.views.generic import View
 from django.views.generic.detail import BaseDetailView, DetailView
 import pydash as py_
 
 from ksicht import pdf
 from .. import models, stickers
+from ..constants import SCHOOLS
 
 
 __all__ = (
     "SeriesDetailView",
-    "SeriesEnvelopesPrintout",
     "SeriesResultsView",
+    "SeriesTaskEnvelopesPrintout",
+    "SeriesSolutionEnvelopesPrintout",
     "StickerAssignmentOverview",
 )
 
@@ -120,7 +123,21 @@ class StickerAssignmentOverview(DetailView):
         return data
 
 
-class SeriesEnvelopesPrintout(BaseDetailView):
+class SeriesTaskEnvelopesPrintout(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = "attachment; filename*=UTF-8''{}.pdf".format(
+            quote("Obálky pro školy")
+        )
+
+        lines = [(s[6], s[8], f"{s[13]} {s[12]}",) for s in SCHOOLS]
+
+        pdf.envelopes(lines, settings.KSICHT_CONTACT_ADDRESS_LINES, response)
+
+        return response
+
+
+class SeriesSolutionEnvelopesPrintout(BaseDetailView):
     queryset = models.GradeSeries.objects.all()
 
     def render_to_response(self, context):

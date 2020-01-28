@@ -40,7 +40,7 @@ def envelopes(recipient_lines, our_lines, out_file):
         paragraph_style = ParagraphStyle(
             "Normal",
             fontName="Helvetica",
-            fontSize=44,
+            fontSize=38,
             leading=56,
             borderWidth=1,
             borderRadius=8,
@@ -48,7 +48,7 @@ def envelopes(recipient_lines, our_lines, out_file):
             borderColor="#000",
         )
         paragraph = Paragraph("<br />".join(lines), style=paragraph_style)
-        pw, ph = paragraph.wrap(620, 1000)
+        pw, ph = paragraph.wrap(700, 1000)
         paragraph.drawOn(can, w - pw - 48, 270)
         ksicht_contact_paragraph.drawOn(can, 24, h - 24 - ch)
 

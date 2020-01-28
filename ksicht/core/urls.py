@@ -81,11 +81,18 @@ urlpatterns = [
         name="series_sticker_assignment_overview",
     ),
     path(
+        "rocniky/<grade_id>/serie/<pk>/obalky-se-zadanim/",
+        permission_required("core.series_envelopes_printout")(
+            views.SeriesTaskEnvelopesPrintout.as_view()
+        ),
+        name="series_task_envelopes_printout",
+    ),
+    path(
         "rocniky/<grade_id>/serie/<pk>/obalky-s-resenim/",
         permission_required("core.series_envelopes_printout")(
-            views.SeriesEnvelopesPrintout.as_view()
+            views.SeriesSolutionEnvelopesPrintout.as_view()
         ),
-        name="series_envelopes_printout",
+        name="series_solution_envelopes_printout",
     ),
     path(
         "rocniky/<grade_id>/bodovani/<task_id>/",
