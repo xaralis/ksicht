@@ -49,6 +49,18 @@ urlpatterns = [
     ),
     path("ucty/odhlaseni/", auth_views.LogoutView.as_view(), name="logout"),
     path(
+        "ucty/zmena-hesla/",
+        auth_views.PasswordChangeView.as_view(
+            form_class=forms.KsichtChangePasswordForm
+        ),
+        name="password_change",
+    ),
+    path(
+        "ucty/zmena-hesla/hotovo/",
+        auth_views.PasswordChangeDoneView.as_view(),
+        name="password_change_done",
+    ),
+    path(
         "ucty/zapomenute-heslo/",
         auth_views.PasswordResetView.as_view(form_class=forms.KsichtPasswordResetForm),
         name="password_reset",

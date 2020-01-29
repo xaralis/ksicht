@@ -1,7 +1,7 @@
 from crispy_forms.helper import FormHelper
 from cuser.forms import AuthenticationForm, UserCreationForm
 from django import forms
-from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django.core import validators
 from django_registration import validators as reg_validators
 import pydash as py_
@@ -195,6 +195,19 @@ class KsichtSetPasswordForm(SetPasswordForm):
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
+            Row(Column("new_password1")),
+            Row(Column("new_password2")),
+            Submit("submit", "Nastavit nové heslo"),
+        )
+
+
+class KsichtChangePasswordForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(Column("old_password")),
             Row(Column("new_password1")),
             Row(Column("new_password2")),
             Submit("submit", "Nastavit nové heslo"),
