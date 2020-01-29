@@ -11,6 +11,7 @@ from crispy_forms.layout import (
     MultiWidgetField,
 )
 from crispy_forms.utils import render_field, TEMPLATE_PACK
+from django.urls import reverse
 
 
 __all__ = [
@@ -18,6 +19,7 @@ __all__ = [
     "Button",
     "Column",
     "IconField",
+    "Link",
     "Reset",
     "Row",
     "Submit",
@@ -81,6 +83,13 @@ class Reset(BaseInput):
     input_type = "reset"
 
 
+class Link(HTML):
+    def __init__(self, urlconf, title, css_class=None):
+        self.html = (
+            f'<a href="{reverse(urlconf)}" class="{css_class or ""}">{title}</a>'
+        )
+
+
 class Row(Div):
     """
     Layout object. It wraps fields in a div whose default class is "columns".
@@ -100,6 +109,14 @@ class Column(Div):
     css_class = "column"
 
 
+class FormControl(Div):
+    css_class = "control"
+
+
+class FormActions(Div):
+    css_class = "field is-grouped"
+
+
 class IconField(Field):
     template = "%s/layout/input_with_icon.html"
 
@@ -116,7 +133,7 @@ class IconField(Field):
         context,
         template_pack=TEMPLATE_PACK,
         extra_context=None,
-        **kwargs
+        **kwargs,
     ):
         extra_context = extra_context.copy() if extra_context is not None else {}
         extra_context.update(
@@ -132,5 +149,5 @@ class IconField(Field):
             template=template,
             template_pack=template_pack,
             extra_context=extra_context,
-            **kwargs
+            **kwargs,
         )

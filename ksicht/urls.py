@@ -23,7 +23,7 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 from django_registration.backends.activation import views as reg_views
 
-from . import forms
+from . import forms, views
 
 
 sitemaps = {}
@@ -47,6 +47,7 @@ urlpatterns = [
         ),
         name="login",
     ),
+    path("ucty/profil/", views.UserProfileEditView.as_view(), name="edit_profile",),
     path("ucty/odhlaseni/", auth_views.LogoutView.as_view(), name="logout"),
     path(
         "ucty/zmena-hesla/",

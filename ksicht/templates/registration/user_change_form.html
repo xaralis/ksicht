@@ -2,9 +2,11 @@
 {% load crispy_forms_tags %}
 {% load webpack_static from webpack_loader %}
 
-{% block headline %}{% block page_title %}Registrace{% endblock %}{% endblock %}
+{% block headline %}{% block page_title %}Můj profil{% endblock %}{% endblock %}
 
 {% block container %}
+{{ form.errors }}
+
 {% crispy form %}
 {% endblock %}
 

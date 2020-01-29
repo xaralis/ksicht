@@ -53,7 +53,7 @@
                     </a>
                     <div class="navbar-dropdown">
 
-                        {% comment %} <a href="" class="navbar-item">Můj profil</a> {% endcomment %}
+                        <a href="{% url "edit_profile" %}" class="navbar-item">Můj profil</a>
                         <a href="{% url "password_change" %}" class="navbar-item">Změnit heslo</a>
                         {% if user.is_staff %}
                             <hr class="dropdown-divider">
