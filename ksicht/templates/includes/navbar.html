@@ -49,15 +49,19 @@
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         <span class="icon"><i class="fas fa-user"></i></span>
-                        <span class="is-size-6 has-padding-l-3 has-text-weight-bold">{{ user }}</span>
+                        <span class="is-size-6 has-padding-l-3 has-text-weight-bold">{{ user.get_full_name }}</span>
                     </a>
-                    <div class="navbar-dropdown">
-
-                        <a href="{% url "edit_profile" %}" class="navbar-item">Můj profil</a>
-                        <a href="{% url "password_change" %}" class="navbar-item">Změnit heslo</a>
+                    <div class="navbar-dropdown is-right">
+                        <div class="dropdown-item">
+                            <p>{{ user.get_full_name }}</p>
+                            <p class="has-text-grey">{{ user.email }}</p>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <a href="{% url "edit_profile" %}" class="dropdown-item">Můj profil</a>
+                        <a href="{% url "password_change" %}" class="dropdown-item">Změnit heslo</a>
                         {% if user.is_staff %}
                             <hr class="dropdown-divider">
-                            <a href="{% url "admin:index" %}" class="navbar-item">Vstup do administrace</a>
+                            <a href="{% url "admin:index" %}" class="dropdown-item">Vstup do administrace</a>
                         {% endif %}
                         <hr class="dropdown-divider">
                         <div class="dropdown-item">
