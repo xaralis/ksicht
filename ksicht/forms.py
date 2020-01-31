@@ -7,7 +7,7 @@ from django_registration import validators as reg_validators
 import pydash as py_
 from webpack_loader.templatetags.webpack_loader import webpack_static
 
-from ksicht.bulma.layout import Column, FormActions, FormControl, Layout, Link, Row, Submit
+from ksicht.bulma.layout import Field, Column, FormActions, FormControl, Layout, Link, Row, Submit
 from ksicht.core import constants
 from ksicht.core.models import Grade, Participant, User
 
@@ -114,6 +114,8 @@ class KsichtRegistrationForm(KsichtProfileMixin, UserCreationForm):
                 User, email_field, reg_validators.DUPLICATE_EMAIL
             )
         )
+        self.fields[email_field].label = "Emailová adresa"
+        self.fields[email_field].help_text = "Slouží jako uživatelské jméno pro přihlášení."
 
         self.fields["tos"] = forms.BooleanField(
             widget=forms.CheckboxInput,
@@ -122,9 +124,9 @@ class KsichtRegistrationForm(KsichtProfileMixin, UserCreationForm):
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Row(Column("first_name"), Column("last_name")),
-            Row(Column("email", input_type="email"), Column("phone", input_type="tel")),
+            Row(Column(Field("email", autocomplete="email"))),
             Row(Column("password1"), Column("password2")),
+            Row(Column("first_name"), Column("last_name"), Column(Field("phone", autocomplete="phone"))),
             Row(Column("street")),
             Row(
                 Column("zip_code", css_class="is-2"),
@@ -203,8 +205,9 @@ class KsichtEditProfileForm(UserChangeForm, KsichtProfileMixin):
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Row(Column("first_name"), Column("last_name")),
-            Row(Column("email", input_type="email"), Column("phone", input_type="tel")),
+            Row(Column(Field("email", autocomplete="email"))),
+            Row(Column("password1"), Column("password2")),
+            Row(Column("first_name"), Column("last_name"), Column(Field("phone", autocomplete="phone"))),
             Row(Column("street")),
             Row(
                 Column("zip_code", css_class="is-2"),
