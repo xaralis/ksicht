@@ -63,7 +63,7 @@ class GradeSeriesAdmin(admin.ModelAdmin):
     list_filter = ("grade",)
     list_select_related = ("grade",)
     inlines = (TaskInline,)
-    ordering = ("-grade", "-submission_deadline")
+    ordering = ("grade", "-submission_deadline")
 
 
 @admin.register(models.Participant)
