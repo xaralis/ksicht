@@ -130,7 +130,14 @@ class SeriesTaskEnvelopesPrintout(View):
             quote("Obálky pro školy")
         )
 
-        lines = [(s[6], s[8], f"{s[13]} {s[12]}",) for s in SCHOOLS]
+        def _build_lines(s):
+            # If street exists
+            if s[9]:
+                return (s[6], s[8], f"{s[13]} {s[14]}",)
+            return (s[6], s[14], s[13])
+
+
+        lines = [_build_lines(s) for s in SCHOOLS]
 
         pdf.envelopes(lines, settings.KSICHT_CONTACT_ADDRESS_LINES, response)
 
