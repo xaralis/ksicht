@@ -133,12 +133,11 @@ class KsichtRegistrationForm(KsichtProfileMixin, UserCreationForm):
                 Column("city", css_class="is-4"),
                 Column("country", css_class="is-4 is-offset-2"),
             ),
-            Row(Column("school"), Column("school_year")),
+            Row(Column("school", css_class="is-10"), Column("school_year")),
+            Row(Column("school_alt_name"), Column("school_alt_street")),
             Row(
-                Column("school_alt_name"),
-                Column("school_alt_street"),
-                Column("school_alt_zip_code"),
-                Column("school_alt_city"),
+                Column("school_alt_zip_code", css_class="is-2"),
+                Column("school_alt_city", css_class="is-4"),
             ),
             Row(Column("tos")),
             FormActions(
@@ -214,12 +213,11 @@ class KsichtEditProfileForm(UserChangeForm, KsichtProfileMixin):
                 Column("city", css_class="is-4"),
                 Column("country", css_class="is-4 is-offset-2"),
             ),
-            Row(Column("school"), Column("school_year")),
+            Row(Column("school", css_class="is-10"), Column("school_year")),
+            Row(Column("school_alt_name"), Column("school_alt_street")),
             Row(
-                Column("school_alt_name"),
-                Column("school_alt_street"),
-                Column("school_alt_zip_code"),
-                Column("school_alt_city"),
+                Column("school_alt_zip_code", css_class="is-2"),
+                Column("school_alt_city", css_class="is-4"),
             ),
             FormActions(
                 FormControl(Submit("submit", "Uložit změny")),
