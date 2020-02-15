@@ -16,7 +16,7 @@ django-registration==3.0.1
 django-select2==7.2.0
 django-username-email==2.2.4
 django-webpack-loader==0.6.0
-django==2.2.8
+django==2.2.10
 dsnparse==0.1.12
 gunicorn==19.9.0
 html5lib==1.0.1           # via django-htmlmin
@@ -34,5 +34,5 @@ sqlparse==0.3.0           # via django
 webencodings==0.5.1       # via html5lib
 
 # The following packages are considered to be unsafe in a requirements file:
-# pip==19.3.1               # via django-markdownx
-# setuptools==45.0.0        # via markdown
+# pip
+# setuptools
