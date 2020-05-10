@@ -87,7 +87,7 @@ COPY --chown=ksicht ./fixtures ./fixtures/
 
 # Collect static files
 RUN mkdir /ksicht/static && \
-    DEBUG=1 django-admin collectstatic --noinput --verbosity=0
+    SECRET_KEY=x DEBUG=1 django-admin collectstatic --noinput --verbosity=0
 
 USER root
 
