@@ -92,9 +92,15 @@ class StickerAssignmentOverview(DetailView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         series = data["object"]
-        applications = models.GradeApplication.objects.filter(
-            grade=series.grade_id
-        ).select_related("participant__user")
+        applications = (
+            models.GradeApplication.objects.filter(grade=series.grade_id)
+            .select_related("participant__user")
+            .order_by(
+                "participant__user__last_name",
+                "participant__user__first_name",
+                "participant__user__email",
+            )
+        )
         series_submissions = models.TaskSolutionSubmission.objects.filter(
             task__series=series
         ).prefetch_related("stickers")
@@ -153,7 +159,9 @@ class SeriesSolutionEnvelopesPrintout(BaseDetailView):
 
     def render_to_response(self, context):
         series = context["object"]
-        active_participants = models.Participant.objects.active_in_series(series)
+        active_participants = models.Participant.objects.active_in_series(
+            series
+        ).order_by("user__last_name", "user__first_name", "user__email")
 
         response = HttpResponse(content_type="application/pdf")
         response["Content-Disposition"] = "attachment; filename*=UTF-8''{}.pdf".format(

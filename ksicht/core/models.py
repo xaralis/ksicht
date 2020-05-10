@@ -175,14 +175,20 @@ class GradeSeries(models.Model):
             self.submission_deadline.tzinfo
         )
 
-    def get_rankings(self):
+    def get_rankings(self, exclude_submissionless=True):
         """Calculate results for series.
 
         Adds detailed task listing for individual series tasks and a grand total with total score so far
         (this series and the previous ones).
         """
         # Only applications with an actual solution submission
-        applications = self.grade.applications.exclude(solution_submissions=None).select_related("participant__user").order_by("created_at")
+        applications = self.grade.applications.select_related(
+            "participant__user"
+        ).order_by("created_at")
+
+        if exclude_submissionless:
+            applications = applications.exclude(solution_submissions=None)
+
         tasks = self.tasks.all()
         submissions = TaskSolutionSubmission.objects.filter(
             application__grade=self.grade, task__series__series__lte=self.series
@@ -206,15 +212,24 @@ class GradeSeries(models.Model):
             scoring_dict[a]["total"] += s.score or 0
 
         scoring = [
-            (application, index + 1, scores["by_tasks"], scores["total"])
-            for index, (application, scores) in enumerate(scoring_dict.items())
+            (application, scores["by_tasks"], scores["total"])
+            for (application, scores) in scoring_dict.items()
+        ]
+
+        # Attach ranks
+        sorted_scoring = [
+            # (application, rank, task scores, total score)
+            (row[0], index + 1, row[1], row[2])
+            for (index, row) in enumerate(
+                sorted(scoring, key=lambda r: r[2], reverse=True)
+            )
         ]
 
         return {
             "max_score": Task.objects.filter(
                 series__grade=self.grade, series__series__lte=self.series
             ).aggregate(models.Sum("points"))["points__sum"],
-            "listing": sorted(scoring, key=lambda row: row[3], reverse=True),
+            "listing": sorted_scoring,
         }
 
 

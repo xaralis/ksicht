@@ -16,7 +16,7 @@ def resolve_stickers(context):
 def get_eligibility(current_series):
     """Find out sticker eligibility for every participant in the series."""
     grade = current_series.grade
-    applications = grade.applications.all().select_related("participant")
+    applications = grade.applications.select_related("participant__user")
     series = models.GradeSeries.objects.filter(grade=grade)
     tasks = models.Task.objects.filter(series__grade=grade)
     submitted_solutions = models.TaskSolutionSubmission.objects.filter(
@@ -25,7 +25,7 @@ def get_eligibility(current_series):
 
     eligibility = []
     all_application_pks = [a.pk for a in applications]
-    rankings = current_series.get_rankings()
+    rankings = current_series.get_rankings(exclude_submissionless=False)
 
     for application in applications:
         submissions = [

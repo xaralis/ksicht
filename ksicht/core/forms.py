@@ -118,4 +118,5 @@ class ScoringForm(forms.ModelForm):
         self.fields["stickers"] = forms.ModelMultipleChoiceField(
             queryset=models.Sticker.objects.filter(handpicked=True).order_by("nr"),
             widget=Select2MultipleWidget({"data-width": "100%"}),
+            required=False,
         )

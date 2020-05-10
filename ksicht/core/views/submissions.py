@@ -147,7 +147,9 @@ class SubmissionOverview(FormView):
         return context
 
     def get_form_kwargs(self):
-        participants = Participant.objects.filter(applications__series=self.series)
+        participants = Participant.objects.filter(
+            applications__series=self.series
+        ).order_by("user__last_name", "user__first_name", "user__email")
         tasks = Task.objects.filter(series=self.series)
 
         submission_map = {}
