@@ -23,15 +23,23 @@
             <p class="menu-label is-size-6">Akce</p>
             <ul class="menu-list">
             <li class="heading is-size-9">Nadcházející</li>
-            {% for event in future_events %}
-                <li><a href="{{ event.get_absolute_url }}">{{ event }}</a></li>
-            {% endfor %}
+            {% if future_events %}
+                {% for event in future_events %}
+                    <li><a href="{{ event.get_absolute_url }}">{{ event }}</a></li>
+                {% endfor %}
+            {% else %}
+                <li>Nic tu nemáme.</li>
+            {% endif %}
             </ul>
             <ul class="menu-list">
             <li class="heading is-size-9">Proběhlé</li>
-            {% for event in past_events %}
-                <li><a href="{{ event.get_absolute_url }}">{{ event }}</a></li>
-            {% endfor %}
+            {% if past_events %}
+                {% for event in past_events %}
+                    <li><a href="{{ event.get_absolute_url }}">{{ event }}</a></li>
+                {% endfor %}
+            {% else %}
+                <li>Nic tu nemáme.</li>
+            {% endif %}
             </ul>
         </aside>
     </div>

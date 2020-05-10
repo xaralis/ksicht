@@ -180,10 +180,11 @@ class SubmissionOverview(FormView):
             "form_kwargs": {
                 str(i): {
                     "participant": participant,
-                    "submitted_digitally": any(
-                        (bool(s) and bool(s.file))
+                    "digital_submissions": [
+                        s.task_id
                         for s in submission_map[participant.user_id].values()
-                    ),
+                        if (bool(s) and bool(s.file))
+                    ],
                     "tasks": tasks,
                 }
                 for i, participant in enumerate(participants)

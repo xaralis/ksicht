@@ -39,6 +39,6 @@ class UserProfileEditView(UpdateView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            f"<i class='fas fa-check-circle notification-icon'></i> Váš profil byl aktualizován</strong>.",
+            "<i class='fas fa-check-circle notification-icon'></i> Váš profil byl aktualizován</strong>.",
         )
         return super().form_valid(form)

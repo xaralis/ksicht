@@ -81,13 +81,13 @@ class Grade(models.Model):
         return self.start_date <= date.today() <= self.end_date
 
     def __str__(self):
-        return self.school_year
+        return str(self.school_year)
 
-    def full_clean(self, *args, **kwargs):
+    def full_clean(self, exclude=None, validate_unique=True):
         """Validate the grade.
 
         Make sure 'valid_through' does not overlap."""
-        super().full_clean(*args, **kwargs)
+        super().full_clean(exclude, validate_unique)
 
         if self.start_date is not None and self.end_date is not None:
             g = (
@@ -218,16 +218,15 @@ class GradeSeries(models.Model):
 
 
 class GradeSeriesAttachment(models.Model):
-    title = models.CharField(
-        verbose_name="Název",
-        max_length=255,
-        null=False
-    )
+    title = models.CharField(verbose_name="Název", max_length=255, null=False)
     file = models.FileField(
         verbose_name="Soubor", upload_to="rocniky/prilohy/", null=False, blank=False
     )
     series = models.ForeignKey(
-        GradeSeries, verbose_name="Série", on_delete=models.CASCADE, related_name="attachments"
+        GradeSeries,
+        verbose_name="Série",
+        on_delete=models.CASCADE,
+        related_name="attachments",
     )
 
     class Meta:
@@ -236,7 +235,7 @@ class GradeSeriesAttachment(models.Model):
         ordering = ("series", "title")
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 class Task(models.Model):
@@ -277,7 +276,7 @@ class Task(models.Model):
         permissions = (("solution_export", "Export odevzdaných úloh"),)
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 class ParticipantManager(models.Manager):
@@ -343,7 +342,9 @@ class Participant(models.Model):
     )
 
     phone = models.CharField(verbose_name="Telefon", max_length=20, null=True)
-    street = models.CharField(verbose_name="Ulice a číslo popisné/orientační", max_length=100, null=False)
+    street = models.CharField(
+        verbose_name="Ulice a číslo popisné/orientační", max_length=100, null=False
+    )
     city = models.CharField(verbose_name="Obec", max_length=100, null=False)
     zip_code = models.CharField(verbose_name="PSČ", max_length=10, null=False)
     country = models.CharField(
@@ -539,7 +540,7 @@ class Event(models.Model):
         permissions = (("export_event_attendees", "Export účastníků akce"),)
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
     def _build_url(self, name):
         return reverse(name, kwargs={"pk": self.pk, "slug": slugify(self.title)})

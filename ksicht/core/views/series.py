@@ -133,9 +133,13 @@ class SeriesTaskEnvelopesPrintout(View):
         def _build_lines(s):
             # If street exists
             if s[9]:
-                return ("K rukám učitelů chemie", s[6], s[8], f"{s[13]} {s[14]}",)
+                return (
+                    "K rukám učitelů chemie",
+                    s[6],
+                    s[8],
+                    f"{s[13]} {s[14]}",
+                )
             return ("K rukám učitelů chemie", s[6], s[14], s[13])
-
 
         lines = [_build_lines(s) for s in SCHOOLS]
 

@@ -19,7 +19,7 @@ __all__ = (
 class CurrentGradeView(DetailView):
     template_name = "core/current_grade.html"
 
-    def get_object(self, *args, **kwargs):
+    def get_object(self, queryset=None):
         return models.Grade.objects.get_current()
 
     def get_context_data(self, **kwargs):
@@ -63,7 +63,7 @@ class CurrentGradeApplicationView(BaseFormView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            f"<i class='fas fa-check-circle notification-icon'></i> Přihlášení do KSICHTu proběhlo úspěšně. Hurá na řešení!</strong>.",
+            "<i class='fas fa-check-circle notification-icon'></i> Přihlášení do KSICHTu proběhlo úspěšně. Hurá na řešení!</strong>.",
         )
 
         return redirect("core:current_grade")

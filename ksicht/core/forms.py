@@ -49,7 +49,7 @@ class SolutionSubmitForm(forms.Form):
             return file
 
         self.fields[f"file_{task.pk}"] = FileField(
-            label=f"Vyberte soubor s řešením", required=True, allow_empty_file=False,
+            label="Vyberte soubor s řešením", required=True, allow_empty_file=False,
         )
 
         setattr(
@@ -77,7 +77,7 @@ class SolutionSubmitForm(forms.Form):
 
 
 class SubmissionForm(forms.Form):
-    def __init__(self, *args, participant, submitted_digitally, tasks, **kwargs):
+    def __init__(self, *args, participant, digital_submissions, tasks, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.participant_obj = participant
@@ -85,7 +85,7 @@ class SubmissionForm(forms.Form):
 
         for t in tasks:
             self.fields[f"task_{t.id}"] = forms.BooleanField(
-                required=False, disabled=submitted_digitally
+                required=False, disabled=t.id in digital_submissions
             )
 
 
