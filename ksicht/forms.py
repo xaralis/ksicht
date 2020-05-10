@@ -205,7 +205,7 @@ class KsichtEditProfileForm(UserChangeForm, KsichtProfileMixin):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(Column(Field("email", autocomplete="email"))),
-            Row(Column("password1"), Column("password2")),
+            # Row(Column("password"), Column("password2")),
             Row(Column("first_name"), Column("last_name"), Column(Field("phone", autocomplete="phone"))),
             Row(Column("street")),
             Row(
