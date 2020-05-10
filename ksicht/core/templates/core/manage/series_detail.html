@@ -69,46 +69,31 @@
     </nav>
 
     {% if tasks|length > 0 %}
-        <section class="tabs-wrapper has-margin-t-6">
-            <div class="tabs is-size-5 is-boxed">
-                <ul>
-                    {% for task in tasks %}
-                    <li {% if forloop.first %}class="is-active"{% endif %}><a>{{ task.nr }}. úloha</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="tabs-content">
-                <ul>
-                    {% for task in tasks %}
-                    <li {% if forloop.first %}class="is-active"{% endif %}>
-                        <div class="tile is-ancestor">
-                            <div class="tile is-4 is-vertical is-parent">
-                                <div class="tile is-child box">
-                                    <h3 class="heading has-padding-b-3">Název</h3>
-                                    <p class="title is-6">{{ task.title }}</p>
-                                    <h3 class="heading has-padding-b-3">Řešitelé</h3>
-                                    <p class="title is-6"><i class="fas fa-user-friends has-padding-r-2"></i> {{ task.submission_count }} odevzdaných řešení</p>
-                                    {% if task.submission_count > 0 %}
-                                        {% if perms.core.scoring %}
-                                            <a href="{% url "core:task_scoring" grade_id=object.grade_id task_id=task.id %}">Bodování</a> &nbsp;·&nbsp;
-                                        {% endif %}
-                                        {% if perms.core.solution_export %}
-                                            <a href="{% url "core:task_solution_export" grade_id=object.grade_id task_id=task.id %}">Export do PDF</a> &nbsp;·&nbsp;
-                                            <a href="{% url "core:task_solution_export" grade_id=object.grade_id task_id=task.id %}?duplex=1">Export do PDF (pro duplex)</a>
-                                        {% endif %}
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="tile is-parent">
-                                <div class="tile is-child box">
-                                    <h3 class="heading has-padding-b-3">Errata</h3>
-                                </div>
-                            </div>
+        <section class="columns is-desktop has-margin-t-6">
+            {% for task in tasks %}
+                <div class="column is-one-fifth">
+                    <div class="card">
+                        <div class="card-content">
+                            <h2 class="title is-5">{{ task.nr }}. úloha</h2>
+                            <h3 class="heading has-padding-b-3">Název</h3>
+                            <p class="title is-6">{{ task.title }}</p>
+                            <h3 class="heading has-padding-b-3">Řešitelé</h3>
+                            <p class="title is-6"><i class="fas fa-user-friends has-padding-r-2"></i> {{ task.submission_count }} odevzdaných řešení</p>
+                            {% if task.submission_count > 0 %}
+                                <ul>
+                                {% if perms.core.scoring %}
+                                    <li><a href="{% url "core:task_scoring" grade_id=object.grade_id task_id=task.id %}">Bodování</a></li>
+                                {% endif %}
+                                {% if perms.core.solution_export %}
+                                    <li><a href="{% url "core:task_solution_export" grade_id=object.grade_id task_id=task.id %}">Export do PDF</a></li>
+                                    <li><a href="{% url "core:task_solution_export" grade_id=object.grade_id task_id=task.id %}?duplex=1">Export do PDF (pro duplex)</a></li>
+                                {% endif %}
+                                </ul>
+                            {% endif %}
                         </div>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
+                    </div>
+                </div>
+            {% endfor %}
         </section>
     {% else %}
         <article class="message is-warning is-size-5 has-margin-t-6">
