@@ -500,16 +500,38 @@ def test_random_20_percent(context, result):
                     "by_series": {
                         s1: (
                             models.TaskSolutionSubmission(
-                                submitted_at=datetime(2019, 12, 10)
+                                submitted_at=datetime(2019, 12, 10),
+                                file="foo.pdf",
                             ),
                             models.TaskSolutionSubmission(
-                                submitted_at=datetime(2019, 12, 31, 23)
+                                submitted_at=datetime(2019, 12, 31, 23),
+                                file="foo.pdf",
                             ),
                         )
                     }
                 },
             },
             True,
+        ),
+        (
+            {
+                "current_series": s1,
+                "submissions": {
+                    "by_series": {
+                        s1: (
+                            models.TaskSolutionSubmission(
+                                submitted_at=datetime(2019, 12, 10),
+                                file=None,
+                            ),
+                            models.TaskSolutionSubmission(
+                                submitted_at=datetime(2019, 12, 31, 23),
+                                file=None,
+                            ),
+                        )
+                    }
+                },
+            },
+            False,
         ),
         (
             {

@@ -113,10 +113,11 @@ def random_20_percent(context):
 
 @sticker(14)
 def late_submission(context):
-    """Given to anyone who has submitted a solution in series less than 4 hours before submission deadline."""
+    """Given to anyone who has submitted a solution in series less than 4 hours before submission deadline via this web app."""
 
     def _is_eligible(submission):
-        return (
+        ## Only when file is provided, e.g. was submitted digitally
+        return bool(submission.file) and (
             context["current_series"].submission_deadline - submission.submitted_at
         ) <= timedelta(hours=4)
 
