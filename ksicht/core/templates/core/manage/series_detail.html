@@ -28,7 +28,7 @@
                 <p class="heading">Zadání</p>
                 <p class="title is-5">
                     {% if object.task_file %}
-                        <a href="{{ object.task_file.url }}" class="has-margin-r-4"><i class="far fa-file-pdf has-padding-r-2"></i> Sešit zadáním v PDF</a>
+                        <a href="{{ object.task_file.url }}" class="has-margin-r-4"><i class="far fa-file-pdf has-padding-r-2"></i> Brožura zadání v PDF</a>
                     {% else %}
                         <span>Zatím nebylo nahráno</span>
                     {% endif %}
@@ -59,7 +59,7 @@
                     {% endif %}
                     {% if perms.core.series_solution_envelopes_printout %}
                     <p class="is-5">
-                        <a href="{% url "core:series_solution_envelopes_printout" grade_id=object.grade_id pk=object.pk %}" class="has-margin-r-4"><i class="fas fa-envelope has-padding-r-2"></i> Tisk obálek s řešením</a>
+                        <a href="{% url "core:series_solution_envelopes_printout" grade_id=object.grade_id pk=object.pk %}" class="has-margin-r-4"><i class="fas fa-envelope has-padding-r-2"></i> Tisk obálek pro řešitele</a>
                     </p>
                     {% endif %}
                 </div>

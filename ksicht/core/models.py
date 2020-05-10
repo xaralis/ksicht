@@ -321,7 +321,7 @@ class Participant(models.Model):
     )
 
     phone = models.CharField(verbose_name="Telefon", max_length=20, null=True)
-    street = models.CharField(verbose_name="Ulice", max_length=100, null=False)
+    street = models.CharField(verbose_name="Ulice a číslo popisné/orientační", max_length=100, null=False)
     city = models.CharField(verbose_name="Obec", max_length=100, null=False)
     zip_code = models.CharField(verbose_name="PSČ", max_length=10, null=False)
     country = models.CharField(
