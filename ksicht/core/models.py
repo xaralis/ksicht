@@ -181,7 +181,8 @@ class GradeSeries(models.Model):
         Adds detailed task listing for individual series tasks and a grand total with total score so far
         (this series and the previous ones).
         """
-        applications = self.grade.applications.all().select_related("participant__user")
+        # Only applications with an actual solution submission
+        applications = self.grade.applications.exclude(solution_submissions=None).select_related("participant__user").order_by("created_at")
         tasks = self.tasks.all()
         submissions = TaskSolutionSubmission.objects.filter(
             application__grade=self.grade, task__series__series__lte=self.series
