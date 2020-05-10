@@ -57,12 +57,17 @@ class TaskInline(admin.TabularInline):
     formset = TaskInlineFormSet
 
 
+class GradeSeriesAttachmentInline(admin.TabularInline):
+    model = models.GradeSeriesAttachment
+    extra = 0
+
+
 @admin.register(models.GradeSeries)
 class GradeSeriesAdmin(admin.ModelAdmin):
     list_display = ("grade", "series", "submission_deadline")
     list_filter = ("grade",)
     list_select_related = ("grade",)
-    inlines = (TaskInline,)
+    inlines = (GradeSeriesAttachmentInline, TaskInline)
     ordering = ("grade", "-submission_deadline")
 
 

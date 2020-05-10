@@ -79,6 +79,19 @@
                             {% if series.results_published %}
                             <p><a href="{% url "core:series_results" grade_id=series.grade_id pk=series.pk %}" class="has-margin-r-4"><i class="fas fa-trophy has-padding-r-2"></i> Výsledková listina</a></p>
                             {% endif %}
+
+                            {% with series.attachments.all as attachments %}
+                                {% if attachments %}
+                                    <hr class="card-splitter">
+
+                                    <h2 class="is-size-6 has-text-weight-bold">Přílohy</h2>
+
+                                    {% for a in attachments %}
+                                        <p><a href="{{ a.file.url }}" class="has-margin-r-4"><i class="far fa-file has-padding-r-2"></i> {{ a }}</a></p>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+
                         </div>
                         {% if series.accepts_solution_submissions and series == current_series and is_grade_participant %}
                         <footer class="card-footer">

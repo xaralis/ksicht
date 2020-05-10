@@ -217,6 +217,28 @@ class GradeSeries(models.Model):
         }
 
 
+class GradeSeriesAttachment(models.Model):
+    title = models.CharField(
+        verbose_name="Název",
+        max_length=255,
+        null=False
+    )
+    file = models.FileField(
+        verbose_name="Soubor", upload_to="rocniky/prilohy/", null=False, blank=False
+    )
+    series = models.ForeignKey(
+        GradeSeries, verbose_name="Série", on_delete=models.CASCADE, related_name="attachments"
+    )
+
+    class Meta:
+        verbose_name = "Příloha série"
+        verbose_name_plural = "Přílohy sérií"
+        ordering = ("series", "title")
+
+    def __str__(self):
+        return self.title
+
+
 class Task(models.Model):
     NR_CHOICES = (
         ("1", "1."),
