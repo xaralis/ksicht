@@ -339,7 +339,7 @@ class SolutionExportView(View):
             )
             normalized_solution_files.append(
                 pdf.write_label_on_all_pages(
-                    f"Řešitel: {s.application.participant.get_full_name()}".encode(
+                    f"Řešitel: {s.application.participant.get_full_name()}       Úloha č. {s.task.nr}".encode(
                         "utf8"
                     ),
                     normalized_file,
