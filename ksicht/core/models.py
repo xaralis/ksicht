@@ -109,7 +109,7 @@ class Grade(models.Model):
                 )
 
     def prefetch_series(self):
-        series = self.series.all().prefetch_related("tasks")
+        series = self.series.all().prefetch_related("tasks", "attachments")
         return series
 
     def get_current_series(self):
