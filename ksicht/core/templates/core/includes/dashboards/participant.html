@@ -15,8 +15,12 @@
 
             {% if current_grade.errata %}
                 <h2 class="heading">Errata</h2>
-                <div class="is-size-5 has-margin-b-5">
-                    {{ current_grade.errata | markdown }}
+                <div class="content content-readable">
+                    <div class="message is-warning is-size-6">
+                        <div class="message-body">
+                            {{ current_grade.errata | markdown }}
+                        </div>
+                    </div>
                 </div>
             {% endif %}
 

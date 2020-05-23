@@ -14,39 +14,45 @@
 </nav>
 {% endblock %}
 
+{% block header_sub %}
+    {% if can_apply %}
+        <div class="notification">
+            <p class="title is-4">Do tohoto ročníku se ještě můžeš přihlásit!</p>
+            {% crispy application_form %}
+        </div>
+    {% endif %}
+{% endblock %}
+
 {% block article %}
 {% if object %}
-    <nav class="columns is-multiline">
-        <div class="column is-4-tablet is-3-tablet">
+    <p class="is-size-5 has-margin-b-5">Každým rokem vyjdou čtyři série KSICHTu. V brožuře vždy naleznete zadání úloh aktuální série, řešení úloh předchozí série a jeden díl seriálu.</p>
+
+    <nav class="columns is-multiline has-margin-b-5">
+        <div class="column is-6-tablet is-3-desktop">
             <div>
                 <h2 class="heading">Začíná</h2>
                 <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ object.start_date | date }}</p>
             </div>
         </div>
-        <div class="column is-4-tablet is-3-tablet">
+        <div class="column is-6-tablet is-3-desktop">
             <div>
                 <h2 class="heading">Řešitelé</h2>
                 <p class="title is-5"><i class="fas fa-user-friends has-padding-r-2"></i> {{ object.applications.count }} přihlášených řešitelů</p>
             </div>
         </div>
-        {% if can_apply %}
-        <div class="column is-4-tablet">
-            <div>
-                <h2 class="heading">Přihláška</h2>
-                {% crispy application_form %}
+        {% if object.errata %}
+        <div class="column is-6-desktop">
+            <h2 class="heading">Errata</h2>
+            <div class="content content-readable">
+                <div class="message is-warning is-size-6">
+                    <div class="message-body">
+                        {{ object.errata | markdown }}
+                    </div>
+                </div>
             </div>
         </div>
         {% endif %}
     </nav>
-
-    {% if object.errata %}
-        <h2 class="heading">Errata</h2>
-        <div class="is-size-5 has-margin-b-5">
-            {{ object.errata | markdown }}
-        </div>
-    {% endif %}
-
-    <p class="is-size-5 has-margin-b-5">Každým rokem vyjdou čtyři série KSICHTu. V brožuře vždy naleznete zadání úloh aktuální série, řešení úloh předchozí série a jeden díl seriálu.</p>
 
     <div class="columns is-desktop">
         {% with object.get_current_series as current_series %}
