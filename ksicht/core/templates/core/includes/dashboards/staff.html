@@ -4,29 +4,30 @@
 <div class="columns is-variable is-8">
     <div class="column is-7">
         {% if current_grade %}
-            <h2 class="title is-5">Aktuální ročník {{ current_grade }}</h2>
-
             {% with current_grade.get_previous_series as previous_series %}
-                <h2 class="heading">Aktuální série ke kontrole a generátory</h2>
-                <p class="title is-5"><a href="{{ previous_series.get_absolute_url }}">{{ previous_series }}</a></p>
-
-                {% with previous_series.tasks_with_submission_count as tasks %}
-                    {% if tasks|length > 0 %}
-                        <section class="columns is-desktop is-multiline is-variable is-3 has-margin-t-4">
-                            {% for task in tasks %}
-                                <div class="column is-4">
-                                    {% include "core/includes/admin_task_card.html" with object=task %}
+                {% if previous_series %}
+                    <h2 class="title is-5">Aktuální ročník {{ current_grade }} po uzavření <a href="{{ previous_series.get_absolute_url }}">{{ previous_series.series }}. série</a></h2>
+                    {% with previous_series.tasks_with_submission_count as tasks %}
+                        {% if tasks|length > 0 %}
+                            <section class="columns is-desktop is-multiline is-variable is-3">
+                                {% for task in tasks %}
+                                    <div class="column is-4">
+                                        {% include "core/includes/admin_task_card.html" with object=task %}
+                                    </div>
+                                {% endfor %}
+                            </section>
+                        {% else %}
+                            <article class="message is-warning is-size-5 has-margin-t-6">
+                                <div class="message-body">
+                                    <p>Žádné úlohy nebyly prozatím vypsány.</p>
                                 </div>
-                            {% endfor %}
-                        </section>
-                    {% else %}
-                        <article class="message is-warning is-size-5 has-margin-t-6">
-                            <div class="message-body">
-                                <p>Žádné úlohy nebyly prozatím vypsány.</p>
-                            </div>
-                        </article>
-                    {% endif %}
-                {% endwith %}
+                            </article>
+                        {% endif %}
+                    {% endwith %}
+                {% else %}
+                    <h2 class="title is-5">Aktuální ročník {{ current_grade }}</h2>
+                    <p>Žádná série nebyla ještě dokončena.</p>
+                {% endif %}
             {% endwith %}
         {% else %}
             <h2 class="title is-5">Aktuální ročník</h2>
@@ -35,18 +36,29 @@
     </div>
 
 
-    <div class="column is-3">
-        <h2 class="title is-5">Rychlé akce</h2>
+    <div class="column is-4">
+        {% if current_grade %}
+            {% with current_grade.get_previous_series as previous_series %}
+                {% if previous_series %}
+                    <h2 class="title is-5">Přehledy a akce pro <a href="{{ previous_series.get_absolute_url }}">{{ previous_series.series }}. sérii</a></h2>
+                    <aside class="has-margin-b-6">
+                        {% include "core/includes/admin_series_actions.html" with object=previous_series %}
+                    </aside>
+                {% endif %}
+            {% endwith %}
+        {% endif %}
+
+        <h2 class="title is-5">Další rychlé akce</h2>
         <aside class="menu has-margin-b-6">
             <ul class="menu-list">
                 <li><a href="{% url "admin:index" %}">Vstup do administrační části</a></li>
                 {% if perms.core.add_event %}
                     <li><a href="{% url "admin:core_event_add" %}">Vytvořit novou akci</a></li>
                 {% endif %}
-                {% if perms.core.change_gradeseries %}
+                {% if current_series and perms.core.change_gradeseries %}
                     <li><a href="{% url "admin:core_gradeseries_change" object_id=current_series.pk %}">Upravit aktuální sérii</a></li>
                 {% endif %}
-                {% if perms.core.change_grade %}
+                {% if current_grade and perms.core.change_grade %}
                     <li><a href="{% url "admin:core_grade_change" object_id=current_grade.pk %}">Upravit aktuální ročník</a></li>
                 {% endif %}
             </ul>
