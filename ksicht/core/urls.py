@@ -14,7 +14,9 @@ urlpatterns = [
     path(
         "archiv-rocniku/",
         ListView.as_view(
-            queryset=models.Grade.objects.archive().prefetch_related("series"),
+            queryset=models.Grade.objects.archive().prefetch_related(
+                "series__attachments"
+            ),
             template_name="core/grade_archive.html",
             paginate_by=10,
         ),

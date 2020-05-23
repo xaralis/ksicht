@@ -16,7 +16,7 @@
 {% if object_list %}
     <div class="columns is-desktop is-multiline">
         {% for grade in object_list %}
-            <div class="column is-one-quarter">
+            <div class="column is-one-quarter-fullhd is-half-tablet">
                 <div class="card">
                     <div class="card-content">
                         <h2 class="title is-5 has-text-weight-bold">Ročník {{ grade }}</h2>
@@ -24,8 +24,8 @@
 
                         <hr class="card-splitter">
 
-                        <div class="columns">
-                            <div class="column">
+                        <div class="columns is-multiline">
+                            <div class="column is-half">
                                 <h3 class="is-6 has-text-weight-bold">Brožury</h3>
                                 {% for series in grade.series.all %}
                                     {% if series.task_file %}
@@ -35,7 +35,7 @@
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                            <div class="column">
+                            <div class="column is-half">
                                 <h3 class="is-6 has-text-weight-bold">Výsledky</h3>
                                 {% for series in grade.series.all %}
                                     {% if series.results_published %}
@@ -45,6 +45,20 @@
                                     {% endif %}
                                 {% endfor %}
                             </div>
+                            {% for series in grade.series.all %}
+                                {% with series.attachments.all as attachments %}
+                                    {% if attachments|length > 0 %}
+                                        <div class="column is-half">
+                                            <h3 class="is-6 has-text-weight-bold">Přílohy {{ series }}</h3>
+                                            {% for a in attachments %}
+                                            <p class="is-5">
+                                                <p><a href="{{ a.file.url }}" class="has-margin-r-4"><i class="far fa-file has-padding-r-2"></i> {{ a }}</a></p>
+                                            </p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                {% endwith %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
