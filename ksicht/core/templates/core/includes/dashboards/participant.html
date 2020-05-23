@@ -1,0 +1,55 @@
+{% load events %}
+{% load markdown_deux_tags %}
+
+<div class="columns">
+
+    <div class="column is-4">
+        {% if current_grade %}
+            <h2 class="title is-5">Aktuální ročník {{ current_grade }}</h2>
+
+            <h2 class="heading">Aktuální série</h2>
+            <p class="title is-5">{{ current_series }}</p>
+
+            <h2 class="heading">Deadline pro odevzdání řešení {{ current_series }}</h2>
+            <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ current_series.submission_deadline | date:"d.m." }}</p>
+
+            {% if current_grade.errata %}
+                <h2 class="heading">Errata</h2>
+                <div class="is-size-5 has-margin-b-5">
+                    {{ current_grade.errata | markdown }}
+                </div>
+            {% endif %}
+
+            <div class="buttons are-medium">
+                {% if is_current_grade_participant %}
+                    {% if current_series.accepts_solution_submissions %}
+                        <a href="{% url "core:solution_submit" %}" class="button is-primary is-outlined">Odevzdat řešení</a>
+                    {% endif %}
+                    <a href="{% url "core:current_grade" %}" class="button is-text">Zobrazit podrobnosti</a>
+                {% else %}
+                    <a href="{% url "core:current_grade" %}" class="button is-primary">Přihlásit se do ročníku</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <h2 class="title is-5">Aktuální ročník</h2>
+            <p>Další ročník prozatím nebyl vypsán.</p>
+        {% endif %}
+    </div>
+
+    <div class="column is-8">
+        <h2 class="title is-5">Nadcházející akce</h2>
+        {% event_list "future" as future_events %}
+
+        {% if future_events|length > 0 %}
+            <div class="columns is-desktop has-padding-b-5">
+                {% for event, is_enlisted, can_enlist in future_events %}
+                    <div class="column is-half">
+                        {% include "core/includes/event_card.html" with object=event can_enlist=can_enlist is_enlisted=is_enlisted %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Momentálně nejsou žádné akce naplánované.</p>
+        {% endif %}
+    </div>
+</div>

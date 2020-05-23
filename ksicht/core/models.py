@@ -122,6 +122,19 @@ class Grade(models.Model):
             .value()
         )
 
+    def get_previous_series(self):
+        """Return last series that has been closed.
+
+        This is useful for staff to get what needs to be worked with easily."""
+        return (
+            py_.chain(list(self.prefetch_series()))
+            .filter(lambda s: not s.accepts_solution_submissions)
+            .sort(key=attrgetter("submission_deadline"))
+            .reverse()
+            .head()
+            .value()
+        )
+
 
 class GradeSeries(models.Model):
     SERIES_CHOICES = (
@@ -168,6 +181,11 @@ class GradeSeries(models.Model):
 
     def __str__(self):
         return f"{self.get_series_display()} série"
+
+    def get_absolute_url(self):
+        return reverse(
+            "core:series_detail", kwargs={"pk": self.pk, "grade_id": self.grade_id}
+        )
 
     @property
     def accepts_solution_submissions(self):
@@ -231,6 +249,11 @@ class GradeSeries(models.Model):
             ).aggregate(models.Sum("points"))["points__sum"],
             "listing": sorted_scoring,
         }
+
+    def tasks_with_submission_count(self):
+        return self.tasks.all().annotate(
+            submission_count=models.Count("solution_submissions")
+        )
 
 
 class GradeSeriesAttachment(models.Model):

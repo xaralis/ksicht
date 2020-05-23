@@ -4,77 +4,13 @@
 {% block headline %}Nástěnka{% endblock %}
 
 {% block article %}
-<div class="columns dashboard-menu is-8 is-variable">
-    {% if is_current_grade_participant %}
-        <div class="column">
-            <aside class="menu">
-                <p class="menu-label is-size-6">Aktuální ročník {{ current_grade }}</p>
-                <ul class="menu-list">
-                    <li><a href="{% url "core:current_grade" %}">Detailní informace</a></li>
-                    {% if current_series.accepts_solution_submissions %}
-                    <li><a href="{% url "core:solution_submit" %}">Odevzdání řešení</a></li>
-                    {% endif %}
-                </ul>
-            </aside>
-        </div>
-    {% endif %}
-    <div class="column">
-        <aside class="menu">
-            <p class="menu-label is-size-6">Akce</p>
-            <ul class="menu-list">
-            <li class="heading is-size-9">Nadcházející</li>
-            {% if future_events %}
-                {% for event in future_events %}
-                    <li><a href="{{ event.get_absolute_url }}">{{ event }}</a></li>
-                {% endfor %}
-            {% else %}
-                <li>Nic tu nemáme.</li>
-            {% endif %}
-            </ul>
-            <ul class="menu-list">
-            <li class="heading is-size-9">Proběhlé</li>
-            {% if past_events %}
-                {% for event in past_events %}
-                    <li><a href="{{ event.get_absolute_url }}">{{ event }}</a></li>
-                {% endfor %}
-            {% else %}
-                <li>Nic tu nemáme.</li>
-            {% endif %}
-            </ul>
-        </aside>
-    </div>
-    {% if perms.core.view_grade %}
-    <div class="column">
-        <aside class="menu">
-            <p class="menu-label is-size-6">Ročníky</p>
-            {% for grade in grades %}
-            <ul class="menu-list">
-                <li><a href="{% url "core:grade_detail" pk=grade.pk %}">{{ grade }}</a></li>
-                {% comment %} <li>
-                    {% if perms.core.change_solution_submission_presence %}
-                    <li><a href="{% url "core:series_submission_overview" grade_id=grade.id %}">Přehled odevzdaných řešení</a></li>
-                    {% endif %}
-                    {% if perms.core.gradeseries_view %}
-                        {% for series in grade.series.all %}
-                        <li><a href="{% url "core:series_detail" grade_id=grade.id pk=series.id %}">{{ series }}</a></li>
-                        {% endfor %}
-                    {% endif %}
-                </li> {% endcomment %}
-            </ul>
-            {% endfor %}
-        </aside>
-    </div>
-    {% endif %}
+<div class="dashboard-menu">
     {% if user.is_staff %}
-    <div class="column">
-        <aside class="menu">
-            <p class="menu-label is-size-6">Administrace</p>
-            <ul class="menu-list">
-                <li><a href="{% url "admin:index" %}">Vstup do administrační části</a></li>
-            </ul>
-        </aside>
-    </div>
+        {% include "core/includes/dashboards/staff.html" %}
+    {% elif user.is_participant %}
+        {% include "core/includes/dashboards/participant.html" %}
     {% endif %}
+
 </div>
 
 

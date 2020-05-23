@@ -1,0 +1,68 @@
+{% load grades %}
+{% load markdown_deux_tags %}
+
+<div class="columns is-variable is-8">
+    <div class="column is-7">
+        {% if current_grade %}
+            <h2 class="title is-5">Aktuální ročník {{ current_grade }}</h2>
+
+            {% with current_grade.get_previous_series as previous_series %}
+                <h2 class="heading">Aktuální série ke kontrole a generátory</h2>
+                <p class="title is-5"><a href="{{ previous_series.get_absolute_url }}">{{ previous_series }}</a></p>
+
+                {% with previous_series.tasks_with_submission_count as tasks %}
+                    {% if tasks|length > 0 %}
+                        <section class="columns is-desktop is-multiline is-variable is-3 has-margin-t-4">
+                            {% for task in tasks %}
+                                <div class="column is-4">
+                                    {% include "core/includes/admin_task_card.html" with object=task %}
+                                </div>
+                            {% endfor %}
+                        </section>
+                    {% else %}
+                        <article class="message is-warning is-size-5 has-margin-t-6">
+                            <div class="message-body">
+                                <p>Žádné úlohy nebyly prozatím vypsány.</p>
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endwith %}
+            {% endwith %}
+        {% else %}
+            <h2 class="title is-5">Aktuální ročník</h2>
+            <p>Další ročník prozatím nebyl vypsán.</p>
+        {% endif %}
+    </div>
+
+
+    <div class="column is-3">
+        <h2 class="title is-5">Rychlé akce</h2>
+        <aside class="menu has-margin-b-6">
+            <ul class="menu-list">
+                <li><a href="{% url "admin:index" %}">Vstup do administrační části</a></li>
+                {% if perms.core.add_event %}
+                    <li><a href="{% url "admin:core_event_add" %}">Vytvořit novou akci</a></li>
+                {% endif %}
+                {% if perms.core.change_gradeseries %}
+                    <li><a href="{% url "admin:core_gradeseries_change" object_id=current_series.pk %}">Upravit aktuální sérii</a></li>
+                {% endif %}
+                {% if perms.core.change_grade %}
+                    <li><a href="{% url "admin:core_grade_change" object_id=current_grade.pk %}">Upravit aktuální ročník</a></li>
+                {% endif %}
+            </ul>
+        </aside>
+
+        {% if perms.core.view_grade %}
+        <h2 class="title is-5">Ročníky</h2>
+            <aside class="menu">
+                {% grade_list 5 as grades %}
+
+                {% for grade in grades %}
+                <ul class="menu-list">
+                    <li><a href="{% url "core:grade_detail" pk=grade.pk %}">{{ grade }}</a></li>
+                </ul>
+                {% endfor %}
+            </aside>
+        {% endif %}
+    </div>
+</div>

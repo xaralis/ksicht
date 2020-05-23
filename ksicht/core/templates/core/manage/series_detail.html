@@ -68,38 +68,21 @@
         {% endif %}
     </nav>
 
-    {% if tasks|length > 0 %}
-        <section class="columns is-desktop has-margin-t-6">
-            {% for task in tasks %}
-                <div class="column is-one-fifth">
-                    <div class="card">
-                        <div class="card-content">
-                            <h2 class="title is-5">{{ task.nr }}. úloha</h2>
-                            <h3 class="heading has-padding-b-3">Název</h3>
-                            <p class="title is-6">{{ task.title }}</p>
-                            <h3 class="heading has-padding-b-3">Řešitelé</h3>
-                            <p class="title is-6"><i class="fas fa-user-friends has-padding-r-2"></i> {{ task.submission_count }} odevzdaných řešení</p>
-                            {% if task.submission_count > 0 %}
-                                <ul>
-                                {% if perms.core.scoring %}
-                                    <li><a href="{% url "core:task_scoring" grade_id=object.grade_id task_id=task.id %}">Bodování</a></li>
-                                {% endif %}
-                                {% if perms.core.solution_export %}
-                                    <li><a href="{% url "core:task_solution_export" grade_id=object.grade_id task_id=task.id %}">Export do PDF</a></li>
-                                    <li><a href="{% url "core:task_solution_export" grade_id=object.grade_id task_id=task.id %}?duplex=1">Export do PDF (pro duplex)</a></li>
-                                {% endif %}
-                                </ul>
-                            {% endif %}
-                        </div>
+    {% with object.tasks_with_submission_count as tasks %}
+        {% if tasks|length > 0 %}
+            <section class="columns is-desktop has-margin-t-6">
+                {% for task in tasks %}
+                    <div class="column is-one-fifth">
+                        {% include "core/includes/admin_task_card.html" with object=task %}
                     </div>
+                {% endfor %}
+            </section>
+        {% else %}
+            <article class="message is-warning is-size-5 has-margin-t-6">
+                <div class="message-body">
+                    <p>Žádné úlohy nebyly prozatím vypsány.</p>
                 </div>
-            {% endfor %}
-        </section>
-    {% else %}
-        <article class="message is-warning is-size-5 has-margin-t-6">
-            <div class="message-body">
-                <p>Žádné úlohy nebyly prozatím vypsány.</p>
-            </div>
-        </article>
-    {% endif %}
+            </article>
+        {% endif %}
+    {% endwith %}
 {% endblock %}

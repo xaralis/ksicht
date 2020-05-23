@@ -2,7 +2,6 @@ from operator import attrgetter
 from urllib.parse import quote
 
 from django.conf import settings
-from django.db.models import Count
 from django.http import HttpResponse
 from django.views.generic import View
 from django.views.generic.detail import BaseDetailView, DetailView
@@ -25,13 +24,6 @@ __all__ = (
 class SeriesDetailView(DetailView):
     queryset = models.GradeSeries.objects.all()
     template_name = "core/manage/series_detail.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["tasks"] = self.object.tasks.all().annotate(
-            submission_count=Count("solution_submissions")
-        )
-        return context
 
 
 class SeriesResultsView(DetailView):
@@ -101,6 +93,7 @@ class StickerAssignmentOverview(DetailView):
                 "participant__user__email",
             )
         )
+
         series_submissions = models.TaskSolutionSubmission.objects.filter(
             task__series=series
         ).prefetch_related("stickers")

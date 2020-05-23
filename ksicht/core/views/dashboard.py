@@ -1,6 +1,5 @@
 from django.views.generic import TemplateView
 
-from ..models import Event, Grade
 from .helpers import CurrentGradeMixin
 
 
@@ -16,13 +15,3 @@ class HomeView(CurrentGradeMixin, TemplateView):
         if self.is_dashboard:
             return ["core/dashboard.html"]
         return "core/home.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        if self.is_dashboard:
-            context["grades"] = Grade.objects.all()[:5]
-            context["future_events"] = Event.objects.future()[:3]
-            context["past_events"] = Event.objects.past()[:3]
-
-        return context
