@@ -19,9 +19,12 @@
 {% endblock %}
 
 {% block headline %}Bodování úlohy „{{ task }}“{% endblock %}
-{% block header_sub %}<h3 class="subtitle">ze {{ task.series }} ročníku {{ task.series.grade }}</h3>{% endblock %}
+{% block header_sub %}
+<h3 class="subtitle">ze {{ task.series }} ročníku {{ task.series.grade }}, maximální skóre: <strong>{{ task.points }} bodů</strong></h3>
+{% endblock %}
 
 {% block article %}
+
     {% if form.forms|length > 0 %}
         <form method="post" action=".">
             {% csrf_token %}
