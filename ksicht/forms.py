@@ -31,7 +31,7 @@ class KsichtProfileMixin(forms.ModelForm):
             initial="+420",
             help_text="Telefon ve formátu +420 777 123123.",
         )
-        self.fields["street"] = forms.CharField(label="Ulice", max_length=100)
+        self.fields["street"] = forms.CharField(label="Ulice a číslo popisné/orientační", max_length=100)
         self.fields["city"] = forms.CharField(label="Obec", max_length=100)
         self.fields["zip_code"] = forms.CharField(
             label="PSČ", max_length=10, required=True, validators=[zip_validator]
