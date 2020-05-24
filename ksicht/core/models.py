@@ -143,6 +143,10 @@ class Grade(models.Model):
     def get_future_series(self):
         """Get all future series, e.g. those that will come after the current one."""
         current_series = self.get_current_series()
+
+        if not current_series:
+            return []
+
         return [
             s
             for s in self.prefetch_series()
