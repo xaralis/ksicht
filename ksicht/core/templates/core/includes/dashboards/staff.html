@@ -6,7 +6,7 @@
         {% if current_grade %}
             {% with current_grade.get_previous_series as previous_series %}
                 {% if previous_series %}
-                    <h2 class="title is-5">Aktuální ročník {{ current_grade }} po uzavření <a href="{{ previous_series.get_absolute_url }}">{{ previous_series.series }}. série</a></h2>
+                    <h2 class="title is-5"><a href="{% url "core:grade_detail" pk=current_grade.pk %}">Aktuální ročník {{ current_grade }}</a> po uzavření <a href="{{ previous_series.get_absolute_url }}">{{ previous_series.series }}. série</a></h2>
                     {% with previous_series.tasks_with_submission_count as tasks %}
                         {% if tasks|length > 0 %}
                             <section class="columns is-desktop is-multiline is-variable is-3">
@@ -46,6 +46,11 @@
                     </aside>
                 {% endif %}
             {% endwith %}
+
+            <h2 class="title is-5">Přehledy a akce pro <a href="{% url "core:grade_detail" pk=current_grade.pk %}">aktuální ročník</a></h2>
+            <aside class="has-margin-b-6">
+                {% include "core/includes/admin_grade_actions.html" with object=current_grade %}
+            </aside>
         {% endif %}
 
         <h2 class="title is-5">Další rychlé akce</h2>

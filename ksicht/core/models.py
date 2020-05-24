@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from decimal import Decimal
 from operator import attrgetter
 import uuid
 
@@ -109,8 +110,11 @@ class Grade(models.Model):
                 )
 
     def prefetch_series(self):
-        series = self.series.all().prefetch_related("tasks", "attachments")
-        return series
+        if not hasattr(self, "_prefetched_series"):
+            self._prefetched_series = self.series.all().prefetch_related(
+                "tasks", "attachments"
+            )
+        return self._prefetched_series
 
     def get_current_series(self):
         """Return first series that can still accept solution submissions from participants."""
@@ -134,6 +138,15 @@ class Grade(models.Model):
             .head()
             .value()
         )
+
+    def get_future_series(self):
+        """Get all future series, e.g. those that will come after the current one."""
+        current_series = self.get_current_series()
+        return [
+            s
+            for s in self.prefetch_series()
+            if s.submission_deadline > current_series.submission_deadline
+        ]
 
 
 class GradeSeries(models.Model):
@@ -213,7 +226,8 @@ class GradeSeries(models.Model):
         )
 
         scoring_dict = {
-            a: {"by_tasks": {t: None for t in tasks}, "total": 0} for a in applications
+            a: {"by_tasks": {t: None for t in tasks}, "total": Decimal("0")}
+            for a in applications
         }
 
         def _find_application(app_id):
@@ -226,8 +240,10 @@ class GradeSeries(models.Model):
             a = _find_application(s.application_id)
             t = _find_task(s.task_id)
 
-            scoring_dict[a]["by_tasks"][t] = s.score
-            scoring_dict[a]["total"] += s.score or 0
+            if t:
+                scoring_dict[a]["by_tasks"][t] = s.score
+
+            scoring_dict[a]["total"] += s.score or Decimal("0")
 
         scoring = [
             (application, scores["by_tasks"], scores["total"])

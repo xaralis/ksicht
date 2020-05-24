@@ -61,6 +61,11 @@ urlpatterns = [
         name="grade_detail",
     ),
     path(
+        "rocniky/<pk>/export-vysledku/",
+        permission_required("core.view_grade")(views.GradeResultsExportView.as_view()),
+        name="grade_results_export",
+    ),
+    path(
         "rocniky/<grade_id>/serie/<pk>/",
         permission_required("core.view_gradeseries")(views.SeriesDetailView.as_view()),
         name="series_detail",

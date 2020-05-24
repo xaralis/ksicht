@@ -56,59 +56,65 @@
 
     <div class="columns is-multiline">
         {% with object.get_current_series as current_series %}
-            {% for series in object.prefetch_series %}
-                <div class="column is-12-mobile is-6-tablet is-3-desktop">
-                    <div class="card series-card {% if series == current_series %}is-current{% endif %}">
-                        <div class="card-content">
-                            <h2 class="title is-6 is-uppercase has-text-weight-bold">{{ series }}</h2>
-                            <p class="subtitle is-6 has-text-grey">odevzdání do {{ series.submission_deadline | date:"d.m." }}</p>
+            {% with object.get_future_series as future_series %}
+                {% for series in object.prefetch_series %}
+                    <div class="column is-12-mobile is-6-tablet is-3-desktop">
+                        <div class="card series-card {% if series == current_series %}is-current{% endif %}">
+                            <div class="card-content">
+                                <h2 class="is-6 is-uppercase has-text-weight-bold">{{ series }}</h2>
+                                <div class="{% if series not in future_series %}subtitle{% endif %} is-6 has-text-grey">odevzdání do {{ series.submission_deadline | date:"d.m." }}</div>
 
-                            {% with series.tasks.all as tasks %}
-                                {% if tasks.count > 0 %}
-                                <h2 class="is-size-6 has-text-weight-bold">Úlohy</h2>
-                                <ul>
-                                    {% for task in tasks %}
-                                        <li>{{ task.nr }}. {{ task.title }} <span class="has-text-grey">(max. {{ task.points }} bodů)</span></li>
-                                    {% endfor %}
-                                </ul>
+                                {% if series in future_series %}
+                                    <p class="subtitle is-7 has-text-grey">datum je pouze orientační</p>
                                 {% endif %}
-                            {% endwith %}
 
-                            {% if series.task_file or series.results_published %}
-                            <hr class="card-splitter">
-                            {% endif %}
+                                {% with series.tasks.all as tasks %}
+                                    {% if tasks.count > 0 %}
+                                    <h2 class="is-size-6 has-text-weight-bold">Úlohy</h2>
+                                    <ul>
+                                        {% for task in tasks %}
+                                            <li>{{ task.nr }}. {{ task.title }} <span class="has-text-grey">(max. {{ task.points }} bodů)</span></li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                {% endwith %}
 
-                            {% if series.task_file %}
-                            <p><a href="{{ series.task_file.url }}" class="has-margin-r-4"><i class="far fa-file-pdf has-padding-r-2"></i> Brožura zadání v PDF</a></p>
-                            {% endif %}
-
-                            {% if series.results_published %}
-                            <p><a href="{% url "core:series_results" grade_id=series.grade_id pk=series.pk %}" class="has-margin-r-4"><i class="fas fa-trophy has-padding-r-2"></i> Výsledková listina</a></p>
-                            {% endif %}
-
-                            {% with series.attachments.all as attachments %}
-                                {% if attachments %}
-                                    <hr class="card-splitter">
-
-                                    <h2 class="is-size-6 has-text-weight-bold">Přílohy</h2>
-
-                                    {% for a in attachments %}
-                                        <p><a href="{{ a.file.url }}" class="has-margin-r-4"><i class="far fa-file has-padding-r-2"></i> {{ a }}</a></p>
-                                    {% endfor %}
+                                {% if series.task_file or series.results_published %}
+                                <hr class="card-splitter">
                                 {% endif %}
-                            {% endwith %}
 
+                                {% if series.task_file %}
+                                <p><a href="{{ series.task_file.url }}" class="has-margin-r-4"><i class="far fa-file-pdf has-padding-r-2"></i> Brožura zadání v PDF</a></p>
+                                {% endif %}
+
+                                {% if series.results_published %}
+                                <p><a href="{% url "core:series_results" grade_id=series.grade_id pk=series.pk %}" class="has-margin-r-4"><i class="fas fa-trophy has-padding-r-2"></i> Výsledková listina</a></p>
+                                {% endif %}
+
+                                {% with series.attachments.all as attachments %}
+                                    {% if attachments %}
+                                        <hr class="card-splitter">
+
+                                        <h2 class="is-size-6 has-text-weight-bold">Přílohy</h2>
+
+                                        {% for a in attachments %}
+                                            <p><a href="{{ a.file.url }}" class="has-margin-r-4"><i class="far fa-file has-padding-r-2"></i> {{ a }}</a></p>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+
+                            {% if series.accepts_solution_submissions and series == current_series and is_grade_participant %}
+                                <footer class="card-footer">
+                                    <p class="card-footer-item">
+                                        <a href="{% url "core:solution_submit" %}">Odevzdat řešení</a>
+                                    </p>
+                                </footer>
+                            {% endif%}
                         </div>
-                        {% if series.accepts_solution_submissions and series == current_series and is_grade_participant %}
-                        <footer class="card-footer">
-                            <p class="card-footer-item">
-                                <a href="{% url "core:solution_submit" %}">Odevzdat řešení</a>
-                            </p>
-                        </footer>
-                        {% endif%}
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            {% endwith %}
         {% endwith %}
     </div>
 {% else %}

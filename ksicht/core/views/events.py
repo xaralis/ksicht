@@ -5,8 +5,8 @@ from urllib.parse import quote
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import Http404, HttpResponse
-from django.utils.decorators import method_decorator
 from django.utils import formats
+from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView
 from django.views.generic.detail import BaseDetailView
 
@@ -99,8 +99,12 @@ class EventAttendeesExportView(BaseDetailView):
 
     def render_to_response(self, context):
         event = context["object"]
-        attendees = models.EventAttendee.objects.filter(event=event).select_related("user")
-        participants = models.Participant.objects.filter(user__eventattendee__in=attendees)
+        attendees = models.EventAttendee.objects.filter(event=event).select_related(
+            "user"
+        )
+        participants = models.Participant.objects.filter(
+            user__eventattendee__in=attendees
+        )
 
         response = HttpResponse(content_type="text/csv")
         file_expr = "filename*=utf-8''{}".format(quote(f"{event} - účastníci.csv"))
@@ -133,7 +137,9 @@ class EventAttendeesExportView(BaseDetailView):
                 "Náhradník" if is_substitute else "Účastník",
             ]
 
-            participant = next((p for p in participants if p.user_id == attendee.user.pk), None)
+            participant = next(
+                (p for p in participants if p.user_id == attendee.user.pk), None
+            )
 
             if participant:
                 row += [participant.phone, participant.school_name, participant.city]
