@@ -62,7 +62,7 @@ def permission_protected_flatpage(request, url):
     try:
         f = get_object_or_404(FlatPage, url=url, sites=site_id)
 
-        if f.metadata and not f.metadata.is_accessible_for(request.user):
+        if hasattr(f, "metadata") and not f.metadata.is_accessible_for(request.user):
             return HttpResponseForbidden()
 
     except Http404:

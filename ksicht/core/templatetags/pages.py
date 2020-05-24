@@ -13,5 +13,5 @@ def pages_by_prefix(context, prefix):
     return [
         p
         for p in matching_pages
-        if not p.metadata or p.metadata.is_accessible_for(context["user"])
+        if not hasattr(p, "metadata") or p.metadata.is_accessible_for(context["user"])
     ]
