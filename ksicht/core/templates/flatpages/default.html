@@ -1,0 +1,14 @@
+{% extends "page.html" %}
+{% load markdown_deux_tags %}
+
+{% block page_title %}{% block headline %}{% if flatpage.metadata.title %}{{ flatpage.metadata.title }}{% else %}{{ flatpage.title }}{% endif %}{% endblock %}{% endblock %}
+{% block page_description %}{% if flatpage.metadata %}{{ flatpage.metadata.description }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+{% block page_keywords %}{% if flatpage.metadata %}{{ flatpage.metadata.keywords }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
+{% block article %}
+<div class="columns is-desktop">
+    <div class="column is-8 content content-readable">
+        {{ flatpage.content | markdown }}
+    </div>
+</div>
+{% endblock %}

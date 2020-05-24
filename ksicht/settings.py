@@ -283,3 +283,36 @@ KSICHT_CONTACT_ADDRESS_LINES = [
     "Hlavova 2030",
     "128 43 Praha 2",
 ]
+
+KSICHT_PEOPLE = [
+    {
+        "name": "Jan Hořejší",
+        "alt": "Gymnázium Dašická",
+        "bio": "Dnes už jsem tak trochu mimo hlavní dění na své aktuální pozici v Olomouci, ale stále píšu úlohy, často i seriál, recenzuji fyzikálu a biochemii a podílím se na celkové organizaci semináře podle toho, co časově zvládnu.",
+        "img": "img/people/person.jpg",
+    },
+    {
+        "name": "Jan Hořejší",
+        "alt": "Gymnázium Dašická",
+        "bio": "Vedle pilného studia (:D) a zoufale beznadějných pokusů hrát volejbal (:/), taky čas od času překážím v laborce na ÚOCHBu.",
+        "img": "img/people/person2.jpg",
+    },
+    {
+        "name": "Jan Hořejší",
+        "alt": "Gymnázium Dašická",
+        "bio": "Sem tam vytvořím úlohu, recenzuji anorganiku a podílím se na přípravě a realizaci laborek z anorganiky na soustředění.",
+        "img": "img/people/person2.jpg",
+    },
+    {
+        "name": "Jan Hořejší",
+        "alt": "Gymnázium Dašická",
+        "bio": "Sem tam nějakou tu úložku do blbinek a anorganiky, neustále zdržuju dokončování brožurek ať už nedokončenýma úložkama, nebo nedoopravenýma řešeníma. Občas se pokouším spoluorganizovat výlet nebo oblbuju ostatní blbýma nápadama.",
+        "img": "img/people/person.jpg",
+    },
+    {
+        "name": "Jan Hořejší",
+        "alt": "Gymnázium Dašická",
+        "bio": "Recenzuji analytiku a biochemii, pokud mě zastihne inspirace napíši i úlohu.",
+        "img": "img/people/person2.jpg",
+    },
+]

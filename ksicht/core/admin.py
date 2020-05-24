@@ -1,6 +1,8 @@
 from cuser.admin import UserAdmin
 from django.contrib import admin
 from django.contrib.auth.models import Permission
+from django.contrib.flatpages.admin import FlatPageAdmin
+from django.contrib.flatpages.models import FlatPage
 from django.db.models import TextField
 from django.forms.models import BaseInlineFormSet
 from markdownx.widgets import AdminMarkdownxWidget
@@ -170,3 +172,18 @@ class EventAdmin(admin.ModelAdmin):
 
 admin.site.register(Permission)
 admin.site.register(models.User, UserAdmin)
+
+
+class MetadataInline(admin.StackedInline):
+    model = models.FlatPageMeta
+
+
+class MarkdownFlatPageAdmin(FlatPageAdmin):
+    inlines = (MetadataInline,)
+    formfield_overrides = {
+        TextField: {"widget": AdminMarkdownxWidget},
+    }
+
+
+admin.site.unregister(FlatPage)
+admin.site.register(FlatPage, MarkdownFlatPageAdmin)

@@ -116,6 +116,7 @@ urlpatterns = [
         ),
         name="django_registration_disallowed",
     ),
+    path("<path:url>", views.permission_protected_flatpage),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

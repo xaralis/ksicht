@@ -40,6 +40,7 @@ urlpatterns = [
         ),
         name="event_attendees_export",
     ),
+    path("lide/", views.PeopleView.as_view(), name="people",),
     path(
         "aktualni-rocnik/prihlasit-se/",
         views.CurrentGradeApplicationView.as_view(),

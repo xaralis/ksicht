@@ -3,8 +3,16 @@
 }
 
 .card.series-card {
+    display: flex;
+    flex-direction: column;
     border: 2px transparent solid;
     margin: -2px -2px -2px -2px;
+    height: 100%;
+
+    .card-content {
+        width: 100%;
+        flex: 1;
+    }
 
     &.is-current {
         border: 2px $info solid;
@@ -35,4 +43,8 @@
             display: block;
         }
     }
+}
+
+.card.people-card {
+    height: 100%;
 }

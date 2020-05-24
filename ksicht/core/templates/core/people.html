@@ -1,0 +1,39 @@
+{% extends "page.html" %}
+{% load webpack_static from webpack_loader %}
+
+{% block breadcrumb %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <div class="container">
+        <ul>
+            <li><a href="/">KSICHT</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Lidé</a></li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
+{% block headline %}Lidé{% endblock %}
+
+{% block article %}
+<div class="columns is-multiline">
+    {% for person in people %}
+        <div class="column is-12-mobile is-one-third-tablet is-one-fifth-widescreen">
+            <div class="card people-card">
+                <div class="card-image">
+                    <figure class="image is-square">
+                        <img src="{% webpack_static person.img %}" alt="{{ person.name }}">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <p class="title is-4">{{ person.name }}</p>
+                    <p class="subtitle is-6">@{{ person.alt }}</p>
+
+                    <div class="content">
+                        {{ person.bio }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -147,9 +147,11 @@ class SubmissionOverview(FormView):
         return context
 
     def get_form_kwargs(self):
-        participants = Participant.objects.filter(
-            applications__series=self.series
-        ).order_by("user__last_name", "user__first_name", "user__email")
+        participants = (
+            Participant.objects.filter(applications__series=self.series)
+            .select_related("user")
+            .order_by("user__last_name", "user__first_name", "user__email")
+        )
         tasks = Task.objects.filter(series=self.series)
 
         submission_map = {}
@@ -162,7 +164,7 @@ class SubmissionOverview(FormView):
 
         for s in TaskSolutionSubmission.objects.filter(
             application__grade=self.grade
-        ).select_related("task"):
+        ).select_related("task", "application"):
             submission_map[s.application.participant_id][s.task.id] = s
 
         def _build_initial(participant):

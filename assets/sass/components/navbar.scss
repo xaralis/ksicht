@@ -1,3 +1,8 @@
 .navbar-item img {
     max-height: 2.25rem;
 }
+
+// fix: https://github.com/jgthms/bulma/issues/1474
+.hero.is-info .navbar-dropdown .navbar-item {
+    color: $body-color;
+}

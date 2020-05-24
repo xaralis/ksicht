@@ -5,6 +5,7 @@ import uuid
 
 from cuser.models import AbstractCUser
 from django import forms
+from django.contrib.auth.models import Group as UserGroup
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
@@ -635,3 +636,45 @@ class Event(models.Model):
     @property
     def is_accepting_enlistments(self):
         return self.enlistment_enabled and date.today() <= self.end_date
+
+
+class FlatPageMeta(models.Model):
+    flatpage = models.OneToOneField(
+        to="flatpages.FlatPage",
+        on_delete=models.CASCADE,
+        verbose_name="Stránka",
+        related_name="metadata",
+    )
+    title = models.CharField("Titulek", max_length=255, blank=True)
+    keywords = models.CharField(
+        "Klíčová slova", help_text="Oddělujte čárkou", max_length=150, blank=True
+    )
+    description = models.TextField("Krátký popis", blank=True)
+    allowed_groups = models.ManyToManyField(
+        UserGroup,
+        verbose_name="Povoleno pro tyto skupiny",
+        help_text="Pokud zde něco zvolíte, stránka bude dostupná pouze pro uvedené skupiny. Pokud chcete nechat stránku dostupnou pro řešitele, nevyplňujte zde nic.",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = "Metadata statické stránky"
+        verbose_name_plural = "Metadata statických stránek"
+
+    def __str__(self):
+        return "Metadata pro %s" % self.flatpage
+
+    def is_accessible_for(self, user):
+        """Decide whether user should be allowed to display this page."""
+        allowed_groups = self.allowed_groups.all()
+
+        if len(allowed_groups) > 0 and (
+            not user.is_authenticated
+            or (
+                not user.is_superuser
+                and all(g not in allowed_groups for g in user.groups.all())
+            )
+        ):
+            return False
+
+        return True

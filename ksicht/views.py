@@ -1,5 +1,11 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.flatpages.models import FlatPage
+from django.contrib.flatpages.views import render_flatpage
+from django.contrib.sites.shortcuts import get_current_site
+from django.http import Http404, HttpResponseForbidden, HttpResponsePermanentRedirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
@@ -42,3 +48,28 @@ class UserProfileEditView(UpdateView):
             "<i class='fas fa-check-circle notification-icon'></i> Váš profil byl aktualizován</strong>.",
         )
         return super().form_valid(form)
+
+
+def permission_protected_flatpage(request, url):
+    """
+    Exactly the same as normal FlatPage view which just verifies the access.
+    """
+    if not url.startswith("/"):
+        url = "/" + url
+
+    site_id = get_current_site(request).id
+
+    try:
+        f = get_object_or_404(FlatPage, url=url, sites=site_id)
+
+        if f.metadata and not f.metadata.is_accessible_for(request.user):
+            return HttpResponseForbidden()
+
+    except Http404:
+        if not url.endswith("/") and settings.APPEND_SLASH:
+            url += "/"
+            f = get_object_or_404(FlatPage, url=url, sites=site_id)
+            return HttpResponsePermanentRedirect("%s/" % request.path)
+
+        raise
+    return render_flatpage(request, f)
