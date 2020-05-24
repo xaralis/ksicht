@@ -1,3 +1,38 @@
 .card-splitter {
     margin: $card-content-padding -1*$card-content-padding;
 }
+
+.card.series-card {
+    border: 2px transparent solid;
+    margin: -2px -2px -2px -2px;
+
+    &.is-current {
+        border: 2px $info solid;
+        position: relative;
+
+        &:before {
+            content: "";
+            width: 0;
+            height: 0;
+            right: 0;
+            border-top: 6rem solid $info;
+            border-bottom: 6rem solid transparent;
+            border-left: 6rem solid transparent;
+            position: absolute;
+        }
+
+        &:after {
+            content: "Právě probíhá";
+            position: absolute;
+            top: 28px;
+            width: 6rem;
+            right: -9px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            transform: rotate(45deg);
+            display: block;
+        }
+    }
+}
