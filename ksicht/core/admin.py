@@ -144,6 +144,11 @@ class StickerAdmin(admin.ModelAdmin):
     list_display = ("nr", "title", "handpicked")
 
 
+class EventAttendeeInline(admin.TabularInline):
+    model = models.EventAttendee
+    readonly_fields = ("signup_date",)
+
+
 @admin.register(models.Event)
 class EventAdmin(admin.ModelAdmin):
     search_fields = ("title",)
@@ -155,6 +160,7 @@ class EventAdmin(admin.ModelAdmin):
         "capacity",
         "enlistment_enabled",
     )
+    inlines = (EventAttendeeInline,)
     date_hierarchy = "start_date"
 
     formfield_overrides = {

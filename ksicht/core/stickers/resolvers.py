@@ -51,13 +51,6 @@ def solved_all_tasks(context):
     )
 
 
-@sticker(5)
-def attended_trip_event(context):
-    """Given to anyone participating in a series who has attended a trip event beforehand."""
-    # TBD
-    return False
-
-
 @sticker(8)
 def zero_points(context):
     """Given to anyone who has been given 0 score points in any of the submitted solutions within a series."""

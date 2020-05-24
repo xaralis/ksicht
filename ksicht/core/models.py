@@ -529,6 +529,27 @@ class Sticker(models.Model):
         return (self.nr,)
 
 
+class EventAttendee(models.Model):
+    user = models.ForeignKey(User, verbose_name="Účastník", on_delete=models.CASCADE)
+    event = models.ForeignKey(
+        "core.Event", verbose_name="Akce", on_delete=models.CASCADE
+    )
+    signup_date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Datum přihlášky",
+        help_text="Bude využito při vyhodnocování náhradníků.",
+    )
+
+    class Meta:
+        verbose_name = "Přihláška na akci"
+        verbose_name_plural = "Přihlášky na akce"
+        ordering = ("signup_date",)
+        unique_together = ("user", "event")
+
+    def __str__(self):
+        return f"{self.user.get_full_name()} chce jet na {self.event}"
+
+
 class EventManager(models.Manager):
     def future(self, current=None):
         current_date = current or date.today()
@@ -561,7 +582,9 @@ class Event(models.Model):
     enlistment_enabled = models.BooleanField(
         verbose_name="Přihlášení je umožněno", default=False
     )
-    attendees = models.ManyToManyField(User, verbose_name="Účastníci", blank=True)
+    attendees = models.ManyToManyField(
+        User, verbose_name="Účastníci", blank=True, through=EventAttendee
+    )
     reward_stickers = models.ManyToManyField(
         Sticker,
         verbose_name="Nálepky pro účastníky",

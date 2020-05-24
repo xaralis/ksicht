@@ -57,7 +57,7 @@ def sticker_nrs_to_objects(listing):
 def get_event_stickers(series):
     """Resolve stickers to be collected from events.
 
-    These are assigned to everyone who attended.
+    These are assigned to everyone who attended (not to substitutes).
     """
     prev_series = (
         models.GradeSeries.objects.filter(
@@ -106,7 +106,8 @@ class StickerAssignmentOverview(DetailView):
             for event, stickers_from_event in event_stickers:
                 user = application.participant.user
 
-                if user in event.attendees.all():
+                # Only add event stickers to real attendees, not substitutes.
+                if user in event.attendees.all()[: event.capacity]:
                     stickers = stickers.union(set(stickers_from_event))
 
             application_submissions = [
