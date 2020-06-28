@@ -12,8 +12,6 @@ import uuid
 
 class Migration(migrations.Migration):
 
-    replaces = [('core', '0001_initial'), ('core', '0002_auto_20191124_1209'), ('core', '0003_auto_20191124_2029'), ('core', '0004_sticker_description'), ('core', '0005_auto_20200118_1115'), ('core', '0006_auto_20200118_1519'), ('core', '0007_tasksolutionsubmission_stickers'), ('core', '0008_auto_20200118_1639'), ('core', '0009_gradeseries_results_published'), ('core', '0010_auto_20200120_1117'), ('core', '0011_auto_20200121_1715'), ('core', '0012_auto_20200123_0955'), ('core', '0013_event_reward_stickers'), ('core', '0014_auto_20200123_1556'), ('core', '0015_auto_20200123_1557'), ('core', '0016_auto_20200123_1613'), ('core', '0017_auto_20200124_0958'), ('core', '0018_auto_20200124_1106'), ('core', '0019_auto_20200128_1527'), ('core', '0020_auto_20200510_0917'), ('core', '0021_auto_20200524_0845'), ('core', '0022_auto_20200524_0855'), ('core', '0023_auto_20200524_0858'), ('core', '0024_flatpagemeta')]
-
     initial = True
 
     dependencies = [
