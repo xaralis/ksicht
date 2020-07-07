@@ -40,8 +40,8 @@ ENV DJANGO_SETTINGS_MODULE ksicht.settings
 ENV PATH "/home/ksicht/.local/bin:${PATH}"
 
 # Create custom user to avoid running as a root
-RUN addgroup -g 1001 ksicht && \
-    adduser -D -u 1001 -G ksicht ksicht && \
+RUN addgroup -g 990 ksicht && \
+    adduser -D -u 994 -G ksicht ksicht && \
     mkdir /ksicht && \
     chown ksicht:ksicht /ksicht
 
