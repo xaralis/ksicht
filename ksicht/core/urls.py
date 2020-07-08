@@ -96,11 +96,18 @@ urlpatterns = [
         name="series_task_envelopes_printout",
     ),
     path(
-        "rocniky/<grade_id>/serie/<pk>/obalky-s-resenim/",
+        "rocniky/<grade_id>/serie/<pk>/obalky-pro-aktivni-resitele/",
         permission_required("core.series_envelopes_printout")(
-            views.SeriesSolutionEnvelopesPrintout.as_view()
+            views.ActiveParticipantsEnvelopesPrintout.as_view()
         ),
-        name="series_solution_envelopes_printout",
+        name="series_active_participants_envelopes_printout",
+    ),
+    path(
+        "rocniky/<pk>/obalky-pro-vsechny-prihlasene/",
+        permission_required("core.series_envelopes_printout")(
+            views.AllParticipantsEnvelopesPrintout.as_view()
+        ),
+        name="series_all_participants_envelopes_printout",
     ),
     path(
         "rocniky/<grade_id>/bodovani/<task_id>/",

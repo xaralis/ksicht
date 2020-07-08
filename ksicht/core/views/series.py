@@ -1,22 +1,14 @@
 from operator import attrgetter
-from urllib.parse import quote
 
-from django.conf import settings
-from django.http import HttpResponse
-from django.views.generic import View
-from django.views.generic.detail import BaseDetailView, DetailView
+from django.views.generic.detail import DetailView
 import pydash as py_
 
-from ksicht import pdf
 from .. import models, stickers
-from ..constants import SCHOOLS
 
 
 __all__ = (
     "SeriesDetailView",
     "SeriesResultsView",
-    "SeriesTaskEnvelopesPrintout",
-    "SeriesSolutionEnvelopesPrintout",
     "StickerAssignmentOverview",
 )
 
@@ -121,57 +113,3 @@ class StickerAssignmentOverview(DetailView):
 
         data["results"] = {a: _collect_stickers(a) for a in applications}
         return data
-
-
-class SeriesTaskEnvelopesPrintout(View):
-    def get(self, request, *args, **kwargs):
-        response = HttpResponse(content_type="application/pdf")
-        response["Content-Disposition"] = "attachment; filename*=UTF-8''{}.pdf".format(
-            quote("Obálky pro školy")
-        )
-
-        def _build_lines(s):
-            # If street exists
-            if s[9]:
-                return (
-                    "K rukám učitelů chemie",
-                    s[6],
-                    s[8],
-                    f"{s[13]} {s[14]}",
-                )
-            return ("K rukám učitelů chemie", s[6], s[14], s[13])
-
-        lines = [_build_lines(s) for s in SCHOOLS]
-
-        pdf.envelopes(lines, settings.KSICHT_CONTACT_ADDRESS_LINES, response)
-
-        return response
-
-
-class SeriesSolutionEnvelopesPrintout(BaseDetailView):
-    queryset = models.GradeSeries.objects.all()
-
-    def render_to_response(self, context):
-        series = context["object"]
-        active_participants = models.Participant.objects.active_in_series(
-            series
-        ).order_by("user__last_name", "user__first_name", "user__email")
-
-        response = HttpResponse(content_type="application/pdf")
-        response["Content-Disposition"] = "attachment; filename*=UTF-8''{}.pdf".format(
-            quote(str(series) + " - obálky")
-        )
-
-        lines = [
-            (
-                p.get_full_name(),
-                p.street,
-                f"{p.zip_code} {p.city}",
-                p.get_country_display(),
-            )
-            for p in active_participants
-        ]
-
-        pdf.envelopes(lines, settings.KSICHT_CONTACT_ADDRESS_LINES, response)
-
-        return response

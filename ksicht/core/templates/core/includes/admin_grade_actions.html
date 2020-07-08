@@ -3,3 +3,8 @@
     <a href="{% url "core:grade_results_export" pk=object.pk %}" class="has-margin-r-4"><i class="fas fa-trophy has-padding-r-2"></i> Export výsledků do CSV</a>
 </p>
 {% endif %}
+{% if perms.core.series_solution_envelopes_printout %}
+<p class="is-5">
+    <a href="{% url "core:series_all_participants_envelopes_printout" pk=object.pk %}" class="has-margin-r-4"><i class="fas fa-envelope has-padding-r-2"></i> Tisk obálek pro všechny přihlášené</a>
+</p>
+{% endif %}
