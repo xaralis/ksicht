@@ -59,7 +59,8 @@
             {% with object.get_future_series as future_series %}
                 {% for series in object.prefetch_series %}
                     <div class="column is-12-mobile is-6-tablet is-3-desktop">
-                        <div class="card series-card {% if series == current_series %}is-current{% endif %}">
+                        {% comment %}Highlight current series only when the task file is already available as per Jan Hrubeš's request.{% endcomment %}
+                        <div class="card series-card {% if series == current_series and series.task_file %}is-current{% endif %}">
                             <div class="card-content">
                                 <h2 class="is-6 is-uppercase has-text-weight-bold">{{ series }}</h2>
                                 <div class="{% if series not in future_series %}subtitle{% endif %} is-6 has-text-grey">odevzdání do {{ series.submission_deadline | date:"d.m." }}</div>
