@@ -291,33 +291,33 @@ KSICHT_CONTACT_ADDRESS_LINES = [
 
 KSICHT_PEOPLE = [
     {
-        "name": "Jan Hořejší",
+        "name": "Jaroslav Cerman",
         "alt": "Gymnázium Dašická",
-        "bio": "Dnes už jsem tak trochu mimo hlavní dění na své aktuální pozici v Olomouci, ale stále píšu úlohy, často i seriál, recenzuji fyzikálu a biochemii a podílím se na celkové organizaci semináře podle toho, co časově zvládnu.",
+        "bio": "Pocházím z Krkonoš. Ksicht jsem začal řešit v roce 2012 a provázel mě celým gymnaziálním studiem. Jsem absolventem VŠCHT, ale časem se moje pozornost zaměřila k informatice a kybernetice. Posledních několik let dělám pro Ksicht jazykového korektora. Podílím se také na pořádání Chemiklání. Ve volném čase rád sáhnu po sci-fi knize či vinylu s tvrdou hudbou.",
         "img": "img/people/person.jpg",
     },
     {
-        "name": "Jan Hořejší",
+        "name": "Pavel Řezanka",
         "alt": "Gymnázium Dašická",
-        "bio": "Vedle pilného studia (:D) a zoufale beznadějných pokusů hrát volejbal (:/), taky čas od času překážím v laborce na ÚOCHBu.",
+        "bio": "KSICHTu se věnuji již od jeho vzniku v roce 2001. Jsem hlavně editorem, tj. připravuji jednotlivé brožurky k tisku, autorem, na kontě mám už několik desítek napsaných úloh, a recenzentem úloh ostatních autorů. Pomáhám s organizací výletů a soustředění. Pracuji na Ústavu analytické chemie VŠCHT Praha, kde se zabývám nanočásticemi, separačními technikami a radioanalytickými metodami.",
         "img": "img/people/person2.jpg",
     },
     {
-        "name": "Jan Hořejší",
+        "name": "Tereza Dobrovolná",
         "alt": "Gymnázium Dašická",
-        "bio": "Sem tam vytvořím úlohu, recenzuji anorganiku a podílím se na přípravě a realizaci laborek z anorganiky na soustředění.",
+        "bio": "Jsem rodačka z Chrudimi a KSICHT jsem řešila po celou dobu studií na gymnáziu. Potom jsem začala chodit na Přírodovědeckou fakultu Univerzity Karlovy, kde studuju chemii. Starám se o chod semináře - třídím došlá řešení, posílám je autorům k opravě, sbíram je od nich zpátky a organizuju jejich cestu zpátky k řešitelům. Ve svém volném čase si ráda zahraju třeba volejbal.",
         "img": "img/people/person2.jpg",
     },
     {
-        "name": "Jan Hořejší",
+        "name": "Jan Hrubeš",
         "alt": "Gymnázium Dašická",
-        "bio": "Sem tam nějakou tu úložku do blbinek a anorganiky, neustále zdržuju dokončování brožurek ať už nedokončenýma úložkama, nebo nedoopravenýma řešeníma. Občas se pokouším spoluorganizovat výlet nebo oblbuju ostatní blbýma nápadama.",
+        "bio": "Jsem rodilý Pardubák. Po absolvování tamější univerzity v oboru organické chemie jsem změnil obor a nyní studuji doktorát didaktiky chemie na Přírodovědecké fakultě Univerzity Karlovy. Formálně KSICHT zastupuju na všech jednáních - řeším finance na chod semináře a na závěrečné soustředění, vypisuju spoustu papírů a podepisuju diplomy.",
         "img": "img/people/person.jpg",
     },
     {
-        "name": "Jan Hořejší",
+        "name": "Richard Veselý",
         "alt": "Gymnázium Dašická",
-        "bio": "Recenzuji analytiku a biochemii, pokud mě zastihne inspirace napíši i úlohu.",
+        "bio": "Lorem ipsum dolor sec.",
         "img": "img/people/person2.jpg",
     },
 ]
