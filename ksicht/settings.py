@@ -312,7 +312,7 @@ KSICHT_PEOPLE = [
     },
     {
         "name": "Richard Veselý",
-        "bio": "Lorem ipsum dolor sec.",
+        "bio": "V KSICHTu dělám správce úloh. To znamená, že bych se měl starat o to, aby bylo v sérii všech pět úloh a aby proces jejich tvorby byl co nejjednoduší. Ke KSICHTu jsem se dostal v prváku na SŠ přes chemický kroužek. Moc mě zaujal a tak jsem se mu věnoval po zbytek střední školy. Aktuálně studuji obor Natural Science v Cambridge. Mimo chemii je mým největší zájmem debatování o politice, hraní strategických deskovek a trávení času s mými sourozenci.",
         "img": "img/people/richard-vesely.png",
     },
 ]
