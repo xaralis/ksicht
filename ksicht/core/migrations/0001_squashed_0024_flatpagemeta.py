@@ -15,276 +15,1523 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('flatpages', '0001_initial'),
-        ('auth', '0011_update_proxy_permissions'),
+        ("flatpages", "0001_initial"),
+        ("auth", "0011_update_proxy_permissions"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='User',
+            name="User",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
-                ('email', models.EmailField(error_messages={'unique': 'A user with that email address already exists.'}, max_length=254, unique=True, verbose_name='email address')),
-                ('first_name', models.CharField(blank=True, max_length=30, verbose_name='first name')),
-                ('last_name', models.CharField(blank=True, max_length=150, verbose_name='last name')),
-                ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
-                ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
-                ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups')),
-                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "last_login",
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="last login"
+                    ),
+                ),
+                (
+                    "is_superuser",
+                    models.BooleanField(
+                        default=False,
+                        help_text="Designates that this user has all permissions without explicitly assigning them.",
+                        verbose_name="superuser status",
+                    ),
+                ),
+                (
+                    "email",
+                    models.EmailField(
+                        error_messages={
+                            "unique": "A user with that email address already exists."
+                        },
+                        max_length=254,
+                        unique=True,
+                        verbose_name="email address",
+                    ),
+                ),
+                (
+                    "first_name",
+                    models.CharField(
+                        blank=True, max_length=30, verbose_name="first name"
+                    ),
+                ),
+                (
+                    "last_name",
+                    models.CharField(
+                        blank=True, max_length=150, verbose_name="last name"
+                    ),
+                ),
+                (
+                    "is_staff",
+                    models.BooleanField(
+                        default=False,
+                        help_text="Designates whether the user can log into this admin site.",
+                        verbose_name="staff status",
+                    ),
+                ),
+                (
+                    "is_active",
+                    models.BooleanField(
+                        default=True,
+                        help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
+                        verbose_name="active",
+                    ),
+                ),
+                (
+                    "date_joined",
+                    models.DateTimeField(
+                        default=django.utils.timezone.now, verbose_name="date joined"
+                    ),
+                ),
+                (
+                    "groups",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.Group",
+                        verbose_name="groups",
+                    ),
+                ),
+                (
+                    "user_permissions",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Specific permissions for this user.",
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.Permission",
+                        verbose_name="user permissions",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'user',
-                'verbose_name_plural': 'users',
-                'abstract': False,
+                "verbose_name": "user",
+                "verbose_name_plural": "users",
+                "abstract": False,
             },
-            managers=[
-                ('objects', cuser.models.CUserManager()),
-            ],
+            managers=[("objects", cuser.models.CUserManager()),],
         ),
         migrations.CreateModel(
-            name='Grade',
+            name="Grade",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('school_year', models.CharField(db_index=True, default=ksicht.core.models.default_grade_school_year, max_length=50, unique=True, verbose_name='Školní rok')),
-                ('errata', models.TextField(blank=True, verbose_name='Errata')),
-                ('start_date', models.DateField(db_index=True, default=ksicht.core.models.default_grade_start, verbose_name='Začíná')),
-                ('end_date', models.DateField(db_index=True, default=ksicht.core.models.default_grade_end, verbose_name='Končí')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                (
+                    "school_year",
+                    models.CharField(
+                        db_index=True,
+                        default=ksicht.core.models.default_grade_school_year,
+                        max_length=50,
+                        unique=True,
+                        verbose_name="Školní rok",
+                    ),
+                ),
+                ("errata", models.TextField(blank=True, verbose_name="Errata")),
+                (
+                    "start_date",
+                    models.DateField(
+                        db_index=True,
+                        default=ksicht.core.models.default_grade_start,
+                        verbose_name="Začíná",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.DateField(
+                        db_index=True,
+                        default=ksicht.core.models.default_grade_end,
+                        verbose_name="Končí",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Ročník',
-                'verbose_name_plural': 'Ročníky',
-                'ordering': ('-end_date',),
+                "verbose_name": "Ročník",
+                "verbose_name_plural": "Ročníky",
+                "ordering": ("-end_date",),
             },
         ),
         migrations.CreateModel(
-            name='GradeApplication',
+            name="GradeApplication",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('grade', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Grade')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "grade",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="core.Grade"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Přihláška do ročníku',
-                'verbose_name_plural': 'Přihlášky do ročníku',
+                "verbose_name": "Přihláška do ročníku",
+                "verbose_name_plural": "Přihlášky do ročníku",
             },
         ),
         migrations.CreateModel(
-            name='GradeSeries',
+            name="GradeSeries",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('series', models.CharField(choices=[('1', '1.'), ('2', '2.'), ('3', '3.'), ('4', '4.')], db_index=True, max_length=1, verbose_name='Série')),
-                ('submission_deadline', models.DateTimeField(verbose_name='Deadline pro odeslání řešení')),
-                ('task_file', models.FileField(blank=True, null=True, upload_to='rocniky/zadani/', verbose_name='Brožura')),
-                ('grade', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='series', to='core.Grade', verbose_name='Ročník')),
-                ('results_published', models.BooleanField(db_index=True, default=False, verbose_name='Zveřejnit výsledky')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                (
+                    "series",
+                    models.CharField(
+                        choices=[("1", "1."), ("2", "2."), ("3", "3."), ("4", "4.")],
+                        db_index=True,
+                        max_length=1,
+                        verbose_name="Série",
+                    ),
+                ),
+                (
+                    "submission_deadline",
+                    models.DateTimeField(verbose_name="Deadline pro odeslání řešení"),
+                ),
+                (
+                    "task_file",
+                    models.FileField(
+                        blank=True,
+                        null=True,
+                        upload_to="rocniky/zadani/",
+                        verbose_name="Brožura",
+                    ),
+                ),
+                (
+                    "grade",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="series",
+                        to="core.Grade",
+                        verbose_name="Ročník",
+                    ),
+                ),
+                (
+                    "results_published",
+                    models.BooleanField(
+                        db_index=True, default=False, verbose_name="Zveřejnit výsledky"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Série',
-                'verbose_name_plural': 'Série',
-                'ordering': ('grade', 'series'),
-                'unique_together': {('grade', 'series')},
-                'permissions': (('series_task_envelopes_printout', 'Export obálek pro školy se zadáním'), ('series_solution_envelopes_printout', 'Export obálek s řešením')),
+                "verbose_name": "Série",
+                "verbose_name_plural": "Série",
+                "ordering": ("grade", "series"),
+                "unique_together": {("grade", "series")},
+                "permissions": (
+                    (
+                        "series_task_envelopes_printout",
+                        "Export obálek pro školy se zadáním",
+                    ),
+                    ("series_solution_envelopes_printout", "Export obálek s řešením"),
+                ),
             },
         ),
         migrations.CreateModel(
-            name='Task',
+            name="Task",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('title', models.CharField(max_length=150, verbose_name='Název')),
-                ('points', models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(1)], verbose_name='Max. počet bodů')),
-                ('series', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='tasks', to='core.GradeSeries', verbose_name='Série')),
-                ('nr', models.CharField(choices=[('1', '1.'), ('2', '2.'), ('3', '3.'), ('4', '4.'), ('5', '5.')], db_index=True, default=1, max_length=1, verbose_name='Číslo úlohy')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("title", models.CharField(max_length=150, verbose_name="Název")),
+                (
+                    "points",
+                    models.PositiveIntegerField(
+                        validators=[django.core.validators.MinValueValidator(1)],
+                        verbose_name="Max. počet bodů",
+                    ),
+                ),
+                (
+                    "series",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="tasks",
+                        to="core.GradeSeries",
+                        verbose_name="Série",
+                    ),
+                ),
+                (
+                    "nr",
+                    models.CharField(
+                        choices=[
+                            ("1", "1."),
+                            ("2", "2."),
+                            ("3", "3."),
+                            ("4", "4."),
+                            ("5", "5."),
+                        ],
+                        db_index=True,
+                        default=1,
+                        max_length=1,
+                        verbose_name="Číslo úlohy",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Úloha',
-                'verbose_name_plural': 'Úlohy',
-                'ordering': ('series', 'nr'),
-                'permissions': (('solution_export', 'Export odevzdaných úloh'),),
+                "verbose_name": "Úloha",
+                "verbose_name_plural": "Úlohy",
+                "ordering": ("series", "nr"),
+                "permissions": (("solution_export", "Export odevzdaných úloh"),),
             },
         ),
         migrations.CreateModel(
-            name='Participant',
+            name="Participant",
             fields=[
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='participant_profile', serialize=False, to=settings.AUTH_USER_MODEL)),
-                ('phone', models.CharField(max_length=20, null=True, verbose_name='Telefon')),
-                ('street', models.CharField(max_length=100, verbose_name='Ulice a číslo popisné/orientační')),
-                ('city', models.CharField(max_length=100, verbose_name='Obec')),
-                ('zip_code', models.CharField(max_length=10, verbose_name='PSČ')),
-                ('country', models.CharField(choices=[('other', '-- jiný --'), ('cz', 'Česko'), ('sk', 'Slovensko')], max_length=10, verbose_name='Stát')),
-                ('school', models.CharField(choices=[('--jiná--', '-- jiná --'), ('600008975', 'Aš – Gymnázium Aš, příspěvková organizace'), ('650068955', 'Babice – OPEN GATE - gymnázium a ZŠ, s.r.o.'), ('600006671', 'Benešov – Gymnázium Husova'), ('600006808', 'Beroun – Gymnázium J. Barranda'), ('600016773', 'Bílovec – Gymnázium M. Koperníka'), ('600013235', 'Blansko – Gymnázium Blansko'), ('600009751', 'Blovice – Gymnázium Družstevní'), ('600016455', 'Bohumín – Gymnázium Fr.Živného'), ('600013294', 'Boskovice – Gymnázium Palackého náměstí'), ('600007774', 'Brandýs nad Labem-Stará Boleslav – Gymnázium J. S. Machara'), ('600024938', 'Brno – AKADEMIA Gy, ZŠ a MŠ, s.r.o.'), ('600013405', 'Brno – Biskupské gymnázium a mateřská škola'), ('600013740', 'Brno – Cyrilomet.gymnázium a SOŠ pedagog. Brno'), ('600013758', 'Brno – EKO GYMNÁZIUM o.p.s.'), ('600013863', 'Brno – Gymnázium Brno-Bystrc'), ('600013413', 'Brno – Gymnázium Brno-Řečkovice'), ('600013421', 'Brno – Gymnázium Elgartova'), ('600013537', 'Brno – Gymnázium Globe, s.r.o.'), ('600013961', 'Brno – Gymnázium J.G.Mendela a jeho zař. a ZUŠ'), ('600013464', 'Brno – Gymnázium Křenová'), ('600013626', 'Brno – Gymnázium Matyáše Lercha'), ('600013693', 'Brno – Gymnázium Mojmírovo náměstí s.r.o.'), ('600013651', 'Brno – Gymnázium P.Křížk. s uměl.profil.,s.r.o.'), ('600013472', 'Brno – Gymnázium Slovanské náměstí'), ('600013481', 'Brno – Gymnázium třída Kpt. Jaroše'), ('600013448', 'Brno – Gymnázium Vídeňská'), ('600013898', 'Brno – I. Něm. zem. gymnasium, ZŠ a MŠ, o.p.s.'), ('600013677', 'Brno – Moravské gymnázium Brno s.r.o.'), ('600013634', 'Brno – Sportovní gymnázium Ludvíka Daňka'), ('600013669', 'Brno – Střední odborná škola EDUCAnet Brno'), ('600012107', 'Broumov – Gymnázium Hradební'), ('600016064', 'Bruntál – Všeobecné a sportovní gymnázium'), ('600014258', 'Břeclav – Gymnázium a JŠ s právem st. j. zk.'), ('600014282', 'Břeclav – Soukromá SOŠ Břeclav, s.r.o.'), ('600015637', 'Bučovice – Gymnázium a obchodní akademie'), ('600016005', 'Bystřice nad Pernštejnem – Gymnázium Bystřice nad Pernštejnem'), ('600007243', 'Čáslav – Gymnázium a SOŠ pedagogická'), ('600007693', 'Čelákovice – Gymnázium J. A. Komenského'), ('600076431', 'Česká Kamenice – ZŠ T. G. Masaryka a gymnázium'), ('600009998', 'Česká Lípa – Gymnázium, příspěvková organizace'), ('600013022', 'Česká Třebová – Gymnázium Tyršovo náměstí'), ('600008088', 'České Budějovice – Biskup. gymn. J.N.Neumanna a Církevní ZŠ'), ('600008100', 'České Budějovice – České reálné gymnázium s.r.o.'), ('600008096', 'České Budějovice – Česko-anglické gymnázium s.r.o.'), ('600008266', 'České Budějovice – EDUCAnet - SŠ a ZŠ ČB, s.r.o.'), ('600008151', 'České Budějovice – Gymnázium Česká'), ('600007995', 'České Budějovice – Gymnázium J. V. Jirsíka'), ('600008002', 'České Budějovice – Gymnázium Jírovcova'), ('600008118', 'České Budějovice – SŠ informatiky a právních studií, o.p.s.'), ('600007120', 'Český Brod – Gymnázium Vítězná'), ('600008231', 'Český Krumlov – Gymnázium Chvalšinská'), ('600016463', 'Český Těšín – Gymnázium Josefa Božka'), ('600016501', 'Český Těšín – Polské gymnázium - Polskie Gimnazjum'), ('600008347', 'Dačice – Gymnázium B. Němcové'), ('600010198', 'Děčín – Gymnázium Komenského nám.'), ('600012549', 'Dobruška – Gymnázium Pulická'), ('600007812', 'Dobříš – Gymnázium Karla Čapka'), ('691001529', 'Dolní Břežany – SŠ, ZŠ a MŠ da Vinci'), ('600008908', 'Domažlice – Gymnázium J.Š.Baara'), ('600011232', 'Dubí – GYMNÁZIUM J.A.Komenského s.r.o.'), ('600011267', 'Duchcov – Gymnázium a Střední průmyslová škola'), ('600012867', 'Dvůr Králové nad Labem – Gymnázium náměstí Odboje'), ('600016749', 'Frenštát pod Radhoštěm – Gymnázium a SPŠ elektro. a informatiky'), ('600016234', 'Frýdek-Místek – Gymnázium a SOŠ'), ('600016315', 'Frýdek-Místek – Gymnázium Petra Bezruče'), ('650007557', 'Frýdlant nad Ostravicí – Gymnázium BMA, s.r.o.'), ('600016251', 'Frýdlant nad Ostravicí – Gymnázium Nám. T. G. Masaryka'), ('600010511', 'Frýdlant – Gymnázium, příspěvková organizace'), ('600016471', 'Havířov – Gymnázium J. A. Komenského'), ('600016684', 'Havířov – Gymnázium Studentská'), ('600171230', 'Havířov – Střední škola Kapitána Jasioka'), ('600011500', 'Havlíčkův Brod – Gymnázium Havlíčkův Brod'), ('600011852', 'Hlinsko – Gymnázium K. V. Raise a SOU'), ('600017249', 'Hlučín – Gymnázium Josefa Kainara'), ('600014673', 'Hodonín – Gy, OA a JŠ s právem státní JZ'), ('600015050', 'Holešov – Gymnázium L. Jaroše'), ('600012301', 'Holice – Gymnázium Dr. Emila Holuba'), ('691006521', 'Hořice – Hořické gymnázium'), ('691012458', 'Hořice – Zem. akademie a Gymn. Hořice - SŠ a VOŠ'), ('600006816', 'Hořovice – Gymnázium Václava Hraběte'), ('691002339', 'Hostivice – Gymnázium Komenského'), ('691000794', 'Hradec Králové – Biskupské gymnázium, círk. ZŠ, MŠ a ZUŠ'), ('600011666', 'Hradec Králové – Gymnázium Boženy Němcové'), ('600011674', 'Hradec Králové – Gymnázium J. K. Tyla'), ('600011615', 'Hradec Králové – První soukr.jazyk.gymnázium Hradec Král.'), ('691004048', 'Hradec Králové – SŠ Sion High School'), ('600017788', 'Hranice – Gymnázium Zborovská'), ('600008410', 'Humpolec – Gymnázium dr. A. Hrdličky'), ('600014134', 'Hustopeče – Gymnázium T.G. Masaryka'), ('600009009', 'Cheb – Gymnázium Cheb'), ('600009076', 'Cheb – Svob.cheb.škola, ZŠ a gymnázium s.r.o.'), ('600010287', 'Chomutov – Gymnázium Mostecká'), ('600011526', 'Chotěboř – Gymnázium Chotěboř'), ('600011887', 'Chrudim – Gymnázium Josefa Ressela'), ('600014053', 'Ivančice – Gymnázium Jana Blahoslava'), ('600171744', 'Jablonec nad Nisou – Gymnázium Dr. A. Randy, přísp. org.'), ('600010449', 'Jablonec nad Nisou – Gymnázium, příspěvková organizace'), ('600012123', 'Jaroměř – Gymnázium Jaroslava Žáka'), ('651024617', 'Jesenice – Sunny Canadian IS-ZŠ a Gymnázium, s.r.o.'), ('600018351', 'Jeseník – Gymnázium Komenského'), ('600012751', 'Jevíčko – Gymnázium A. K. Vitáka'), ('600011992', 'Jičín – Lepařovo gymnázium'), ('600014746', 'Jihlava – Gymnázium Jihlava'), ('600014932', 'Jihlava – Soukromé gymnázium AD FONTES, o.p.s.'), ('600171752', 'Jilemnice – Gymn., SOŠ a Střední zdravot. škola'), ('600008282', 'Jindřichův Hradec – Gymnázium Vítězslava Nováka'), ('600077594', 'Jirkov – Městské gymnázium a Základní škola'), ('600010295', 'Kadaň – Gymnázium 5. května'), ('651016029', 'Kaplice – SOŠ a SOU'), ('600009262', 'Karlovy Vary – První české gymnázium v Karlových Varech'), ('600009122', 'Karlovy Vary – Střední pedagog. škola, gymnázium a VOŠ'), ('600016480', 'Karviná – Gymnázium Mírová'), ('600006972', 'Kladno – Gymnázium nám. Edvarda Beneše'), ('600171728', 'Kladno – Sportovní gymnázium'), ('600010325', 'Klášterec nad Ohří – Gymn.a SOŠ, příspěvková organizace'), ('600009327', 'Klatovy – Gymnázium Jaroslava Vrchlického'), ('600014118', 'Klobouky u Brna – Městské víceleté gymnázium'), ('600017974', 'Kojetín – Gymnázium Svatopluka Čecha'), ('600007081', 'Kolín – Gymnázium Žižkova'), ('600015149', 'Konice – ZŠ a gymnázium města Konice'), ('600007332', 'Kralupy nad Vltavou – Dvořákovo gymnázium a SOŠ ekonomická'), ('600007359', 'Kralupy nad Vltavou – SOŠ a SOU'), ('600016056', 'Krnov – Gymnázium Smetanův okruh'), ('600015033', 'Kroměříž – Arcibiskupské gymnázium v Kroměříži'), ('600014941', 'Kroměříž – Gymnázium Kroměříž'), ('600001431', 'Krupka – Biskupské gymnázium, ZŠ a MŠ Bohosudov'), ('600015572', 'Kunovice – Soukr.gymnázium, SOŠ a JŠ se SJZ, s.r.o.'), ('691006199', 'Kutná Hora – Církevní gymnázium'), ('600007219', 'Kutná Hora – Gymnázium Jiřího Ortena'), ('600014533', 'Kyjov – Klvaňovo gymnázium a SZdrŠ'), ('600013057', 'Lanškroun – Gymnázium Lanškroun'), ('600011534', 'Ledeč nad Sázavou – Gymnázium, SOŠ a VOŠ'), ('600013120', 'Letohrad – Letohradské soukromé gymnázium o.p.s.'), ('600010538', 'Liberec – Doctrina- Podještědské gymnázium, s.r.o.'), ('600010589', 'Liberec – G a SOŠ pedag.,příspěvková organizace'), ('600010554', 'Liberec – Gymn.F.X.Šaldy, příspěvková organizace'), ('600170594', 'Liberec – SŠ a MŠ, příspěvková organizace Na Bojišti'), ('600017923', 'Lipník nad Bečvou – Gymnázium Komenského sady'), ('600010830', 'Litoměřice – Gymnázium Josefa Jungmanna'), ('600010805', 'Litoměřice – Střední škola a Mateřská škola, o.p.s.'), ('600012701', 'Litomyšl – Gymnázium Aloise Jiráska'), ('600017117', 'Litovel – Gymnázium Jana Opletala'), ('600011062', 'Litvínov – Gymnázium T. G. Masaryka'), ('600010929', 'Louny – Gymnázium Václava Hlavatého'), ('600010911', 'Lovosice – Gymnázium Sady pionýrů'), ('600008991', 'Mariánské Lázně – Gymnázium a obchodní akademie Mar. Lázně'), ('600007316', 'Mělník – Gymnázium Jana Palacha'), ('600011119', 'Meziboří – Střední škola EDUCHEM, a.s.'), ('600014151', 'Mikulov – Gymnázium a SOŠ'), ('600008533', 'Milevsko – Gymnázium Masarykova'), ('600010007', 'Mimoň – Gymnázium, příspěvková organizace'), ('600007502', 'Mladá Boleslav – Gymnázium Dr. Josefa Pekaře'), ('600007413', 'Mladá Boleslav – Gymnázium Palackého'), ('600007421', 'Mnichovo Hradiště – Gymnázium Studentská'), ('600012760', 'Moravská Třebová – Gymnázium a Letecká SOŠ'), ('600015335', 'Moravské Budějovice – Gymnázium a SOŠ Tyršova'), ('600015726', 'Moravský Krumlov – Gymnázium Smetanova'), ('600011054', 'Most – Podkrušnohorské gymnázium'), ('600012271', 'Náchod – ACADEMIA MERCURII soukromá SŠ, s.r.o.'), ('600012115', 'Náchod – Jiráskovo gymnázium'), ('600007308', 'Neratovice – Gymnázium Františka Palackého'), ('600012026', 'Nová Paka – Gymnázium a SOŠ pedagogická'), ('600015904', 'Nové Město na Moravě – Gymnázium V.Makovského se sport. třídami'), ('600007961', 'Nové Strašecí – Gymnázium J. A. Komenského'), ('600020347', 'Nový Bor – VOŠ sklář. a SŠ, příspěvková organizace'), ('600011682', 'Nový Bydžov – Gymnázium, SOŠ a VOŠ'), ('600016820', 'Nový Jičín – Gymnázium Palackého'), ('600007634', 'Nymburk – Gymnázium Bohumila Hrabala'), ('600017036', 'Olomouc – CÍRKEVNÍ GYMNÁZIUM NĚMECKÉHO ŘÁDU'), ('600016935', 'Olomouc – Gymnázium Čajkovského'), ('600016927', 'Olomouc – Gymnázium Tomkova'), ('600016943', 'Olomouc – Slovanské gymnázium'), ('600016986', 'Olomouc – Střední škola logistiky a chemie'), ('600017311', 'Opava – Masarykova SŠ zemědělská a VOŠ'), ('600017320', 'Opava – Mendelovo gymnázium'), ('600017265', 'Opava – Slezské gymnázium'), ('600016536', 'Orlová – Gymnázium a Obchodní akademie'), ('650078331', 'Orlová – Gymnázium Jana Šabršuly s.r.o.'), ('650076991', 'Ostrava – 1st IS of Ostrava - mez.gymnázium,s.r.o.'), ('600017541', 'Ostrava – Biskupské gymnázium v Ostravě'), ('600016366', 'Ostrava – Gymnázium EDUCAnet Ostrava s.r.o.'), ('600017451', 'Ostrava – Gymnázium Františka Hajdy'), ('600017494', 'Ostrava – Gymnázium Hladnov a JŠ s právem SJZ'), ('600017478', 'Ostrava – Gymnázium Olgy Havlové'), ('600017486', 'Ostrava – Gymnázium Volgogradská'), ('691000565', 'Ostrava – Gymnázium, ZŠ a MŠ Hello s.r.o.'), ('650077393', 'Ostrava – IUVENTAS-Soukr.gymnázium a SOŠ s.r.o.'), ('600017591', 'Ostrava – Jazyk.a hum. GYMNÁZIUM PRIGO, s.r.o.'), ('600017443', 'Ostrava – Jazykové gymnázium Pavla Tigrida'), ('600016447', 'Ostrava – Lék. a přír. GYMNÁZIUM PRIGO, s.r.o.'), ('600017508', 'Ostrava – Matiční gymnázium'), ('600017532', 'Ostrava – SOŠ umělecká a gymnázium, s.r.o.'), ('600017516', 'Ostrava – Sportovní gymnázium D. a E. Zátopkových'), ('600017648', 'Ostrava – Wichterlovo gymnázium'), ('600009297', 'Ostrov – Gymnázium Ostrov'), ('600014312', 'Otrokovice – Gymnázium tř. Spojenců'), ('600014495', 'Otrokovice – Střední průmyslová škola Otrokovice'), ('691007551', 'Pacov – Gymnázium Pacov'), ('600012298', 'Pardubice – Anglické gymnázium, SOŠ a VOŠ, s.r.o.'), ('600012310', 'Pardubice – Gymnázium Dašická'), ('600012425', 'Pardubice – Gymnázium Mozartova'), ('600012409', 'Pardubice – Sportovní gymnázium'), ('600012433', 'Pardubice – Střední průmyslová škola chemická'), ('600008436', 'Pelhřimov – Gymnázium a Obchodní akademie'), ('600008541', 'Písek – Gymnázium Komenského'), ('600009793', 'Plasy – Gymnázium a Střední odborná škola, Plasy'), ('600009611', 'Plzeň – Církevní gymnázium'), ('600009637', 'Plzeň – Gymnázium Františka Křižíka a ZŠ, s.r.o.'), ('600009548', 'Plzeň – Gymnázium Luďka Pika'), ('600009556', 'Plzeň – Gymnázium Mikulášské náměstí'), ('600009530', 'Plzeň – Masarykovo gymnázium'), ('600009459', 'Plzeň – Sportovní gymnázium Plzeň'), ('600011003', 'Podbořany – Gymnázium a Střední odborná škola'), ('600007570', 'Poděbrady – EKO Gymnázium a SOŠ Multimediál. studií'), ('600007553', 'Poděbrady – Gymnázium Jiřího z Poděbrad'), ('600012859', 'Polička – Gymnázium nábř. Svobody'), ('651028922', 'Praha 1 – 1. Slovanské gymnázium a jazyková škola'), ('600004708', 'Praha 1 – Akademické gymnázium'), ('651037026', 'Praha 1 – Anglicko-české gymnázium AMAZON s.r.o.'), ('600004546', 'Praha 1 – Gymnázium J.G.Jarkovského'), ('600004589', 'Praha 1 – Gymnázium Jana Nerudy, škola hl.m. Prahy'), ('600004635', 'Praha 1 – GYMNÁZIUM JANA PALACHA PRAHA 1, s.r.o.'), ('600004694', 'Praha 1 – Gymnázium prof. Jana Patočky'), ('600004597', 'Praha 1 – Malostranské gymnázium'), ('691009619', 'Praha 10 – Bankovní akademie - Gy a SOŠ, a.s.'), ('600006531', 'Praha 10 – Gymn. bří Čapků a První české soukr. SOU'), ('600005160', 'Praha 10 – Gymnázium ALTIS s.r.o.'), ('600006646', 'Praha 10 – Gymnázium Omská'), ('600171710', 'Praha 10 – Gymnázium Přípotoční'), ('600006603', 'Praha 10 – Gymnázium Voděradská'), ('600006476', 'Praha 10 – Křesťanské gymnázium'), ('651040370', 'Praha 10 – Soukr. osm. gymn. DINO-H. SCHOOL s.r.o.'), ('600004791', 'Praha 2 – Arcibiskupské gymnázium'), ('600020797', 'Praha 2 – Gymn., SOŠ, ZŠ a MŠ pro sluch. postižené'), ('600004724', 'Praha 2 – Gymnázium Botičská'), ('600005178', 'Praha 2 – Gymnázium Evolution, s.r.o.'), ('600027341', 'Praha 2 – Jedličkův ústav a MŠ, ZŠ a Střední škola'), ('610380061', 'Praha 2 – Lauderova MŠ,ZŠ a gymnázium při Žid.obci'), ('600001873', 'Praha 3 – Gymnázium a Hudební škola hl.m.Prahy,ZUŠ'), ('600004911', 'Praha 3 – Gymnázium Karla Sladkovského'), ('600004961', 'Praha 3 – Gymnázium Na Pražačce'), ('600005305', 'Praha 4 – EDUCAnet-gymn., SOŠ a ZŠ Praha, s.r.o.'), ('600005348', 'Praha 4 – Gymnázium Budějovická'), ('600005054', 'Praha 4 – Gymnázium Elišky Krásnohorské'), ('691000468', 'Praha 4 – Gymnázium Milady Horákové'), ('600005143', 'Praha 4 – Gymnázium Na Vítězné pláni'), ('600005208', 'Praha 4 – Gymnázium Opatov'), ('600005046', 'Praha 4 – Gymnázium Písnická'), ('600005089', 'Praha 4 – Gymnázium Postupická'), ('600005267', 'Praha 4 – Klasické gymnázium Modřany a ZŠ'), ('691003050', 'Praha 4 – MŠ, ZŠ a gymnázium sv. Augustina'), ('600006549', 'Praha 4 – Pražské humanitní gymnázium'), ('600005551', 'Praha 4 – Rakouské gymnázium v Praze o.p.s.'), ('600171418', 'Praha 5 – Gymnázium a SOŠ pro zrakově postižené'), ('600005518', 'Praha 5 – Gymnázium Christiana Dopplera'), ('600005534', 'Praha 5 – Gymnázium Jaroslava Heyrovského'), ('691000212', 'Praha 5 – Gymnázium mez.a veř. vztahů Praha s.r.o'), ('600005496', 'Praha 5 – Gymnázium Na Zatlance'), ('600005623', 'Praha 5 – Gymnázium Nad Kavalírkou'), ('600005500', 'Praha 5 – Gymnázium Oty Pavla'), ('650004639', 'Praha 5 – Němec.škola s.r.o.-zahran.škola a gymn.'), ('600004872', 'Praha 5 – Soukromé gymnasium J. Škvoreckého s.r.o.'), ('600005682', 'Praha 6 – Gymnázium Arabská'), ('600005691', 'Praha 6 – Gymnázium Jana Keplera'), ('600005771', 'Praha 6 – Gymnázium Nad Alejí'), ('600005593', 'Praha 6 – Mensa gymnázium, o.p.s.'), ('600005844', 'Praha 6 – VOŠ ped. a soc., SOŠ ped. a Gymnázium'), ('600004821', 'Praha 7 – Gymnázium Duhovka s.r.o.'), ('600171701', 'Praha 7 – Gymnázium Nad Štolou'), ('600005984', 'Praha 7 – Gymnázium Přírodní škola'), ('600005895', 'Praha 7 – Trojské gymnázium s.r.o.'), ('600005933', 'Praha 8 – Gymnázium U libeňského zámku'), ('600005992', 'Praha 8 – Gymnázium Ústavní'), ('600005968', 'Praha 8 – Karlínské gymnázium'), ('600006018', 'Praha 8 – PORG - gymnázium a základní škola,o.p.s.'), ('610380109', 'Praha 8 – ZŠ něm.-čes. por. a Gym. T.Manna, o.p.s.'), ('600006131', 'Praha 9 – Gymnázium Čakovice'), ('600006115', 'Praha 9 – Gymnázium Českolipská'), ('600006166', 'Praha 9 – Gymnázium Chodovická'), ('600006107', 'Praha 9 – Gymnázium J. Seiferta o.p.s.'), ('600006247', 'Praha 9 – Gymnázium Litoměřická'), ('600006352', 'Praha 9 – Gymnázium Špitálská'), ('600006441', 'Praha 9 – Soukromé gymnázium ARCUS s.r.o.'), ('600170063', 'Praha 9 – Střední škola - COP technickohospodářské'), ('600006140', 'Praha 9 – The English College-Angl.gymnázium,o.p.s'), ('600008649', 'Prachatice – Gymnázium Zlatá stezka'), ('600015211', 'Prostějov – Cyrilometodějské G, ZŠ a MŠ v Prostějově'), ('600015157', 'Prostějov – Gymnázium Jiřího Wolkera'), ('600015301', 'Prostějov – Reálné gymnázium a ZŠ města Prostějova'), ('691003009', 'Přelouč – Gymnázium a Střední odborná škola'), ('600017915', 'Přerov – Gymnázium Jakuba Škody'), ('600017842', 'Přerov – Gymnázium Jana Blahoslava a SPgŠ'), ('600016714', 'Příbor – Masarykovo gymnázium'), ('600007847', 'Příbram – Gymnázium Legionářů'), ('600007910', 'Příbram – Gymnázium pod Svatou Horou'), ('600013260', 'Rájec-Jestřebí – Gymnázium, o.p.s.'), ('600007952', 'Rakovník – Gymnázium Zikmunda Wintra'), ('600009831', 'Rokycany – Gymnázium a Střední odborná škola'), ('600010848', 'Roudnice nad Labem – Gymnázium Havlíčkova'), ('600018211', 'Rožnov pod Radhoštěm – Gymnázium Rožnov pod Radhoštěm'), ('600010279', 'Rumburk – Gymnázium Komenského'), ('600012557', 'Rychnov nad Kněžnou – Gymnázium Fr. M. Pelcla'), ('600016188', 'Rýmařov – Gymnázium a SOŠ'), ('600007766', 'Říčany – Gymnázium Komenského náměstí'), ('610451219', 'Říčany – Masarykovo klasické gymnázium, s.r.o.'), ('600007855', 'Sedlčany – Gymnázium a SOŠ ekonomická'), ('600012654', 'Semily – Gymn.I.Olbrachta, příspěvková organizace'), ('691000719', 'Skuteč – Gymnázium Suverénního řádu maltéz.rytířů'), ('600006913', 'Slaný – Gymnázium Václava Beneše Třebízského'), ('600014321', 'Slavičín – Gymnázium Jana Pivečky a SOŠ'), ('600008819', 'Soběslav – Gymnázium tř. Dr. Edvarda Beneše'), ('600009882', 'Sokolov – Gymnázium Sokolov a Krajské vzděl.centr.'), ('610100718', 'Sokolov – Gymnázium, ZŠ a MŠ Mánesova s.r.o.'), ('600008924', 'Staňkov – Soukromá SOŠ a Gymnázium BEAN, s.r.o.'), ('600015556', 'Staré Město – Střední odborná škola a Gymnázium'), ('600008789', 'Strakonice – Gymnázium Máchova'), ('600014541', 'Strážnice – Purkyňovo gymnázium'), ('600009947', 'Stříbro – Gymnázium Soběslavova'), ('600009360', 'Sušice – Gymnázium F. Procházky'), ('600170730', 'Světlá nad Sázavou – Akademie-VOŠ, Gymn. a SOŠ uměleckoprům.'), ('600170730', 'Světlá nad Sázavou – Akademie-VOŠ, Gymn. a SOŠ uměleckoprům.'), ('600012786', 'Svitavy – Gymnázium, OA a JŠ s právem SJZ Svitavy'), ('600014061', 'Šlapanice – Gymnázium a ZUŠ'), ('600016951', 'Šternberk – Gymnázium Horní náměstí'), ('600018016', 'Šumperk – Gymnázium Masarykovo nám.'), ('600008801', 'Tábor – Gymnázium Pierra de Coubertina'), ('600008835', 'Tábor – Táborské soukromé gymnázium a ZŠ, s.r.o.'), ('600009955', 'Tachov – Gymnázium Pionýrská'), ('600010414', 'Tanvald – Gymnázium a OA, příspěvková organizace'), ('600014754', 'Telč – Gymnázium O. Březiny a SOŠ'), ('600011216', 'Teplice – Gymnázium Čs. dobrovolců'), ('600014070', 'Tišnov – Gymnázium Na Hrádku'), ('600008037', 'Trhové Sviny – Gymnázium Školní'), ('600012875', 'Trutnov – Gymnázium Jiráskovo náměstí'), ('600015343', 'Třebíč – Gymnázium Třebíč'), ('600015327', 'Třebíč – Katolické gymnázium'), ('600008291', 'Třeboň – Gymnázium Na sadech'), ('600006794', 'Tři Dvory – Střední škola Kolín, s.r.o.'), ('600016269', 'Třinec – Gymnázium Komenského'), ('600012638', 'Turnov – Gymnázium, příspěvková organizace'), ('600008029', 'Týn nad Vltavou – Gymnázium Čihovice'), ('600015467', 'Uherské Hradiště – Gymnázium Velehradská třída'), ('600015530', 'Uherský Brod – Gymnázium J.A.Komenského a JŠ s pr.SJZ'), ('600016960', 'Uničov – Gymnázium Gymnazijní'), ('691002142', 'Úpice – Městské gymnázium a SOŠ'), ('600011453', 'Ústí nad Labem – Gymnázium a SOŠ dr. Václava Šmejkala'), ('600011321', 'Ústí nad Labem – Gymnázium Jateční'), ('600013065', 'Ústí nad Orlicí – Gymnázium T. G. Masaryka'), ('600014339', 'Valašské Klobouky – Gymnázium Komenského'), ('600018148', 'Valašské Meziříčí – Gymnázium Františka Palackého'), ('600171400', 'Valašské Meziříčí – ISŠ - COP a Jazyková škola s právem SJZ'), ('600010163', 'Varnsdorf – Gymnázium Varnsdorf'), ('650067231', 'Velehrad – Stojanovo gymnázium, Velehrad'), ('600015866', 'Velké Meziříčí – Gymnázium Velké Meziříčí'), ('650071484', 'Velké Pavlovice – Gymnázium Pod Školou'), ('600008690', 'Vimperk – Všeobecné a sportovní gymnázium'), ('600143074', 'Vítkov – Základní škola a gymnázium'), ('600006751', 'Vlašim – Gymnázium Tylova'), ('600063861', 'Vodňany – Základní škola a Gymnázium'), ('600012891', 'Vrchlabí – Krkonošské gymnázium a SOŠ'), ('600018113', 'Vsetín – Masarykovo gymnázium, SZdrŠ a VOŠ zdr.'), ('600018199', 'Vsetín – Střední škola Kostka s.r.o'), ('600013073', 'Vysoké Mýto – Gymnázium nám. Vaňorného'), ('600015629', 'Vyškov – Gy a SOŠ zdravotnická a ekonomická'), ('600018008', 'Zábřeh – Gymnázium náměstí Osvobození'), ('600013987', 'Zastávka – Gymnázium T. G. Masaryka'), ('600014398', 'Zlín – Gymnázium a Jazyková škola s právem SJZ'), ('600014363', 'Zlín – Gymnázium Lesní čtvrť III'), ('600015785', 'Znojmo – Gy, SPgŠ, OA a JŠ s právem státní JZ'), ('600015700', 'Znojmo – Gymnázium Dr. Karla Polesného'), ('600013081', 'Žamberk – Gymnázium Nádražní'), ('600010953', 'Žatec – Gymnázium Studentská'), ('600015831', 'Žďár nad Sázavou – Biskupské gymnázium'), ('600015955', 'Žďár nad Sázavou – Gymnázium Žďár nad Sázavou'), ('600014100', 'Židlochovice – Gymnázium Tyršova')], max_length=80, verbose_name='Škola')),
-                ('school_year', models.CharField(choices=[('4', '4.'), ('3', '3.'), ('2', '2.'), ('1', '1.'), ('l', 'nižší')], max_length=1, verbose_name='Ročník')),
-                ('school_alt_name', models.CharField(blank=True, max_length=80, null=True, verbose_name='Název školy')),
-                ('school_alt_street', models.CharField(blank=True, max_length=100, null=True, verbose_name='Ulice školy')),
-                ('school_alt_city', models.CharField(blank=True, max_length=100, null=True, verbose_name='Obec školy')),
-                ('school_alt_zip_code', models.CharField(blank=True, max_length=10, null=True, verbose_name='PSČ školy')),
-                ('applications', models.ManyToManyField(blank=True, related_name='participants', through='core.GradeApplication', to='core.Grade', verbose_name='Přihlášky')),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        primary_key=True,
+                        related_name="participant_profile",
+                        serialize=False,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "phone",
+                    models.CharField(max_length=20, null=True, verbose_name="Telefon"),
+                ),
+                (
+                    "street",
+                    models.CharField(
+                        max_length=100, verbose_name="Ulice a číslo popisné/orientační"
+                    ),
+                ),
+                ("city", models.CharField(max_length=100, verbose_name="Obec")),
+                ("zip_code", models.CharField(max_length=10, verbose_name="PSČ")),
+                (
+                    "country",
+                    models.CharField(
+                        choices=[
+                            ("other", "-- jiný --"),
+                            ("cz", "Česko"),
+                            ("sk", "Slovensko"),
+                        ],
+                        max_length=10,
+                        verbose_name="Stát",
+                    ),
+                ),
+                (
+                    "school",
+                    models.CharField(
+                        choices=[
+                            ("--jiná--", "-- jiná --"),
+                            ("600008975", "Aš – Gymnázium Aš, příspěvková organizace"),
+                            (
+                                "650068955",
+                                "Babice – OPEN GATE - gymnázium a ZŠ, s.r.o.",
+                            ),
+                            ("600006671", "Benešov – Gymnázium Husova"),
+                            ("600006808", "Beroun – Gymnázium J. Barranda"),
+                            ("600016773", "Bílovec – Gymnázium M. Koperníka"),
+                            ("600013235", "Blansko – Gymnázium Blansko"),
+                            ("600009751", "Blovice – Gymnázium Družstevní"),
+                            ("600016455", "Bohumín – Gymnázium Fr.Živného"),
+                            ("600013294", "Boskovice – Gymnázium Palackého náměstí"),
+                            (
+                                "600007774",
+                                "Brandýs nad Labem-Stará Boleslav – Gymnázium J. S. Machara",
+                            ),
+                            ("600024938", "Brno – AKADEMIA Gy, ZŠ a MŠ, s.r.o."),
+                            (
+                                "600013405",
+                                "Brno – Biskupské gymnázium a mateřská škola",
+                            ),
+                            (
+                                "600013740",
+                                "Brno – Cyrilomet.gymnázium a SOŠ pedagog. Brno",
+                            ),
+                            ("600013758", "Brno – EKO GYMNÁZIUM o.p.s."),
+                            ("600013863", "Brno – Gymnázium Brno-Bystrc"),
+                            ("600013413", "Brno – Gymnázium Brno-Řečkovice"),
+                            ("600013421", "Brno – Gymnázium Elgartova"),
+                            ("600013537", "Brno – Gymnázium Globe, s.r.o."),
+                            (
+                                "600013961",
+                                "Brno – Gymnázium J.G.Mendela a jeho zař. a ZUŠ",
+                            ),
+                            ("600013464", "Brno – Gymnázium Křenová"),
+                            ("600013626", "Brno – Gymnázium Matyáše Lercha"),
+                            ("600013693", "Brno – Gymnázium Mojmírovo náměstí s.r.o."),
+                            (
+                                "600013651",
+                                "Brno – Gymnázium P.Křížk. s uměl.profil.,s.r.o.",
+                            ),
+                            ("600013472", "Brno – Gymnázium Slovanské náměstí"),
+                            ("600013481", "Brno – Gymnázium třída Kpt. Jaroše"),
+                            ("600013448", "Brno – Gymnázium Vídeňská"),
+                            (
+                                "600013898",
+                                "Brno – I. Něm. zem. gymnasium, ZŠ a MŠ, o.p.s.",
+                            ),
+                            ("600013677", "Brno – Moravské gymnázium Brno s.r.o."),
+                            ("600013634", "Brno – Sportovní gymnázium Ludvíka Daňka"),
+                            ("600013669", "Brno – Střední odborná škola EDUCAnet Brno"),
+                            ("600012107", "Broumov – Gymnázium Hradební"),
+                            ("600016064", "Bruntál – Všeobecné a sportovní gymnázium"),
+                            (
+                                "600014258",
+                                "Břeclav – Gymnázium a JŠ s právem st. j. zk.",
+                            ),
+                            ("600014282", "Břeclav – Soukromá SOŠ Břeclav, s.r.o."),
+                            ("600015637", "Bučovice – Gymnázium a obchodní akademie"),
+                            (
+                                "600016005",
+                                "Bystřice nad Pernštejnem – Gymnázium Bystřice nad Pernštejnem",
+                            ),
+                            ("600007243", "Čáslav – Gymnázium a SOŠ pedagogická"),
+                            ("600007693", "Čelákovice – Gymnázium J. A. Komenského"),
+                            (
+                                "600076431",
+                                "Česká Kamenice – ZŠ T. G. Masaryka a gymnázium",
+                            ),
+                            (
+                                "600009998",
+                                "Česká Lípa – Gymnázium, příspěvková organizace",
+                            ),
+                            ("600013022", "Česká Třebová – Gymnázium Tyršovo náměstí"),
+                            (
+                                "600008088",
+                                "České Budějovice – Biskup. gymn. J.N.Neumanna a Církevní ZŠ",
+                            ),
+                            (
+                                "600008100",
+                                "České Budějovice – České reálné gymnázium s.r.o.",
+                            ),
+                            (
+                                "600008096",
+                                "České Budějovice – Česko-anglické gymnázium s.r.o.",
+                            ),
+                            (
+                                "600008266",
+                                "České Budějovice – EDUCAnet - SŠ a ZŠ ČB, s.r.o.",
+                            ),
+                            ("600008151", "České Budějovice – Gymnázium Česká"),
+                            ("600007995", "České Budějovice – Gymnázium J. V. Jirsíka"),
+                            ("600008002", "České Budějovice – Gymnázium Jírovcova"),
+                            (
+                                "600008118",
+                                "České Budějovice – SŠ informatiky a právních studií, o.p.s.",
+                            ),
+                            ("600007120", "Český Brod – Gymnázium Vítězná"),
+                            ("600008231", "Český Krumlov – Gymnázium Chvalšinská"),
+                            ("600016463", "Český Těšín – Gymnázium Josefa Božka"),
+                            (
+                                "600016501",
+                                "Český Těšín – Polské gymnázium - Polskie Gimnazjum",
+                            ),
+                            ("600008347", "Dačice – Gymnázium B. Němcové"),
+                            ("600010198", "Děčín – Gymnázium Komenského nám."),
+                            ("600012549", "Dobruška – Gymnázium Pulická"),
+                            ("600007812", "Dobříš – Gymnázium Karla Čapka"),
+                            ("691001529", "Dolní Břežany – SŠ, ZŠ a MŠ da Vinci"),
+                            ("600008908", "Domažlice – Gymnázium J.Š.Baara"),
+                            ("600011232", "Dubí – GYMNÁZIUM J.A.Komenského s.r.o."),
+                            (
+                                "600011267",
+                                "Duchcov – Gymnázium a Střední průmyslová škola",
+                            ),
+                            (
+                                "600012867",
+                                "Dvůr Králové nad Labem – Gymnázium náměstí Odboje",
+                            ),
+                            (
+                                "600016749",
+                                "Frenštát pod Radhoštěm – Gymnázium a SPŠ elektro. a informatiky",
+                            ),
+                            ("600016234", "Frýdek-Místek – Gymnázium a SOŠ"),
+                            ("600016315", "Frýdek-Místek – Gymnázium Petra Bezruče"),
+                            (
+                                "650007557",
+                                "Frýdlant nad Ostravicí – Gymnázium BMA, s.r.o.",
+                            ),
+                            (
+                                "600016251",
+                                "Frýdlant nad Ostravicí – Gymnázium Nám. T. G. Masaryka",
+                            ),
+                            (
+                                "600010511",
+                                "Frýdlant – Gymnázium, příspěvková organizace",
+                            ),
+                            ("600016471", "Havířov – Gymnázium J. A. Komenského"),
+                            ("600016684", "Havířov – Gymnázium Studentská"),
+                            ("600171230", "Havířov – Střední škola Kapitána Jasioka"),
+                            ("600011500", "Havlíčkův Brod – Gymnázium Havlíčkův Brod"),
+                            ("600011852", "Hlinsko – Gymnázium K. V. Raise a SOU"),
+                            ("600017249", "Hlučín – Gymnázium Josefa Kainara"),
+                            ("600014673", "Hodonín – Gy, OA a JŠ s právem státní JZ"),
+                            ("600015050", "Holešov – Gymnázium L. Jaroše"),
+                            ("600012301", "Holice – Gymnázium Dr. Emila Holuba"),
+                            ("691006521", "Hořice – Hořické gymnázium"),
+                            (
+                                "691012458",
+                                "Hořice – Zem. akademie a Gymn. Hořice - SŠ a VOŠ",
+                            ),
+                            ("600006816", "Hořovice – Gymnázium Václava Hraběte"),
+                            ("691002339", "Hostivice – Gymnázium Komenského"),
+                            (
+                                "691000794",
+                                "Hradec Králové – Biskupské gymnázium, círk. ZŠ, MŠ a ZUŠ",
+                            ),
+                            ("600011666", "Hradec Králové – Gymnázium Boženy Němcové"),
+                            ("600011674", "Hradec Králové – Gymnázium J. K. Tyla"),
+                            (
+                                "600011615",
+                                "Hradec Králové – První soukr.jazyk.gymnázium Hradec Král.",
+                            ),
+                            ("691004048", "Hradec Králové – SŠ Sion High School"),
+                            ("600017788", "Hranice – Gymnázium Zborovská"),
+                            ("600008410", "Humpolec – Gymnázium dr. A. Hrdličky"),
+                            ("600014134", "Hustopeče – Gymnázium T.G. Masaryka"),
+                            ("600009009", "Cheb – Gymnázium Cheb"),
+                            (
+                                "600009076",
+                                "Cheb – Svob.cheb.škola, ZŠ a gymnázium s.r.o.",
+                            ),
+                            ("600010287", "Chomutov – Gymnázium Mostecká"),
+                            ("600011526", "Chotěboř – Gymnázium Chotěboř"),
+                            ("600011887", "Chrudim – Gymnázium Josefa Ressela"),
+                            ("600014053", "Ivančice – Gymnázium Jana Blahoslava"),
+                            (
+                                "600171744",
+                                "Jablonec nad Nisou – Gymnázium Dr. A. Randy, přísp. org.",
+                            ),
+                            (
+                                "600010449",
+                                "Jablonec nad Nisou – Gymnázium, příspěvková organizace",
+                            ),
+                            ("600012123", "Jaroměř – Gymnázium Jaroslava Žáka"),
+                            (
+                                "651024617",
+                                "Jesenice – Sunny Canadian IS-ZŠ a Gymnázium, s.r.o.",
+                            ),
+                            ("600018351", "Jeseník – Gymnázium Komenského"),
+                            ("600012751", "Jevíčko – Gymnázium A. K. Vitáka"),
+                            ("600011992", "Jičín – Lepařovo gymnázium"),
+                            ("600014746", "Jihlava – Gymnázium Jihlava"),
+                            (
+                                "600014932",
+                                "Jihlava – Soukromé gymnázium AD FONTES, o.p.s.",
+                            ),
+                            (
+                                "600171752",
+                                "Jilemnice – Gymn., SOŠ a Střední zdravot. škola",
+                            ),
+                            (
+                                "600008282",
+                                "Jindřichův Hradec – Gymnázium Vítězslava Nováka",
+                            ),
+                            (
+                                "600077594",
+                                "Jirkov – Městské gymnázium a Základní škola",
+                            ),
+                            ("600010295", "Kadaň – Gymnázium 5. května"),
+                            ("651016029", "Kaplice – SOŠ a SOU"),
+                            (
+                                "600009262",
+                                "Karlovy Vary – První české gymnázium v Karlových Varech",
+                            ),
+                            (
+                                "600009122",
+                                "Karlovy Vary – Střední pedagog. škola, gymnázium a VOŠ",
+                            ),
+                            ("600016480", "Karviná – Gymnázium Mírová"),
+                            ("600006972", "Kladno – Gymnázium nám. Edvarda Beneše"),
+                            ("600171728", "Kladno – Sportovní gymnázium"),
+                            (
+                                "600010325",
+                                "Klášterec nad Ohří – Gymn.a SOŠ, příspěvková organizace",
+                            ),
+                            ("600009327", "Klatovy – Gymnázium Jaroslava Vrchlického"),
+                            (
+                                "600014118",
+                                "Klobouky u Brna – Městské víceleté gymnázium",
+                            ),
+                            ("600017974", "Kojetín – Gymnázium Svatopluka Čecha"),
+                            ("600007081", "Kolín – Gymnázium Žižkova"),
+                            ("600015149", "Konice – ZŠ a gymnázium města Konice"),
+                            (
+                                "600007332",
+                                "Kralupy nad Vltavou – Dvořákovo gymnázium a SOŠ ekonomická",
+                            ),
+                            ("600007359", "Kralupy nad Vltavou – SOŠ a SOU"),
+                            ("600016056", "Krnov – Gymnázium Smetanův okruh"),
+                            (
+                                "600015033",
+                                "Kroměříž – Arcibiskupské gymnázium v Kroměříži",
+                            ),
+                            ("600014941", "Kroměříž – Gymnázium Kroměříž"),
+                            (
+                                "600001431",
+                                "Krupka – Biskupské gymnázium, ZŠ a MŠ Bohosudov",
+                            ),
+                            (
+                                "600015572",
+                                "Kunovice – Soukr.gymnázium, SOŠ a JŠ se SJZ, s.r.o.",
+                            ),
+                            ("691006199", "Kutná Hora – Církevní gymnázium"),
+                            ("600007219", "Kutná Hora – Gymnázium Jiřího Ortena"),
+                            ("600014533", "Kyjov – Klvaňovo gymnázium a SZdrŠ"),
+                            ("600013057", "Lanškroun – Gymnázium Lanškroun"),
+                            ("600011534", "Ledeč nad Sázavou – Gymnázium, SOŠ a VOŠ"),
+                            (
+                                "600013120",
+                                "Letohrad – Letohradské soukromé gymnázium o.p.s.",
+                            ),
+                            (
+                                "600010538",
+                                "Liberec – Doctrina- Podještědské gymnázium, s.r.o.",
+                            ),
+                            (
+                                "600010589",
+                                "Liberec – G a SOŠ pedag.,příspěvková organizace",
+                            ),
+                            (
+                                "600010554",
+                                "Liberec – Gymn.F.X.Šaldy, příspěvková organizace",
+                            ),
+                            (
+                                "600170594",
+                                "Liberec – SŠ a MŠ, příspěvková organizace Na Bojišti",
+                            ),
+                            (
+                                "600017923",
+                                "Lipník nad Bečvou – Gymnázium Komenského sady",
+                            ),
+                            ("600010830", "Litoměřice – Gymnázium Josefa Jungmanna"),
+                            (
+                                "600010805",
+                                "Litoměřice – Střední škola a Mateřská škola, o.p.s.",
+                            ),
+                            ("600012701", "Litomyšl – Gymnázium Aloise Jiráska"),
+                            ("600017117", "Litovel – Gymnázium Jana Opletala"),
+                            ("600011062", "Litvínov – Gymnázium T. G. Masaryka"),
+                            ("600010929", "Louny – Gymnázium Václava Hlavatého"),
+                            ("600010911", "Lovosice – Gymnázium Sady pionýrů"),
+                            (
+                                "600008991",
+                                "Mariánské Lázně – Gymnázium a obchodní akademie Mar. Lázně",
+                            ),
+                            ("600007316", "Mělník – Gymnázium Jana Palacha"),
+                            ("600011119", "Meziboří – Střední škola EDUCHEM, a.s."),
+                            ("600014151", "Mikulov – Gymnázium a SOŠ"),
+                            ("600008533", "Milevsko – Gymnázium Masarykova"),
+                            ("600010007", "Mimoň – Gymnázium, příspěvková organizace"),
+                            (
+                                "600007502",
+                                "Mladá Boleslav – Gymnázium Dr. Josefa Pekaře",
+                            ),
+                            ("600007413", "Mladá Boleslav – Gymnázium Palackého"),
+                            ("600007421", "Mnichovo Hradiště – Gymnázium Studentská"),
+                            ("600012760", "Moravská Třebová – Gymnázium a Letecká SOŠ"),
+                            (
+                                "600015335",
+                                "Moravské Budějovice – Gymnázium a SOŠ Tyršova",
+                            ),
+                            ("600015726", "Moravský Krumlov – Gymnázium Smetanova"),
+                            ("600011054", "Most – Podkrušnohorské gymnázium"),
+                            (
+                                "600012271",
+                                "Náchod – ACADEMIA MERCURII soukromá SŠ, s.r.o.",
+                            ),
+                            ("600012115", "Náchod – Jiráskovo gymnázium"),
+                            ("600007308", "Neratovice – Gymnázium Františka Palackého"),
+                            ("600012026", "Nová Paka – Gymnázium a SOŠ pedagogická"),
+                            (
+                                "600015904",
+                                "Nové Město na Moravě – Gymnázium V.Makovského se sport. třídami",
+                            ),
+                            ("600007961", "Nové Strašecí – Gymnázium J. A. Komenského"),
+                            (
+                                "600020347",
+                                "Nový Bor – VOŠ sklář. a SŠ, příspěvková organizace",
+                            ),
+                            ("600011682", "Nový Bydžov – Gymnázium, SOŠ a VOŠ"),
+                            ("600016820", "Nový Jičín – Gymnázium Palackého"),
+                            ("600007634", "Nymburk – Gymnázium Bohumila Hrabala"),
+                            (
+                                "600017036",
+                                "Olomouc – CÍRKEVNÍ GYMNÁZIUM NĚMECKÉHO ŘÁDU",
+                            ),
+                            ("600016935", "Olomouc – Gymnázium Čajkovského"),
+                            ("600016927", "Olomouc – Gymnázium Tomkova"),
+                            ("600016943", "Olomouc – Slovanské gymnázium"),
+                            ("600016986", "Olomouc – Střední škola logistiky a chemie"),
+                            ("600017311", "Opava – Masarykova SŠ zemědělská a VOŠ"),
+                            ("600017320", "Opava – Mendelovo gymnázium"),
+                            ("600017265", "Opava – Slezské gymnázium"),
+                            ("600016536", "Orlová – Gymnázium a Obchodní akademie"),
+                            ("650078331", "Orlová – Gymnázium Jana Šabršuly s.r.o."),
+                            (
+                                "650076991",
+                                "Ostrava – 1st IS of Ostrava - mez.gymnázium,s.r.o.",
+                            ),
+                            ("600017541", "Ostrava – Biskupské gymnázium v Ostravě"),
+                            (
+                                "600016366",
+                                "Ostrava – Gymnázium EDUCAnet Ostrava s.r.o.",
+                            ),
+                            ("600017451", "Ostrava – Gymnázium Františka Hajdy"),
+                            (
+                                "600017494",
+                                "Ostrava – Gymnázium Hladnov a JŠ s právem SJZ",
+                            ),
+                            ("600017478", "Ostrava – Gymnázium Olgy Havlové"),
+                            ("600017486", "Ostrava – Gymnázium Volgogradská"),
+                            ("691000565", "Ostrava – Gymnázium, ZŠ a MŠ Hello s.r.o."),
+                            (
+                                "650077393",
+                                "Ostrava – IUVENTAS-Soukr.gymnázium a SOŠ s.r.o.",
+                            ),
+                            (
+                                "600017591",
+                                "Ostrava – Jazyk.a hum. GYMNÁZIUM PRIGO, s.r.o.",
+                            ),
+                            ("600017443", "Ostrava – Jazykové gymnázium Pavla Tigrida"),
+                            (
+                                "600016447",
+                                "Ostrava – Lék. a přír. GYMNÁZIUM PRIGO, s.r.o.",
+                            ),
+                            ("600017508", "Ostrava – Matiční gymnázium"),
+                            ("600017532", "Ostrava – SOŠ umělecká a gymnázium, s.r.o."),
+                            (
+                                "600017516",
+                                "Ostrava – Sportovní gymnázium D. a E. Zátopkových",
+                            ),
+                            ("600017648", "Ostrava – Wichterlovo gymnázium"),
+                            ("600009297", "Ostrov – Gymnázium Ostrov"),
+                            ("600014312", "Otrokovice – Gymnázium tř. Spojenců"),
+                            (
+                                "600014495",
+                                "Otrokovice – Střední průmyslová škola Otrokovice",
+                            ),
+                            ("691007551", "Pacov – Gymnázium Pacov"),
+                            (
+                                "600012298",
+                                "Pardubice – Anglické gymnázium, SOŠ a VOŠ, s.r.o.",
+                            ),
+                            ("600012310", "Pardubice – Gymnázium Dašická"),
+                            ("600012425", "Pardubice – Gymnázium Mozartova"),
+                            ("600012409", "Pardubice – Sportovní gymnázium"),
+                            (
+                                "600012433",
+                                "Pardubice – Střední průmyslová škola chemická",
+                            ),
+                            ("600008436", "Pelhřimov – Gymnázium a Obchodní akademie"),
+                            ("600008541", "Písek – Gymnázium Komenského"),
+                            (
+                                "600009793",
+                                "Plasy – Gymnázium a Střední odborná škola, Plasy",
+                            ),
+                            ("600009611", "Plzeň – Církevní gymnázium"),
+                            (
+                                "600009637",
+                                "Plzeň – Gymnázium Františka Křižíka a ZŠ, s.r.o.",
+                            ),
+                            ("600009548", "Plzeň – Gymnázium Luďka Pika"),
+                            ("600009556", "Plzeň – Gymnázium Mikulášské náměstí"),
+                            ("600009530", "Plzeň – Masarykovo gymnázium"),
+                            ("600009459", "Plzeň – Sportovní gymnázium Plzeň"),
+                            (
+                                "600011003",
+                                "Podbořany – Gymnázium a Střední odborná škola",
+                            ),
+                            (
+                                "600007570",
+                                "Poděbrady – EKO Gymnázium a SOŠ Multimediál. studií",
+                            ),
+                            ("600007553", "Poděbrady – Gymnázium Jiřího z Poděbrad"),
+                            ("600012859", "Polička – Gymnázium nábř. Svobody"),
+                            (
+                                "651028922",
+                                "Praha 1 – 1. Slovanské gymnázium a jazyková škola",
+                            ),
+                            ("600004708", "Praha 1 – Akademické gymnázium"),
+                            (
+                                "651037026",
+                                "Praha 1 – Anglicko-české gymnázium AMAZON s.r.o.",
+                            ),
+                            ("600004546", "Praha 1 – Gymnázium J.G.Jarkovského"),
+                            (
+                                "600004589",
+                                "Praha 1 – Gymnázium Jana Nerudy, škola hl.m. Prahy",
+                            ),
+                            (
+                                "600004635",
+                                "Praha 1 – GYMNÁZIUM JANA PALACHA PRAHA 1, s.r.o.",
+                            ),
+                            ("600004694", "Praha 1 – Gymnázium prof. Jana Patočky"),
+                            ("600004597", "Praha 1 – Malostranské gymnázium"),
+                            (
+                                "691009619",
+                                "Praha 10 – Bankovní akademie - Gy a SOŠ, a.s.",
+                            ),
+                            (
+                                "600006531",
+                                "Praha 10 – Gymn. bří Čapků a První české soukr. SOU",
+                            ),
+                            ("600005160", "Praha 10 – Gymnázium ALTIS s.r.o."),
+                            ("600006646", "Praha 10 – Gymnázium Omská"),
+                            ("600171710", "Praha 10 – Gymnázium Přípotoční"),
+                            ("600006603", "Praha 10 – Gymnázium Voděradská"),
+                            ("600006476", "Praha 10 – Křesťanské gymnázium"),
+                            (
+                                "651040370",
+                                "Praha 10 – Soukr. osm. gymn. DINO-H. SCHOOL s.r.o.",
+                            ),
+                            ("600004791", "Praha 2 – Arcibiskupské gymnázium"),
+                            (
+                                "600020797",
+                                "Praha 2 – Gymn., SOŠ, ZŠ a MŠ pro sluch. postižené",
+                            ),
+                            ("600004724", "Praha 2 – Gymnázium Botičská"),
+                            ("600005178", "Praha 2 – Gymnázium Evolution, s.r.o."),
+                            (
+                                "600027341",
+                                "Praha 2 – Jedličkův ústav a MŠ, ZŠ a Střední škola",
+                            ),
+                            (
+                                "610380061",
+                                "Praha 2 – Lauderova MŠ,ZŠ a gymnázium při Žid.obci",
+                            ),
+                            (
+                                "600001873",
+                                "Praha 3 – Gymnázium a Hudební škola hl.m.Prahy,ZUŠ",
+                            ),
+                            ("600004911", "Praha 3 – Gymnázium Karla Sladkovského"),
+                            ("600004961", "Praha 3 – Gymnázium Na Pražačce"),
+                            (
+                                "600005305",
+                                "Praha 4 – EDUCAnet-gymn., SOŠ a ZŠ Praha, s.r.o.",
+                            ),
+                            ("600005348", "Praha 4 – Gymnázium Budějovická"),
+                            ("600005054", "Praha 4 – Gymnázium Elišky Krásnohorské"),
+                            ("691000468", "Praha 4 – Gymnázium Milady Horákové"),
+                            ("600005143", "Praha 4 – Gymnázium Na Vítězné pláni"),
+                            ("600005208", "Praha 4 – Gymnázium Opatov"),
+                            ("600005046", "Praha 4 – Gymnázium Písnická"),
+                            ("600005089", "Praha 4 – Gymnázium Postupická"),
+                            ("600005267", "Praha 4 – Klasické gymnázium Modřany a ZŠ"),
+                            ("691003050", "Praha 4 – MŠ, ZŠ a gymnázium sv. Augustina"),
+                            ("600006549", "Praha 4 – Pražské humanitní gymnázium"),
+                            (
+                                "600005551",
+                                "Praha 4 – Rakouské gymnázium v Praze o.p.s.",
+                            ),
+                            (
+                                "600171418",
+                                "Praha 5 – Gymnázium a SOŠ pro zrakově postižené",
+                            ),
+                            ("600005518", "Praha 5 – Gymnázium Christiana Dopplera"),
+                            ("600005534", "Praha 5 – Gymnázium Jaroslava Heyrovského"),
+                            (
+                                "691000212",
+                                "Praha 5 – Gymnázium mez.a veř. vztahů Praha s.r.o",
+                            ),
+                            ("600005496", "Praha 5 – Gymnázium Na Zatlance"),
+                            ("600005623", "Praha 5 – Gymnázium Nad Kavalírkou"),
+                            ("600005500", "Praha 5 – Gymnázium Oty Pavla"),
+                            (
+                                "650004639",
+                                "Praha 5 – Němec.škola s.r.o.-zahran.škola a gymn.",
+                            ),
+                            (
+                                "600004872",
+                                "Praha 5 – Soukromé gymnasium J. Škvoreckého s.r.o.",
+                            ),
+                            ("600005682", "Praha 6 – Gymnázium Arabská"),
+                            ("600005691", "Praha 6 – Gymnázium Jana Keplera"),
+                            ("600005771", "Praha 6 – Gymnázium Nad Alejí"),
+                            ("600005593", "Praha 6 – Mensa gymnázium, o.p.s."),
+                            (
+                                "600005844",
+                                "Praha 6 – VOŠ ped. a soc., SOŠ ped. a Gymnázium",
+                            ),
+                            ("600004821", "Praha 7 – Gymnázium Duhovka s.r.o."),
+                            ("600171701", "Praha 7 – Gymnázium Nad Štolou"),
+                            ("600005984", "Praha 7 – Gymnázium Přírodní škola"),
+                            ("600005895", "Praha 7 – Trojské gymnázium s.r.o."),
+                            ("600005933", "Praha 8 – Gymnázium U libeňského zámku"),
+                            ("600005992", "Praha 8 – Gymnázium Ústavní"),
+                            ("600005968", "Praha 8 – Karlínské gymnázium"),
+                            (
+                                "600006018",
+                                "Praha 8 – PORG - gymnázium a základní škola,o.p.s.",
+                            ),
+                            (
+                                "610380109",
+                                "Praha 8 – ZŠ něm.-čes. por. a Gym. T.Manna, o.p.s.",
+                            ),
+                            ("600006131", "Praha 9 – Gymnázium Čakovice"),
+                            ("600006115", "Praha 9 – Gymnázium Českolipská"),
+                            ("600006166", "Praha 9 – Gymnázium Chodovická"),
+                            ("600006107", "Praha 9 – Gymnázium J. Seiferta o.p.s."),
+                            ("600006247", "Praha 9 – Gymnázium Litoměřická"),
+                            ("600006352", "Praha 9 – Gymnázium Špitálská"),
+                            ("600006441", "Praha 9 – Soukromé gymnázium ARCUS s.r.o."),
+                            (
+                                "600170063",
+                                "Praha 9 – Střední škola - COP technickohospodářské",
+                            ),
+                            (
+                                "600006140",
+                                "Praha 9 – The English College-Angl.gymnázium,o.p.s",
+                            ),
+                            ("600008649", "Prachatice – Gymnázium Zlatá stezka"),
+                            (
+                                "600015211",
+                                "Prostějov – Cyrilometodějské G, ZŠ a MŠ v Prostějově",
+                            ),
+                            ("600015157", "Prostějov – Gymnázium Jiřího Wolkera"),
+                            (
+                                "600015301",
+                                "Prostějov – Reálné gymnázium a ZŠ města Prostějova",
+                            ),
+                            (
+                                "691003009",
+                                "Přelouč – Gymnázium a Střední odborná škola",
+                            ),
+                            ("600017915", "Přerov – Gymnázium Jakuba Škody"),
+                            ("600017842", "Přerov – Gymnázium Jana Blahoslava a SPgŠ"),
+                            ("600016714", "Příbor – Masarykovo gymnázium"),
+                            ("600007847", "Příbram – Gymnázium Legionářů"),
+                            ("600007910", "Příbram – Gymnázium pod Svatou Horou"),
+                            ("600013260", "Rájec-Jestřebí – Gymnázium, o.p.s."),
+                            ("600007952", "Rakovník – Gymnázium Zikmunda Wintra"),
+                            (
+                                "600009831",
+                                "Rokycany – Gymnázium a Střední odborná škola",
+                            ),
+                            ("600010848", "Roudnice nad Labem – Gymnázium Havlíčkova"),
+                            (
+                                "600018211",
+                                "Rožnov pod Radhoštěm – Gymnázium Rožnov pod Radhoštěm",
+                            ),
+                            ("600010279", "Rumburk – Gymnázium Komenského"),
+                            (
+                                "600012557",
+                                "Rychnov nad Kněžnou – Gymnázium Fr. M. Pelcla",
+                            ),
+                            ("600016188", "Rýmařov – Gymnázium a SOŠ"),
+                            ("600007766", "Říčany – Gymnázium Komenského náměstí"),
+                            (
+                                "610451219",
+                                "Říčany – Masarykovo klasické gymnázium, s.r.o.",
+                            ),
+                            ("600007855", "Sedlčany – Gymnázium a SOŠ ekonomická"),
+                            (
+                                "600012654",
+                                "Semily – Gymn.I.Olbrachta, příspěvková organizace",
+                            ),
+                            (
+                                "691000719",
+                                "Skuteč – Gymnázium Suverénního řádu maltéz.rytířů",
+                            ),
+                            (
+                                "600006913",
+                                "Slaný – Gymnázium Václava Beneše Třebízského",
+                            ),
+                            ("600014321", "Slavičín – Gymnázium Jana Pivečky a SOŠ"),
+                            (
+                                "600008819",
+                                "Soběslav – Gymnázium tř. Dr. Edvarda Beneše",
+                            ),
+                            (
+                                "600009882",
+                                "Sokolov – Gymnázium Sokolov a Krajské vzděl.centr.",
+                            ),
+                            (
+                                "610100718",
+                                "Sokolov – Gymnázium, ZŠ a MŠ Mánesova s.r.o.",
+                            ),
+                            (
+                                "600008924",
+                                "Staňkov – Soukromá SOŠ a Gymnázium BEAN, s.r.o.",
+                            ),
+                            (
+                                "600015556",
+                                "Staré Město – Střední odborná škola a Gymnázium",
+                            ),
+                            ("600008789", "Strakonice – Gymnázium Máchova"),
+                            ("600014541", "Strážnice – Purkyňovo gymnázium"),
+                            ("600009947", "Stříbro – Gymnázium Soběslavova"),
+                            ("600009360", "Sušice – Gymnázium F. Procházky"),
+                            (
+                                "600170730",
+                                "Světlá nad Sázavou – Akademie-VOŠ, Gymn. a SOŠ uměleckoprům.",
+                            ),
+                            (
+                                "600170730",
+                                "Světlá nad Sázavou – Akademie-VOŠ, Gymn. a SOŠ uměleckoprům.",
+                            ),
+                            (
+                                "600012786",
+                                "Svitavy – Gymnázium, OA a JŠ s právem SJZ Svitavy",
+                            ),
+                            ("600014061", "Šlapanice – Gymnázium a ZUŠ"),
+                            ("600016951", "Šternberk – Gymnázium Horní náměstí"),
+                            ("600018016", "Šumperk – Gymnázium Masarykovo nám."),
+                            ("600008801", "Tábor – Gymnázium Pierra de Coubertina"),
+                            (
+                                "600008835",
+                                "Tábor – Táborské soukromé gymnázium a ZŠ, s.r.o.",
+                            ),
+                            ("600009955", "Tachov – Gymnázium Pionýrská"),
+                            (
+                                "600010414",
+                                "Tanvald – Gymnázium a OA, příspěvková organizace",
+                            ),
+                            ("600014754", "Telč – Gymnázium O. Březiny a SOŠ"),
+                            ("600011216", "Teplice – Gymnázium Čs. dobrovolců"),
+                            ("600014070", "Tišnov – Gymnázium Na Hrádku"),
+                            ("600008037", "Trhové Sviny – Gymnázium Školní"),
+                            ("600012875", "Trutnov – Gymnázium Jiráskovo náměstí"),
+                            ("600015343", "Třebíč – Gymnázium Třebíč"),
+                            ("600015327", "Třebíč – Katolické gymnázium"),
+                            ("600008291", "Třeboň – Gymnázium Na sadech"),
+                            ("600006794", "Tři Dvory – Střední škola Kolín, s.r.o."),
+                            ("600016269", "Třinec – Gymnázium Komenského"),
+                            ("600012638", "Turnov – Gymnázium, příspěvková organizace"),
+                            ("600008029", "Týn nad Vltavou – Gymnázium Čihovice"),
+                            (
+                                "600015467",
+                                "Uherské Hradiště – Gymnázium Velehradská třída",
+                            ),
+                            (
+                                "600015530",
+                                "Uherský Brod – Gymnázium J.A.Komenského a JŠ s pr.SJZ",
+                            ),
+                            ("600016960", "Uničov – Gymnázium Gymnazijní"),
+                            ("691002142", "Úpice – Městské gymnázium a SOŠ"),
+                            (
+                                "600011453",
+                                "Ústí nad Labem – Gymnázium a SOŠ dr. Václava Šmejkala",
+                            ),
+                            ("600011321", "Ústí nad Labem – Gymnázium Jateční"),
+                            ("600013065", "Ústí nad Orlicí – Gymnázium T. G. Masaryka"),
+                            ("600014339", "Valašské Klobouky – Gymnázium Komenského"),
+                            (
+                                "600018148",
+                                "Valašské Meziříčí – Gymnázium Františka Palackého",
+                            ),
+                            (
+                                "600171400",
+                                "Valašské Meziříčí – ISŠ - COP a Jazyková škola s právem SJZ",
+                            ),
+                            ("600010163", "Varnsdorf – Gymnázium Varnsdorf"),
+                            ("650067231", "Velehrad – Stojanovo gymnázium, Velehrad"),
+                            ("600015866", "Velké Meziříčí – Gymnázium Velké Meziříčí"),
+                            ("650071484", "Velké Pavlovice – Gymnázium Pod Školou"),
+                            ("600008690", "Vimperk – Všeobecné a sportovní gymnázium"),
+                            ("600143074", "Vítkov – Základní škola a gymnázium"),
+                            ("600006751", "Vlašim – Gymnázium Tylova"),
+                            ("600063861", "Vodňany – Základní škola a Gymnázium"),
+                            ("600012891", "Vrchlabí – Krkonošské gymnázium a SOŠ"),
+                            (
+                                "600018113",
+                                "Vsetín – Masarykovo gymnázium, SZdrŠ a VOŠ zdr.",
+                            ),
+                            ("600018199", "Vsetín – Střední škola Kostka s.r.o"),
+                            ("600013073", "Vysoké Mýto – Gymnázium nám. Vaňorného"),
+                            (
+                                "600015629",
+                                "Vyškov – Gy a SOŠ zdravotnická a ekonomická",
+                            ),
+                            ("600018008", "Zábřeh – Gymnázium náměstí Osvobození"),
+                            ("600013987", "Zastávka – Gymnázium T. G. Masaryka"),
+                            (
+                                "600014398",
+                                "Zlín – Gymnázium a Jazyková škola s právem SJZ",
+                            ),
+                            ("600014363", "Zlín – Gymnázium Lesní čtvrť III"),
+                            (
+                                "600015785",
+                                "Znojmo – Gy, SPgŠ, OA a JŠ s právem státní JZ",
+                            ),
+                            ("600015700", "Znojmo – Gymnázium Dr. Karla Polesného"),
+                            ("600013081", "Žamberk – Gymnázium Nádražní"),
+                            ("600010953", "Žatec – Gymnázium Studentská"),
+                            ("600015831", "Žďár nad Sázavou – Biskupské gymnázium"),
+                            (
+                                "600015955",
+                                "Žďár nad Sázavou – Gymnázium Žďár nad Sázavou",
+                            ),
+                            ("600014100", "Židlochovice – Gymnázium Tyršova"),
+                        ],
+                        max_length=80,
+                        verbose_name="Škola",
+                    ),
+                ),
+                (
+                    "school_year",
+                    models.CharField(
+                        choices=[
+                            ("4", "4."),
+                            ("3", "3."),
+                            ("2", "2."),
+                            ("1", "1."),
+                            ("l", "nižší"),
+                        ],
+                        max_length=1,
+                        verbose_name="Ročník",
+                    ),
+                ),
+                (
+                    "school_alt_name",
+                    models.CharField(
+                        blank=True, max_length=80, null=True, verbose_name="Název školy"
+                    ),
+                ),
+                (
+                    "school_alt_street",
+                    models.CharField(
+                        blank=True,
+                        max_length=100,
+                        null=True,
+                        verbose_name="Ulice školy",
+                    ),
+                ),
+                (
+                    "school_alt_city",
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="Obec školy"
+                    ),
+                ),
+                (
+                    "school_alt_zip_code",
+                    models.CharField(
+                        blank=True, max_length=10, null=True, verbose_name="PSČ školy"
+                    ),
+                ),
+                (
+                    "applications",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="participants",
+                        through="core.GradeApplication",
+                        to="core.Grade",
+                        verbose_name="Přihlášky",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Řešitel',
-                'verbose_name_plural': 'Řešitelé',
-            },
+            options={"verbose_name": "Řešitel", "verbose_name_plural": "Řešitelé",},
         ),
         migrations.AddField(
-            model_name='gradeapplication',
-            name='participant',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='core.Participant'),
+            model_name="gradeapplication",
+            name="participant",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT, to="core.Participant"
+            ),
         ),
         migrations.AlterField(
-            model_name='gradeapplication',
-            name='grade',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='applications', to='core.Grade'),
+            model_name="gradeapplication",
+            name="grade",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="applications",
+                to="core.Grade",
+            ),
         ),
         migrations.CreateModel(
-            name='Sticker',
+            name="Sticker",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, verbose_name='Název')),
-                ('nr', models.PositiveSmallIntegerField(db_index=True, unique=True, verbose_name='Číslo')),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Popis')),
-                ('handpicked', models.BooleanField(db_index=True, default=True, verbose_name='Přiřazován ručně')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255, verbose_name="Název")),
+                (
+                    "nr",
+                    models.PositiveSmallIntegerField(
+                        db_index=True, unique=True, verbose_name="Číslo"
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(blank=True, null=True, verbose_name="Popis"),
+                ),
+                (
+                    "handpicked",
+                    models.BooleanField(
+                        db_index=True, default=True, verbose_name="Přiřazován ručně"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Nálepka',
-                'permissions': (('auto_assign_stickers', 'Automatické nastavení nálepek'),),
-                'verbose_name_plural': 'Nálepky',
-                'ordering': ('nr', 'title'),
+                "verbose_name": "Nálepka",
+                "permissions": (
+                    ("auto_assign_stickers", "Automatické nastavení nálepek"),
+                ),
+                "verbose_name_plural": "Nálepky",
+                "ordering": ("nr", "title"),
             },
         ),
         migrations.CreateModel(
-            name='TaskSolutionSubmission',
+            name="TaskSolutionSubmission",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(blank=True, null=True, upload_to='rocniky/reseni/', verbose_name='Soubor s řešením')),
-                ('score', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True, verbose_name='Skóre')),
-                ('submitted_at', models.DateTimeField(auto_now_add=True, verbose_name='Datum nahrání')),
-                ('application', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='solution_submissions', to='core.GradeApplication', verbose_name='Přihláška')),
-                ('task', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='solution_submissions', to='core.Task', verbose_name='Úloha')),
-                ('stickers', models.ManyToManyField(blank=True, related_name='solution_uses', to='core.Sticker')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "file",
+                    models.FileField(
+                        blank=True,
+                        null=True,
+                        upload_to="rocniky/reseni/",
+                        verbose_name="Soubor s řešením",
+                    ),
+                ),
+                (
+                    "score",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=2,
+                        max_digits=5,
+                        null=True,
+                        verbose_name="Skóre",
+                    ),
+                ),
+                (
+                    "submitted_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Datum nahrání"
+                    ),
+                ),
+                (
+                    "application",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="solution_submissions",
+                        to="core.GradeApplication",
+                        verbose_name="Přihláška",
+                    ),
+                ),
+                (
+                    "task",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="solution_submissions",
+                        to="core.Task",
+                        verbose_name="Úloha",
+                    ),
+                ),
+                (
+                    "stickers",
+                    models.ManyToManyField(
+                        blank=True, related_name="solution_uses", to="core.Sticker"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Odevzdané řešení',
-                'verbose_name_plural': 'Odevzdaná řešení',
-                'permissions': (('change_solution_submission_presence', 'Úprava stavu odevzdání řešení'), ('scoring', 'Bodování')),
+                "verbose_name": "Odevzdané řešení",
+                "verbose_name_plural": "Odevzdaná řešení",
+                "permissions": (
+                    (
+                        "change_solution_submission_presence",
+                        "Úprava stavu odevzdání řešení",
+                    ),
+                    ("scoring", "Bodování"),
+                ),
             },
         ),
         migrations.CreateModel(
-            name='Event',
+            name="Event",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=150, verbose_name='Název')),
-                ('description', models.TextField(blank=True, verbose_name='Popis')),
-                ('place', models.CharField(max_length=150, null=True, verbose_name='Místo konání')),
-                ('start_date', models.DateField(db_index=True, verbose_name='Začíná')),
-                ('end_date', models.DateField(db_index=True, verbose_name='Končí')),
-                ('capacity', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Doporučený max. počet účastníků')),
-                ('enlistment_message', models.TextField(blank=True, verbose_name='Zpráva po přihlášení')),
-                ('attendees', models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL, verbose_name='Účastníci')),
-                ('enlistment_enabled', models.BooleanField(default=False, verbose_name='Přihlášení je umožněno')),
-                ('reward_stickers', models.ManyToManyField(blank=True, help_text='Každý účastník získá zvolené nálepky. Uděleny budou v rámci série, která datumově následuje po akci.', related_name='event_uses', to='core.Sticker', verbose_name='Nálepky pro účastníky')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=150, verbose_name="Název")),
+                ("description", models.TextField(blank=True, verbose_name="Popis")),
+                (
+                    "place",
+                    models.CharField(
+                        max_length=150, null=True, verbose_name="Místo konání"
+                    ),
+                ),
+                ("start_date", models.DateField(db_index=True, verbose_name="Začíná")),
+                ("end_date", models.DateField(db_index=True, verbose_name="Končí")),
+                (
+                    "capacity",
+                    models.PositiveSmallIntegerField(
+                        blank=True,
+                        null=True,
+                        verbose_name="Doporučený max. počet účastníků",
+                    ),
+                ),
+                (
+                    "enlistment_message",
+                    models.TextField(blank=True, verbose_name="Zpráva po přihlášení"),
+                ),
+                (
+                    "attendees",
+                    models.ManyToManyField(
+                        blank=True,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Účastníci",
+                    ),
+                ),
+                (
+                    "enlistment_enabled",
+                    models.BooleanField(
+                        default=False, verbose_name="Přihlášení je umožněno"
+                    ),
+                ),
+                (
+                    "reward_stickers",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Každý účastník získá zvolené nálepky. Uděleny budou v rámci série, která datumově následuje po akci.",
+                        related_name="event_uses",
+                        to="core.Sticker",
+                        verbose_name="Nálepky pro účastníky",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Akce',
-                'verbose_name_plural': 'Akce',
-                'ordering': ('-start_date',),
-                'permissions': (('export_event_attendees', 'Export účastníků akce'),),
+                "verbose_name": "Akce",
+                "verbose_name_plural": "Akce",
+                "ordering": ("-start_date",),
+                "permissions": (("export_event_attendees", "Export účastníků akce"),),
             },
         ),
         migrations.AddField(
-            model_name='gradeapplication',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now, verbose_name='Datum vytvoření'),
+            model_name="gradeapplication",
+            name="created_at",
+            field=models.DateTimeField(
+                auto_now_add=True,
+                default=django.utils.timezone.now,
+                verbose_name="Datum vytvoření",
+            ),
             preserve_default=False,
         ),
         migrations.CreateModel(
-            name='GradeSeriesAttachment',
+            name="GradeSeriesAttachment",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, verbose_name='Název')),
-                ('file', models.FileField(upload_to='rocniky/prilohy/', verbose_name='Soubor')),
-                ('series', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='attachments', to='core.GradeSeries', verbose_name='Série')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255, verbose_name="Název")),
+                (
+                    "file",
+                    models.FileField(
+                        upload_to="rocniky/prilohy/", verbose_name="Soubor"
+                    ),
+                ),
+                (
+                    "series",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="attachments",
+                        to="core.GradeSeries",
+                        verbose_name="Série",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Příloha série',
-                'verbose_name_plural': 'Přílohy sérií',
-                'ordering': ('series', 'title'),
+                "verbose_name": "Příloha série",
+                "verbose_name_plural": "Přílohy sérií",
+                "ordering": ("series", "title"),
             },
         ),
         migrations.SeparateDatabaseAndState(
             state_operations=[
                 migrations.CreateModel(
-                    name='EventAttendee',
+                    name="EventAttendee",
                     fields=[
-                        ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                        (
+                            "id",
+                            models.AutoField(
+                                auto_created=True,
+                                primary_key=True,
+                                serialize=False,
+                                verbose_name="ID",
+                            ),
+                        ),
                     ],
-                    options={
-                        'db_table': 'core_event_attendees',
-                    },
+                    options={"db_table": "core_event_attendees",},
                 ),
                 migrations.AlterField(
-                    model_name='event',
-                    name='attendees',
-                    field=models.ManyToManyField(blank=True, through='core.EventAttendee', to=settings.AUTH_USER_MODEL, verbose_name='Účastníci'),
+                    model_name="event",
+                    name="attendees",
+                    field=models.ManyToManyField(
+                        blank=True,
+                        through="core.EventAttendee",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Účastníci",
+                    ),
                 ),
                 migrations.AddField(
-                    model_name='eventattendee',
-                    name='event',
-                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Event'),
+                    model_name="eventattendee",
+                    name="event",
+                    field=models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="core.Event"
+                    ),
                 ),
                 migrations.AddField(
-                    model_name='eventattendee',
-                    name='user',
-                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+                    model_name="eventattendee",
+                    name="user",
+                    field=models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
                 ),
                 migrations.AlterUniqueTogether(
-                    name='eventattendee',
-                    unique_together={('user', 'event')},
+                    name="eventattendee", unique_together={("user", "event")},
                 ),
             ],
         ),
         migrations.AlterModelOptions(
-            name='eventattendee',
-            options={'ordering': ('signup_date',)},
+            name="eventattendee", options={"ordering": ("signup_date",)},
         ),
         migrations.AddField(
-            model_name='eventattendee',
-            name='signup_date',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now, help_text='Bude využito při vyhodnocování náhradníků.', verbose_name='Datum přihlášky'),
+            model_name="eventattendee",
+            name="signup_date",
+            field=models.DateTimeField(
+                auto_now_add=True,
+                default=django.utils.timezone.now,
+                help_text="Bude využito při vyhodnocování náhradníků.",
+                verbose_name="Datum přihlášky",
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='eventattendee',
-            name='event',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Event', verbose_name='Akce'),
+            model_name="eventattendee",
+            name="event",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="core.Event",
+                verbose_name="Akce",
+            ),
         ),
         migrations.AlterField(
-            model_name='eventattendee',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Účastník'),
+            model_name="eventattendee",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Účastník",
+            ),
         ),
-        migrations.AlterModelTable(
-            name='eventattendee',
-            table=None,
-        ),
+        migrations.AlterModelTable(name="eventattendee", table=None,),
         migrations.AlterModelOptions(
-            name='eventattendee',
-            options={'ordering': ('signup_date',), 'verbose_name': 'Přihláška na akci', 'verbose_name_plural': 'Přihlášky na akce'},
+            name="eventattendee",
+            options={
+                "ordering": ("signup_date",),
+                "verbose_name": "Přihláška na akci",
+                "verbose_name_plural": "Přihlášky na akce",
+            },
         ),
         migrations.CreateModel(
-            name='FlatPageMeta',
+            name="FlatPageMeta",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(blank=True, max_length=255, verbose_name='Titulek')),
-                ('keywords', models.CharField(blank=True, help_text='Oddělujte čárkou', max_length=150, verbose_name='Klíčová slova')),
-                ('description', models.TextField(blank=True, verbose_name='Krátký popis')),
-                ('allowed_groups', models.ManyToManyField(blank=True, help_text='Pokud zde něco zvolíte, stránka bude dostupná pouze pro uvedené skupiny. Pokud chcete nechat stránku dostupnou pro řešitele, nevyplňujte zde nic.', to='auth.Group', verbose_name='Povoleno pro tyto skupiny')),
-                ('flatpage', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='metadata', to='flatpages.FlatPage', verbose_name='Stránka')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(
+                        blank=True, max_length=255, verbose_name="Titulek"
+                    ),
+                ),
+                (
+                    "keywords",
+                    models.CharField(
+                        blank=True,
+                        help_text="Oddělujte čárkou",
+                        max_length=150,
+                        verbose_name="Klíčová slova",
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(blank=True, verbose_name="Krátký popis"),
+                ),
+                (
+                    "allowed_groups",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Pokud zde něco zvolíte, stránka bude dostupná pouze pro uvedené skupiny. Pokud chcete nechat stránku dostupnou pro řešitele, nevyplňujte zde nic.",
+                        to="auth.Group",
+                        verbose_name="Povoleno pro tyto skupiny",
+                    ),
+                ),
+                (
+                    "flatpage",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="metadata",
+                        to="flatpages.FlatPage",
+                        verbose_name="Stránka",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Metadata statické stránky',
-                'verbose_name_plural': 'Metadata statických stránek',
+                "verbose_name": "Metadata statické stránky",
+                "verbose_name_plural": "Metadata statických stránek",
             },
         ),
     ]

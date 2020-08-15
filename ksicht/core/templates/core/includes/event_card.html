@@ -5,11 +5,13 @@
         <p class="subtitle is-6 has-text-grey">{{ object.place }}</p>
 
         <div class="level">
+            {% if object.publish_occupancy %}
             <div class="level-left">
                 <div class="level-item">
                     <p class="is-6 has-text-grey"><i class="fas fa-user-friends has-padding-r-2"></i> {{ object.attendees.count }} účastníků</p>
                 </div>
             </div>
+            {% endif %}
             {% if can_enlist %}
                 <div class="level-right">
                     <div class="level-item">

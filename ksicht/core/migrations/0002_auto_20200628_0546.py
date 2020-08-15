@@ -6,17 +6,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0001_squashed_0024_flatpagemeta'),
+        ("core", "0001_squashed_0024_flatpagemeta"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='sticker',
-            options={'ordering': ('nr', 'title'), 'verbose_name': 'Nálepka', 'verbose_name_plural': 'Nálepky'},
+            name="sticker",
+            options={
+                "ordering": ("nr", "title"),
+                "verbose_name": "Nálepka",
+                "verbose_name_plural": "Nálepky",
+            },
         ),
         migrations.AlterField(
-            model_name='task',
-            name='nr',
-            field=models.CharField(choices=[('1', '1.'), ('2', '2.'), ('3', '3.'), ('4', '4.'), ('5', '5.')], db_index=True, max_length=1, verbose_name='Číslo úlohy'),
+            model_name="task",
+            name="nr",
+            field=models.CharField(
+                choices=[
+                    ("1", "1."),
+                    ("2", "2."),
+                    ("3", "3."),
+                    ("4", "4."),
+                    ("5", "5."),
+                ],
+                db_index=True,
+                max_length=1,
+                verbose_name="Číslo úlohy",
+            ),
         ),
     ]

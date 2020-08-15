@@ -18,8 +18,12 @@ def is_enlisted(user, event):
 
 
 class EventListView(ListView):
-    queryset = models.Event.objects.all().prefetch_related("attendees")
     template_name = "core/event_listing.html"
+
+    def get_queryset(self):
+        return models.Event.objects.visible_to(self.request.user).prefetch_related(
+            "attendees"
+        )
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -40,8 +44,12 @@ class EventListView(ListView):
 
 
 class EventDetailView(DetailView):
-    queryset = models.Event.objects.all().prefetch_related("attendees")
     template_name = "core/event_detail.html"
+
+    def get_queryset(self):
+        return models.Event.objects.visible_to(self.request.user).prefetch_related(
+            "attendees"
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,10 +68,14 @@ class EventDetailView(DetailView):
 
 @method_decorator([login_required], name="dispatch")
 class EventEnlistView(DetailView):
-    queryset = models.Event.objects.accepting_enlistments().prefetch_related(
-        "attendees"
-    )
     template_name = "core/event_enlist.html"
+
+    def get_queryset(self):
+        return (
+            models.Event.objects.visible_to(self.request.user)
+            .accepting_enlistments(self.request.user)
+            .prefetch_related("attendees")
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

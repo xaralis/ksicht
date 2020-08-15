@@ -11,13 +11,12 @@ register = template.Library()
 @register.simple_tag(takes_context=True)
 def event_list(context, list_type):
     queryset = Event.objects.all().prefetch_related("attendees")
-    today = date.today()
     results = []
 
     if list_type == "future":
-        queryset = queryset.filter(start_date__gte=today)
+        queryset = queryset.visible_to(context["request"].user).future()
     elif list_type == "past":
-        queryset = queryset.filter(end_date__lt=today)
+        queryset = queryset.visible_to(context["request"].user).past()
 
     for e in queryset:
         enlisted = context["request"].user in e.attendees.all()

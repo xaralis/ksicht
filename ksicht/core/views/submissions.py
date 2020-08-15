@@ -17,7 +17,14 @@ from django.views.generic import FormView, TemplateView
 
 from ksicht import pdf
 from .. import forms
-from ..models import Grade, GradeApplication, GradeSeries, Participant, Task, TaskSolutionSubmission
+from ..models import (
+    Grade,
+    GradeApplication,
+    GradeSeries,
+    Participant,
+    Task,
+    TaskSolutionSubmission,
+)
 from .decorators import current_grade_exists, is_participant
 
 

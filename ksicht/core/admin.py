@@ -1,5 +1,6 @@
 from cuser.admin import UserAdmin
 from django.contrib import admin
+from django import forms
 from django.contrib.auth.models import Permission
 from django.contrib.flatpages.admin import FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
@@ -151,6 +152,18 @@ class EventAttendeeInline(admin.TabularInline):
     readonly_fields = ("signup_date",)
 
 
+class EventAdminForm(forms.ModelForm):
+    class Meta:
+        model = models.Event
+        fields = "__all__"  # required in new versions
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["visible_to"].queryset = self.fields[
+            "visible_to"
+        ].queryset.order_by("last_name", "first_name", "email")
+
+
 @admin.register(models.Event)
 class EventAdmin(admin.ModelAdmin):
     search_fields = ("title",)
@@ -161,13 +174,18 @@ class EventAdmin(admin.ModelAdmin):
         "end_date",
         "capacity",
         "enlistment_enabled",
+        "is_public",
+        "publish_occupancy",
     )
+    list_filter = ("is_public", "enlistment_enabled")
     inlines = (EventAttendeeInline,)
     date_hierarchy = "start_date"
 
     formfield_overrides = {
         TextField: {"widget": AdminMarkdownxWidget},
     }
+
+    form = EventAdminForm
 
 
 admin.site.register(Permission)

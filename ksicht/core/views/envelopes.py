@@ -101,4 +101,3 @@ class AllParticipantsEnvelopesPrintout(BaseDetailView, ParticipantEnvelopesPrint
 
     def get_title(self, context):
         return "Ročník " + str(context["object"]) + " - obálky pro přihlášené"
-

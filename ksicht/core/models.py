@@ -16,6 +16,9 @@ from .constants import SCHOOLS_CHOICES
 
 
 class User(AbstractCUser):
+    def __str__(self):
+        return f"{self.get_full_name()} <{self.get_username()}>"
+
     def is_participant(self):
         return Participant.objects.filter(user=self).exists()
 
@@ -571,7 +574,12 @@ class EventAttendee(models.Model):
         return f"{self.user.get_full_name()} chce jet na {self.event}"
 
 
-class EventManager(models.Manager):
+class EventQuerySet(models.QuerySet):
+    def visible_to(self, user):
+        if user is not None and user.is_authenticated:
+            return self.filter(models.Q(is_public=True) | models.Q(visible_to=user))
+        return self.filter(is_public=True)
+
     def future(self, current=None):
         current_date = current or date.today()
         return self.filter(end_date__gte=current_date)
@@ -581,7 +589,7 @@ class EventManager(models.Manager):
         return self.filter(end_date__lt=current_date)
 
     def accepting_enlistments(self, current=None):
-        return self.future(current).filter(enlistment_enabled=True)
+        return self.filter(enlistment_enabled=True)
 
 
 class Event(models.Model):
@@ -603,18 +611,39 @@ class Event(models.Model):
     enlistment_enabled = models.BooleanField(
         verbose_name="Přihlášení je umožněno", default=False
     )
+    is_public = models.BooleanField(
+        verbose_name="Veřejná akce",
+        help_text="Neveřejné akce se zobrazí jen níže uvedeným osobám.",
+        default=True,
+    )
+    publish_occupancy = models.BooleanField(
+        verbose_name="Zveřejnit počet účastníků",
+        help_text="Pokud je zaškrtnuto, u akce se zobrazí kapacita i aktuální "
+        "obsazenost.",
+        default=True,
+    )
     attendees = models.ManyToManyField(
         User, verbose_name="Účastníci", blank=True, through=EventAttendee
+    )
+    visible_to = models.ManyToManyField(
+        User,
+        verbose_name="Viditelné pro tyto uživatele",
+        help_text="Využijte pro neveřejné akce. Pokud je akce neveřejná, bude "
+        "se zobrazovat jen zde vybraným uživatelům. U veřejných akcí se "
+        "nezohledňuje.",
+        related_name="private_events",
+        blank=True,
     )
     reward_stickers = models.ManyToManyField(
         Sticker,
         verbose_name="Nálepky pro účastníky",
         blank=True,
-        help_text="Každý účastník získá zvolené nálepky. Uděleny budou v rámci série, která datumově následuje po akci.",
+        help_text="Každý účastník získá zvolené nálepky. Uděleny budou v rámci "
+        "série, která datumově následuje po akci.",
         related_name="event_uses",
     )
 
-    objects = EventManager()
+    objects = EventQuerySet.as_manager()
 
     class Meta:
         verbose_name = "Akce"
@@ -657,7 +686,9 @@ class FlatPageMeta(models.Model):
     allowed_groups = models.ManyToManyField(
         UserGroup,
         verbose_name="Povoleno pro tyto skupiny",
-        help_text="Pokud zde něco zvolíte, stránka bude dostupná pouze pro uvedené skupiny. Pokud chcete nechat stránku dostupnou pro řešitele, nevyplňujte zde nic.",
+        help_text="Pokud zde něco zvolíte, stránka bude dostupná pouze pro "
+        "uvedené skupiny. Pokud chcete nechat stránku dostupnou pro řešitele, "
+        "nevyplňujte zde nic.",
         blank=True,
     )
 
