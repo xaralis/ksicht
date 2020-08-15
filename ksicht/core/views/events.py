@@ -142,7 +142,7 @@ class EventAttendeesExportView(BaseDetailView):
             is_substitute = rank > event.capacity
             row = [
                 f"{rank}.",
-                formats.date_format(attendee.signup_date, "SHORT_DATETIME_FORMAT"),
+                formats.date_format(attendee.signup_date, "SHORT_DATE_FORMAT"),
                 attendee.user.email,
                 attendee.user.first_name,
                 attendee.user.last_name,

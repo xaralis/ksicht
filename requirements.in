@@ -1,9 +1,9 @@
 psycopg2-binary
-Django
+Django<3.0
 dsnparse
 django-crispy-forms
 django-webpack-loader
-django-markdownx
+django-markdownx<3.0
 django-markdown-deux
 django-htmlmin
 django-capture-tag
