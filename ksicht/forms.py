@@ -256,8 +256,13 @@ class KsichtEditProfileForm(UserChangeForm, KsichtProfileMixin):
 
         user.save()
 
-        for field, value in py_.pick(cd, *self.PROFILE_FIELDS).items():
-            setattr(user.participant_profile, field, value)
+        if user.is_participant:
+            for field, value in py_.pick(cd, *self.PROFILE_FIELDS).items():
+                setattr(user.participant_profile, field, value)
+        else:
+            user.participant_profile = Participant(
+                **py_.pick(cd, *self.PROFILE_FIELDS)
+            )
 
         user.participant_profile.save()
 
