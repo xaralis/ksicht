@@ -31,7 +31,7 @@ class UserProfileEditView(UpdateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
 
-        if hasattr(self, "object") and self.object.is_participant:
+        if hasattr(self, "object") and self.object.is_participant():
             kwargs.update(
                 {
                     "initial": py_.pick(
