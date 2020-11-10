@@ -124,14 +124,15 @@ def late_submission(context):
 def early_submission(context):
     """Given to anyone who has submitted a solution in series more than 2 weeks before submission deadline."""
 
-    def _is_eligible(submission):
+    def _is_submission_eligible(submission):
         return (
             context["current_series"].submission_deadline - submission.submitted_at
         ) >= timedelta(days=14)
 
-    return all(
-        _is_eligible(sub)
-        for sub in context["submissions"]["by_series"][context["current_series"]]
+    submissions = context["submissions"]["by_series"][context["current_series"]]
+
+    return len(submissions) > 0 and all(
+        _is_submission_eligible(sub) for sub in submissions
     )
 
 

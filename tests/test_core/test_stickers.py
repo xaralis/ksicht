@@ -624,6 +624,13 @@ def test_late_submission(context, result):
         (
             {
                 "current_series": s1,
+                "submissions": {"by_series": {s1: ()}},
+            },
+            False,
+        ),
+        (
+            {
+                "current_series": s1,
                 "submissions": {
                     "by_series": {
                         s1: (
