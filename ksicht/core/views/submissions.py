@@ -16,15 +16,9 @@ from django.views import View
 from django.views.generic import FormView, TemplateView
 
 from ksicht import pdf
+from ksicht.pdf import ensure_file_valid
 from .. import forms
-from ..models import (
-    Grade,
-    GradeApplication,
-    GradeSeries,
-    Participant,
-    Task,
-    TaskSolutionSubmission,
-)
+from ..models import Grade, GradeApplication, GradeSeries, Participant, Sticker, Task, TaskSolutionSubmission
 from .decorators import current_grade_exists, is_participant
 
 
@@ -54,7 +48,8 @@ class SolutionSubmitView(TemplateView):
             return HttpResponseNotFound()
 
         self.application = GradeApplication.objects.filter(
-            participant=self.request.user.participant_profile, grade=self.current_grade,
+            participant=self.request.user.participant_profile,
+            grade=self.current_grade,
         ).first()
 
         if not self.application:
@@ -269,7 +264,7 @@ class ScoringView(FormView):
     form_class = modelformset_factory(
         TaskSolutionSubmission,
         form=forms.ScoringForm,
-        fields=("id", "application", "score", "stickers"),
+        fields=("id", "score", "stickers"),
         extra=0,
     )
 
@@ -287,10 +282,19 @@ class ScoringView(FormView):
     def get_form_kwargs(self):
         return {
             **super().get_form_kwargs(),
-            "queryset": TaskSolutionSubmission.objects.filter(
-                task=self.task
-            ).select_related("application__participant__user"),
-            "form_kwargs": {"max_score": self.task.points},
+            "queryset": TaskSolutionSubmission.objects.filter(task=self.task)
+            .select_related("application__participant__user")
+            .prefetch_related("stickers")
+            .order_by(
+                "application__participant__user__last_name",
+                "application__participant__user__first_name",
+            ),
+            "form_kwargs": {
+                "max_score": self.task.points,
+                "sticker_choices": Sticker.objects.filter(handpicked=True).order_by(
+                    "nr"
+                ),
+            },
         }
 
     def form_valid(self, form):
@@ -314,8 +318,12 @@ class SolutionExportView(View):
     def get(self, request, *args, **kwargs):
         submitted_solutions = (
             TaskSolutionSubmission.objects.filter(task=self.task)
+            .select_related("task", "application__participant__user")
             .exclude(file="")
-            .order_by("application__participant__user__last_name")
+            .order_by(
+                "application__participant__user__last_name",
+                "application__participant__user__first_name",
+            )
         )
         submitted_solutions = [s for s in submitted_solutions if bool(s.file)]
 
@@ -343,12 +351,15 @@ class SolutionExportView(View):
         normalized_solution_files = []
 
         for s in submitted_solutions:
+            valid_file = ensure_file_valid(s.file, tempfile.TemporaryFile())
+
             # Ensure all files have even number of pages for simple duplex printing.
             normalized_file = (
-                pdf.ensure_even_pages(s.file, tempfile.TemporaryFile())
+                pdf.ensure_even_pages(valid_file, tempfile.TemporaryFile())
                 if is_duplex
-                else s.file
+                else valid_file
             )
+
             normalized_solution_files.append(
                 pdf.write_label_on_all_pages(
                     f"Řešitel: {s.application.participant.get_full_name()}       Úloha č. {s.task.nr}".encode(
@@ -358,6 +369,8 @@ class SolutionExportView(View):
                     tempfile.TemporaryFile(),
                 )
             )
+
+            valid_file.close()
             normalized_file.close()
 
         # Join all files in one large batch.

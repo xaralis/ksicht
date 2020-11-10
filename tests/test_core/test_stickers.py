@@ -37,7 +37,12 @@ sub4 = models.TaskSolutionSubmission(task_id=tid4)
             {
                 "current_series": s1,
                 "tasks_in_series": {s1: (t1, t2, t3), s2: (t4,)},
-                "submissions": {"by_series": {s1: (sub1, sub2, sub3), s2: (),}},
+                "submissions": {
+                    "by_series": {
+                        s1: (sub1, sub2, sub3),
+                        s2: (),
+                    }
+                },
             },
             True,
         ),
@@ -45,7 +50,12 @@ sub4 = models.TaskSolutionSubmission(task_id=tid4)
             {
                 "current_series": s2,
                 "tasks_in_series": {s1: (t1, t2, t3), s2: (t4,)},
-                "submissions": {"by_series": {s1: (), s2: (sub4,),}},
+                "submissions": {
+                    "by_series": {
+                        s1: (),
+                        s2: (sub4,),
+                    }
+                },
             },
             True,
         ),
@@ -53,7 +63,12 @@ sub4 = models.TaskSolutionSubmission(task_id=tid4)
             {
                 "current_series": s1,
                 "tasks_in_series": {s1: (t1, t2, t3), s2: (t4,)},
-                "submissions": {"by_series": {s1: (), s2: (),}},
+                "submissions": {
+                    "by_series": {
+                        s1: (),
+                        s2: (),
+                    }
+                },
             },
             False,
         ),
@@ -61,7 +76,12 @@ sub4 = models.TaskSolutionSubmission(task_id=tid4)
             {
                 "current_series": s1,
                 "tasks_in_series": {s1: (), s2: ()},
-                "submissions": {"by_series": {s1: (), s2: (),}},
+                "submissions": {
+                    "by_series": {
+                        s1: (),
+                        s2: (),
+                    }
+                },
             },
             False,
         ),
@@ -77,26 +97,49 @@ def test_solved_all_tasks_in_series(context, result):
         (
             {
                 "is_last_series": True,
-                "submissions": {"by_series": {s1: (sub1,), s2: (sub2,),}},
+                "submissions": {
+                    "by_series": {
+                        s1: (sub1,),
+                        s2: (sub2,),
+                    }
+                },
             },
             True,
         ),
         (
             {
                 "is_last_series": False,
-                "submissions": {"by_series": {s1: (sub1,), s2: (sub2,),}},
+                "submissions": {
+                    "by_series": {
+                        s1: (sub1,),
+                        s2: (sub2,),
+                    }
+                },
             },
             False,
         ),
         (
             {
                 "is_last_series": True,
-                "submissions": {"by_series": {s1: (), s2: (sub1,),}},
+                "submissions": {
+                    "by_series": {
+                        s1: (),
+                        s2: (sub1,),
+                    }
+                },
             },
             False,
         ),
         (
-            {"is_last_series": True, "submissions": {"by_series": {s1: (), s2: (),}}},
+            {
+                "is_last_series": True,
+                "submissions": {
+                    "by_series": {
+                        s1: (),
+                        s2: (),
+                    }
+                },
+            },
             False,
         ),
     ),
@@ -500,10 +543,12 @@ def test_random_20_percent(context, result):
                     "by_series": {
                         s1: (
                             models.TaskSolutionSubmission(
-                                submitted_at=datetime(2019, 12, 10), file="foo.pdf",
+                                submitted_at=datetime(2019, 12, 10),
+                                file="foo.pdf",
                             ),
                             models.TaskSolutionSubmission(
-                                submitted_at=datetime(2019, 12, 31, 23), file="foo.pdf",
+                                submitted_at=datetime(2019, 12, 31, 23),
+                                file="foo.pdf",
                             ),
                         )
                     }
@@ -518,10 +563,12 @@ def test_random_20_percent(context, result):
                     "by_series": {
                         s1: (
                             models.TaskSolutionSubmission(
-                                submitted_at=datetime(2019, 12, 10), file=None,
+                                submitted_at=datetime(2019, 12, 10),
+                                file=None,
                             ),
                             models.TaskSolutionSubmission(
-                                submitted_at=datetime(2019, 12, 31, 23), file=None,
+                                submitted_at=datetime(2019, 12, 31, 23),
+                                file=None,
                             ),
                         )
                     }
@@ -600,7 +647,11 @@ def test_early_submission(context, result):
 
 @pytest.mark.parametrize(
     "context, result",
-    (({"rank": 10}, False), ({"rank": 7}, True), ({"rank": 1}, True),),
+    (
+        ({"rank": 10}, False),
+        ({"rank": 7}, True),
+        ({"rank": 1}, True),
+    ),
 )
 def test_ranked_no_worse_than_7th(context, result):
     assert resolvers.ranked_no_worse_than_7th(context) is result

@@ -137,7 +137,10 @@ class IconField(Field):
     ):
         extra_context = extra_context.copy() if extra_context is not None else {}
         extra_context.update(
-            {"icon_prepend": self.icon_prepend, "icon_append": self.icon_append,}
+            {
+                "icon_prepend": self.icon_prepend,
+                "icon_append": self.icon_append,
+            }
         )
         template = self.get_template_name(template_pack)
 

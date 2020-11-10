@@ -1,6 +1,6 @@
 from cuser.admin import UserAdmin
-from django.contrib import admin
 from django import forms
+from django.contrib import admin
 from django.contrib.auth.models import Permission
 from django.contrib.flatpages.admin import FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage

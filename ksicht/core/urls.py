@@ -22,7 +22,11 @@ urlpatterns = [
         ),
         name="grade_archive",
     ),
-    path("akce/", views.EventListView.as_view(paginate_by=10), name="event_listing",),
+    path(
+        "akce/",
+        views.EventListView.as_view(paginate_by=10),
+        name="event_listing",
+    ),
     path(
         "akce/<int:pk>-<slug:slug>/",
         views.EventDetailView.as_view(),
@@ -40,7 +44,11 @@ urlpatterns = [
         ),
         name="event_attendees_export",
     ),
-    path("lide/", views.PeopleView.as_view(), name="people",),
+    path(
+        "lide/",
+        views.PeopleView.as_view(),
+        name="people",
+    ),
     path(
         "aktualni-rocnik/prihlasit-se/",
         views.CurrentGradeApplicationView.as_view(),

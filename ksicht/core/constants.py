@@ -14,4 +14,9 @@ with open(os.path.join(settings.BASE_DIR, "fixtures", "schools.csv")) as schools
     for idx, row in enumerate(csv_reader):
         if idx != 0:
             SCHOOLS += (tuple(row),)
-            SCHOOLS_CHOICES += ((row[0], row[7],),)
+            SCHOOLS_CHOICES += (
+                (
+                    row[0],
+                    row[7],
+                ),
+            )

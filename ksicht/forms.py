@@ -1,26 +1,13 @@
 from crispy_forms.helper import FormHelper
 from cuser.forms import AuthenticationForm, UserChangeForm, UserCreationForm
 from django import forms
-from django.contrib.auth.forms import (
-    PasswordChangeForm,
-    PasswordResetForm,
-    SetPasswordForm,
-)
+from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django.core import validators
 from django_registration import validators as reg_validators
 import pydash as py_
 from webpack_loader.templatetags.webpack_loader import webpack_static
 
-from ksicht.bulma.layout import (
-    Column,
-    Field,
-    FormActions,
-    FormControl,
-    Layout,
-    Link,
-    Row,
-    Submit,
-)
+from ksicht.bulma.layout import Column, Field, FormActions, FormControl, Layout, Link, Row, Submit
 from ksicht.core import constants
 from ksicht.core.models import Grade, Participant, User
 
@@ -29,7 +16,8 @@ zip_validator = validators.RegexValidator(
     r"^\d{3} ?\d{2}$", "Zadejte PSČ ve formátu 123 45."
 )
 phone_validator = validators.RegexValidator(
-    r"^\+?[0-9 ]{9,}$", "Zadejte platný telefon ve formátu +420 777 123123.",
+    r"^\+?[0-9 ]{9,}$",
+    "Zadejte platný telefon ve formátu +420 777 123123.",
 )
 
 
@@ -260,9 +248,7 @@ class KsichtEditProfileForm(UserChangeForm, KsichtProfileMixin):
             for field, value in py_.pick(cd, *self.PROFILE_FIELDS).items():
                 setattr(user.participant_profile, field, value)
         else:
-            user.participant_profile = Participant(
-                **py_.pick(cd, *self.PROFILE_FIELDS)
-            )
+            user.participant_profile = Participant(**py_.pick(cd, *self.PROFILE_FIELDS))
 
         user.participant_profile.save()
 
@@ -317,7 +303,9 @@ class KsichtChangePasswordForm(PasswordChangeForm):
             Row(Column("new_password1")),
             Row(Column("new_password2")),
             FormActions(
-                FormControl(Submit("submit", "Nastavit nové heslo"),),
+                FormControl(
+                    Submit("submit", "Nastavit nové heslo"),
+                ),
                 FormControl(Link("core:home", "Zpět", "button is-text")),
             ),
         )

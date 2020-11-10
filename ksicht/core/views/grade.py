@@ -101,7 +101,13 @@ class GradeResultsExportView(BaseDetailView):
 
         writer = csv.writer(response)
         writer.writerow(
-            ["Pořadí", "Jméno", "Příjmení", "Ročník", "Škola",]
+            [
+                "Pořadí",
+                "Jméno",
+                "Příjmení",
+                "Ročník",
+                "Škola",
+            ]
             + task_headers
             + ["Body celkem"]
         )

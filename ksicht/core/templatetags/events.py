@@ -1,5 +1,3 @@
-from datetime import date
-
 from django import template
 
 from ksicht.core.models import Event

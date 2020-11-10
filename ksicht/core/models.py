@@ -98,10 +98,12 @@ class Grade(models.Model):
             g = (
                 Grade.objects.filter(
                     models.Q(
-                        start_date__lte=self.start_date, end_date__gte=self.start_date,
+                        start_date__lte=self.start_date,
+                        end_date__gte=self.start_date,
                     )
                     | models.Q(
-                        start_date__lte=self.end_date, end_date__gte=self.end_date,
+                        start_date__lte=self.end_date,
+                        end_date__gte=self.end_date,
                     )
                 )
                 .exclude(pk=self.pk)
@@ -415,10 +417,16 @@ class Participant(models.Model):
     )
 
     school = models.CharField(
-        verbose_name="Škola", max_length=80, null=False, choices=SCHOOLS_CHOICES,
+        verbose_name="Škola",
+        max_length=80,
+        null=False,
+        choices=SCHOOLS_CHOICES,
     )
     school_year = models.CharField(
-        verbose_name="Ročník", max_length=1, null=False, choices=GRADE_CHOICES,
+        verbose_name="Ročník",
+        max_length=1,
+        null=False,
+        choices=GRADE_CHOICES,
     )
 
     school_alt_name = models.CharField(
@@ -597,10 +605,16 @@ class Event(models.Model):
     description = models.TextField(verbose_name="Popis", null=False, blank=True)
     place = models.CharField(verbose_name="Místo konání", max_length=150, null=True)
     start_date = models.DateField(
-        verbose_name="Začíná", null=False, blank=False, db_index=True,
+        verbose_name="Začíná",
+        null=False,
+        blank=False,
+        db_index=True,
     )
     end_date = models.DateField(
-        verbose_name="Končí", null=False, blank=False, db_index=True,
+        verbose_name="Končí",
+        null=False,
+        blank=False,
+        db_index=True,
     )
     capacity = models.PositiveSmallIntegerField(
         verbose_name="Doporučený max. počet účastníků", null=True, blank=True

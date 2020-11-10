@@ -8,7 +8,7 @@ from django_select2.forms import Select2MultipleWidget
 
 from ksicht.bulma.forms import FileField
 from ksicht.bulma.layout import Column, Field, Layout, Row, Submit
-from . import models, widgets
+from . import models
 
 
 class CurrentGradeAppliationForm(forms.Form):
@@ -51,7 +51,9 @@ class SolutionSubmitForm(forms.Form):
             return file
 
         self.fields[f"file_{task.pk}"] = FileField(
-            label="Vyberte soubor s řešením", required=True, allow_empty_file=False,
+            label="Vyberte soubor s řešením",
+            required=True,
+            allow_empty_file=False,
         )
 
         setattr(
@@ -97,17 +99,11 @@ class SubmissionOverviewFormSet(forms.BaseFormSet):
 
 
 class ScoringForm(forms.ModelForm):
-    class Meta:
-        class ApplicationModelChoiceField(forms.ModelChoiceField):
-            widget = widgets.CurrentChoiceRendererWidget
-
-            def label_from_instance(self, obj):
-                return obj.participant.get_full_name()
-
-        field_classes = {"application": ApplicationModelChoiceField}
-
-    def __init__(self, *args, max_score, **kwargs):
+    def __init__(self, *args, max_score, sticker_choices, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.sticker_choices = sticker_choices
+
         self.fields["score"] = forms.DecimalField(
             label="",
             max_value=max_score,
@@ -122,3 +118,9 @@ class ScoringForm(forms.ModelForm):
             widget=Select2MultipleWidget({"data-width": "100%"}),
             required=False,
         )
+
+    def save(self, commit=True):
+        self.instance.stickers.set(
+            self.sticker_choices.filter(pk__in=self.cleaned_data.get("stickers", []))
+        )
+        return super().save(commit)

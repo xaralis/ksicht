@@ -15,6 +15,7 @@ import os
 from django.contrib.messages import constants as messages
 import dsnparse
 
+
 ADMINS = (("Filip Varecha", "filip@varecha.work"),)
 
 
@@ -101,7 +102,9 @@ ROOT_URLCONF = "ksicht.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "ksicht", "templates"),],
+        "DIRS": [
+            os.path.join(BASE_DIR, "ksicht", "templates"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -136,7 +139,11 @@ DATABASES = {
 }
 
 # Caching
-CACHES = {"default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache",}}
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    }
+}
 
 # Mailing
 EMAIL_BACKEND = os.environ.get(
@@ -156,7 +163,9 @@ DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_DEFAULT_FROM", None)
 AUTH_USER_MODEL = "core.User"
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
 ]
 
 LOGIN_REDIRECT_URL = "core:home"
@@ -259,7 +268,11 @@ MARKDOWN_DEUX_STYLES = {
     #         "footnotes": None,
     #     },
     # },
-    "target_blank": {"extras": {"target-blank-links": None,},},
+    "target_blank": {
+        "extras": {
+            "target-blank-links": None,
+        },
+    },
 }
 
 

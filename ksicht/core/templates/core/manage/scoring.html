@@ -44,7 +44,7 @@
                             <tbody>
                                 {% for f in form.forms %}
                                 <tr>
-                                    <th class="is-size-5 has-text-right">{{ f.application }}{{ f.id }}</th>
+                                    <th class="is-size-5 has-text-right">{{ f.instance.application.participant.get_full_name }}{{ f.id }}</th>
                                     <td>
                                         <div class="field">
                                             <div class="control">

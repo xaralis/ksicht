@@ -2,6 +2,7 @@ import io
 
 from django.conf import settings
 from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
+from PyPDF2.utils import PdfReadError
 import reportlab
 from reportlab.lib.pagesizes import A4, C3, landscape
 from reportlab.lib.styles import ParagraphStyle
@@ -12,8 +13,12 @@ from reportlab.platypus import Paragraph
 
 
 __all__ = (
+    "envelopes",
     "concatenate",
     "ensure_even_pages",
+    "ensure_file_valid",
+    "write_label_on_all_pages",
+    "PdfReadError",
 )
 
 reportlab.rl_config.TTFSearchPath.append(str(settings.BASE_DIR) + "/fonts")
@@ -27,7 +32,10 @@ def envelopes(recipient_lines, our_lines, out_file):
     w, h = landscape(C3)
 
     ksicht_contact_paragraph_style = ParagraphStyle(
-        "Normal", fontName="Helvetica", fontSize=28, leading=32,
+        "Normal",
+        fontName="Helvetica",
+        fontSize=28,
+        leading=32,
     )
     ksicht_contact_paragraph = Paragraph(
         "<br />".join(our_lines), style=ksicht_contact_paragraph_style
@@ -88,6 +96,33 @@ def ensure_even_pages(in_file, out_file):
         out_pdf.addBlankPage()
 
     out_pdf.write(out_file)
+
+    return out_file
+
+
+def ensure_file_valid(in_file, out_file):
+    """Make sure the PDF file is valid. If it isn't render a PDF with error
+    message contained."""
+    try:
+        in_pdf = PdfFileReader(in_file)
+        out_pdf = PdfFileWriter()
+
+        for page in in_pdf.pages:
+            out_pdf.addPage(page)
+
+        out_pdf.write(out_file)
+    except PdfReadError:
+        packet = io.BytesIO()
+        can = canvas.Canvas(packet, pagesize=A4)
+        can.setFont("Helvetica", 24)
+        can.drawString(10, 200, "!! Tento PDF soubor je poškozený !!")
+        can.save()
+        packet.seek(0)
+
+        out_pdf = PdfFileWriter()
+        out_pdf.addPage(PdfFileReader(packet).getPage(0))
+
+        out_pdf.write(out_file)
 
     return out_file
 
