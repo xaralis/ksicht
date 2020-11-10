@@ -207,9 +207,24 @@ MEDIA_URL = os.environ.get("MEDIA_URL", "/media/")
 # Logging
 LOGGING = {
     "version": 1,
-    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "INFO" if DEBUG else "WARNING",
+        },
+        "mail_admins": {
+            "class": "django.utils.log.AdminEmailHandler",
+            "level": "ERROR",
+        },
+    },
     "loggers": {
-        "django": {"handlers": ["console"], "level": "INFO" if DEBUG else "WARNING"}
+        "django": {
+            "handlers": ["console"],
+        },
+        "django.request": {
+            "handlers": ["mail_admins"],
+            "level": "ERROR",
+        },
     },
 }
 
