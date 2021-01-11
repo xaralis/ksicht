@@ -18,15 +18,7 @@ from django.views.generic import FormView, TemplateView
 from ksicht import pdf
 from ksicht.pdf import ensure_file_valid
 from .. import forms
-from ..models import (
-    Grade,
-    GradeApplication,
-    GradeSeries,
-    Participant,
-    Sticker,
-    Task,
-    TaskSolutionSubmission,
-)
+from ..models import Grade, GradeApplication, GradeSeries, Participant, Sticker, Task, TaskSolutionSubmission
 from .decorators import current_grade_exists, is_participant
 
 
@@ -173,7 +165,8 @@ class SubmissionOverview(FormView):
                 submission_map[participant.user_id][task.id] = None
 
         for s in TaskSolutionSubmission.objects.filter(
-            application__grade=self.grade
+            application__grade=self.grade,
+            task__series=self.series,
         ).select_related("task", "application"):
             submission_map[s.application.participant_id][s.task.id] = s
 
@@ -207,7 +200,8 @@ class SubmissionOverview(FormView):
 
     def form_valid(self, form):
         submissions = TaskSolutionSubmission.objects.filter(
-            application__grade=self.grade
+            application__grade=self.grade,
+            task__series=self.series,
         )
         applications = GradeApplication.objects.filter(grade=self.grade)
 
@@ -235,7 +229,6 @@ class SubmissionOverview(FormView):
         overdue_submissions = saved_submissions - desired_submissions
 
         to_create = []
-        to_remove = []
 
         # Handle submissions to create
         for s in missing_submissions:
