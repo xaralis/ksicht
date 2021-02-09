@@ -51,7 +51,7 @@
 
                         <div class="navbar-dropdown">
                             {% for guide in guides %}
-                            <a href="{{ guide.url }}" class="navbar-item {% if request.get_full_path == guide.url %}is-active{% endif %}">
+                            <a href="{{ guide.url }}" class="dropdown-item {% if request.get_full_path == guide.url %}is-active{% endif %}">
                                 {{ guide.title }}
                             </a>
                             {% endfor %}
