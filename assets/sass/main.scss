@@ -33,3 +33,8 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import "./helpers/content";
 @import "./helpers/border-radius";
 @import "./helpers/spacing";
+
+// workaround for https://github.com/jgthms/bulma/issues/3009
+.tabs.is-boxed .is-active {
+    color: $info;
+}

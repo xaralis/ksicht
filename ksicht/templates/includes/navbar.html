@@ -51,7 +51,9 @@
 
                         <div class="navbar-dropdown">
                             {% for guide in guides %}
-                            <a href="{{ guide.url }}" class="navbar-item {% if request.get_full_path == guide.url %}is-active{% endif %}">
+                            {% comment %} Workaround: use dropdown-item instead navbar-item {% endcomment %}
+                            {% comment %} @see: https://github.com/jgthms/bulma/issues/3009 {% endcomment %}
+                            <a href="{{ guide.url }}" class="dropdown-item {% if request.get_full_path == guide.url %}is-active{% endif %}">
                                 {{ guide.title }}
                             </a>
                             {% endfor %}
