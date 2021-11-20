@@ -11,5 +11,6 @@ export WORKER_CLASS=${WORKER_CLASS:-sync}
 export WORKER_NAME=${WORKER_NAME:-ksicht-worker}
 export WORKER_MAX_REQUESTS=${WORKER_MAX_REQUESTS:-0}
 export WORKER_LOG_LEVEL=${WORKER_LOG_LEVEL:-info}
+export WORKER_THREADS=${WORKER_THREADS:-1}
 
 /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisor.conf --nodaemon
