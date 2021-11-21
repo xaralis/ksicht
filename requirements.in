@@ -13,4 +13,6 @@ django_select2
 gunicorn
 pydash
 pypdf2
+pdfrw
 reportlab
+pillow>8.0

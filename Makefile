@@ -3,7 +3,7 @@ init-env:
 	python3 -m venv .env
 
 install:
-	pip install pip-tools && pip install --upgrade -r requirements.txt && npm install
+	pip install pip-tools && CFLAGS="-Wno-error=implicit-function-declaration" pip install --upgrade -r requirements.txt && npm install
 
 install-test:
 	pip install --upgrade -r requirements-test.txt

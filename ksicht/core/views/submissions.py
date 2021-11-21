@@ -16,9 +16,17 @@ from django.views import View
 from django.views.generic import FormView, TemplateView
 
 from ksicht import pdf
-from ksicht.pdf import ensure_file_valid
+
 from .. import forms
-from ..models import Grade, GradeApplication, GradeSeries, Participant, Sticker, Task, TaskSolutionSubmission
+from ..models import (
+    Grade,
+    GradeApplication,
+    GradeSeries,
+    Participant,
+    Sticker,
+    Task,
+    TaskSolutionSubmission,
+)
 from .decorators import current_grade_exists, is_participant
 
 
@@ -115,6 +123,8 @@ class SolutionSubmitView(TemplateView):
         submission = TaskSolutionSubmission(
             application=self.application, file=file_descriptor, task=task
         )
+        submission.save()
+        submission.prepare_for_export()
         submission.save()
 
         messages.add_message(
@@ -352,33 +362,11 @@ class SolutionExportView(View):
         normalized_solution_files = []
 
         for s in submitted_solutions:
-            valid_file = ensure_file_valid(s.file, tempfile.TemporaryFile())
-
-            # Ensure all files have even number of pages for simple duplex printing.
-            normalized_file = (
-                pdf.ensure_even_pages(valid_file, tempfile.TemporaryFile())
-                if is_duplex
-                else valid_file
-            )
-
             normalized_solution_files.append(
-                pdf.write_label_on_all_pages(
-                    f"Řešitel: {s.application.participant.get_full_name()}       Úloha č. {s.task.nr}".encode(
-                        "utf8"
-                    ),
-                    normalized_file,
-                    tempfile.TemporaryFile(),
-                )
+                s.file_for_export_duplex if is_duplex else s.file_for_export_normal
             )
-
-            valid_file.close()
-            normalized_file.close()
 
         # Join all files in one large batch.
         pdf.concatenate(normalized_solution_files, response)
-
-        # When finished, close the normalized files.
-        for f in normalized_solution_files:
-            f.close()
 
         return response

@@ -1,18 +1,25 @@
 from datetime import date, datetime
 from decimal import Decimal
+import logging
 from operator import attrgetter
+import tempfile
 import uuid
 
 from cuser.models import AbstractCUser
 from django import forms
 from django.contrib.auth.models import Group as UserGroup
 from django.core.validators import MinValueValidator
+from django.core.files.base import File
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 import pydash as py_
 
+from ksicht.pdf import prepare_submission_for_export
+
 from .constants import SCHOOLS_CHOICES
+
+logger = logging.getLogger(__name__)
 
 
 class User(AbstractCUser):
@@ -510,6 +517,18 @@ class TaskSolutionSubmission(models.Model):
         null=True,
         blank=True,
     )
+    file_for_export_normal = models.FileField(
+        verbose_name="Soubor s řešením připravený pro export (bez duplexu)",
+        upload_to="rocniky/reseni-pro-export/",
+        null=True,
+        blank=True,
+    )
+    file_for_export_duplex = models.FileField(
+        verbose_name="Soubor s řešením připravený pro export (s duplexem)",
+        upload_to="rocniky/reseni-pro-export/",
+        null=True,
+        blank=True,
+    )
     score = models.DecimalField(
         verbose_name="Skóre", max_digits=5, decimal_places=2, null=True, blank=True
     )
@@ -528,6 +547,40 @@ class TaskSolutionSubmission(models.Model):
 
     def __str__(self):
         return f"Řešení <{self.task}> pro přihlášku <{self.application_id}>"
+
+    def prepare_for_export(self):
+        """Use uploaded file to prepare export-ready variants (normal and duplex)."""
+        logger.info(
+            "Prepare uploaded file from application %r and task for export",
+            self.application.id,
+            self.task.nr,
+        )
+
+        if self.file:
+            file_normal, file_duplex = prepare_submission_for_export(
+                in_file=self.file,
+                label=f"Řešitel: {self.application.participant.get_full_name()}       Úloha č. {self.task.nr}".encode(
+                    "utf8"
+                ),
+            )
+
+            with tempfile.TemporaryFile() as tf:
+                file_normal.write(tf)
+                self.file_for_export_normal.save(
+                    f"submission_{self.application.pk}_{self.task.nr}_normal.pdf",
+                    File(tf),
+                )
+
+            with tempfile.TemporaryFile() as tf:
+                file_duplex.write(tf)
+                self.file_for_export_duplex.save(
+                    f"submission_{self.application.pk}_{self.task.nr}_duplex.pdf",
+                    File(tf),
+                )
+
+            logger.debug("Export versions prepared OK")
+        else:
+            logger.warning("Export version prepare failed - no valid file available")
 
 
 class StickerManager(models.Manager):
