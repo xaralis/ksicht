@@ -28,7 +28,7 @@ django-markdown-deux==1.0.5
     # via -r requirements.in
 django-markdownx==2.0.28
     # via -r requirements.in
-django-registration==3.1
+django-registration==3.1.2
     # via -r requirements.in
 django-select2==7.4.2
     # via -r requirements.in
