@@ -20,7 +20,7 @@ services:
             - ./ksicht:/ksicht/ksicht
             - media:/media
         ports:
-            - "8080:80"
+            - "8080:8080"
         restart: always
         environment:
             DEBUG: 1

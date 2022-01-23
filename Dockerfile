@@ -24,7 +24,10 @@ RUN pip install -U pip && \
 
 # Install node-based requirements
 WORKDIR /build
+# node-sass 4.14.0 needs python2
+RUN apk add --no-cache python2
 COPY ./package.json ./
+COPY ./package-lock.json ./
 RUN npm install
 
 # Copy assets and build static file bundles
@@ -95,6 +98,6 @@ USER root
 RUN rm -rf /wheels && \
     rm -rf /home/ksicht/.cache/pip
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["sh", "./entrypoint.sh"]
