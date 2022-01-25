@@ -10,7 +10,6 @@ dist/
 .idea
 .vscode
 node_modules
-package-lock.json
 assets/bundles
 db.sqlite3
 webpack-stats.json
