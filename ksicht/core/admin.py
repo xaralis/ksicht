@@ -1,3 +1,4 @@
+from re import search
 from cuser.admin import UserAdmin
 from django import forms
 from django.contrib import admin
@@ -116,6 +117,7 @@ class GradeApplicationAdmin(admin.ModelAdmin):
 
 @admin.register(models.TaskSolutionSubmission)
 class SolutionSubmissionAdmin(admin.ModelAdmin):
+    
     list_display = (
         "task",
         "user",
@@ -129,6 +131,8 @@ class SolutionSubmissionAdmin(admin.ModelAdmin):
     )
     autocomplete_fields = ("task", "application")
     readonly_fields = ("submitted_at",)
+    ordering = ("application__participant__user__last_name",)
+    search_fields = ("application__participant__user__last_name", "application__participant__user__first_name")
 
     def user(self, obj):
         return obj.application.participant.user
