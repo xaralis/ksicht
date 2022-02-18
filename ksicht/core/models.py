@@ -428,7 +428,7 @@ class Participant(models.Model):
         max_length=80,
         null=False,
         choices=SCHOOLS_CHOICES,
-    )
+    )    
     school_year = models.CharField(
         verbose_name="Ročník",
         max_length=1,
@@ -483,6 +483,11 @@ class GradeApplication(models.Model):
         Grade, on_delete=models.CASCADE, related_name="applications"
     )
     participant = models.ForeignKey(Participant, on_delete=models.PROTECT)
+    participant_current_grade = models.CharField(
+        verbose_name="Ročník",
+        max_length=10,
+        null=True
+    )
     created_at = models.DateTimeField(verbose_name="Datum vytvoření", auto_now_add=True)
 
     class Meta:
@@ -547,6 +552,11 @@ class TaskSolutionSubmission(models.Model):
 
     def __str__(self):
         return f"Řešení <{self.task}> pro přihlášku <{self.application_id}>"
+
+
+    def delete(self, *args, **kwargs):
+        self.file.delete()
+        super().delete(*args, **kwargs)
 
     def prepare_for_export(self):
         """Use uploaded file to prepare export-ready variants (normal and duplex)."""

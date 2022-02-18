@@ -1,0 +1,21 @@
+{% extends "page.html" %}
+
+{% block headline %}Zrušit odevzdání{% endblock %}
+
+{% block article %}
+
+
+<form class="has-text-centered" action="" method="POST">
+    {% csrf_token %}
+    <p class="is-size-5 has-margin-b-4">Přejete si smazat odeslané řešení?</p>
+    {{task.application.participant.user}}
+    <div class="container">
+
+            <a  class="button" href="{% url 'core:solution_submit'  %}" style="margin: 0.2rem;">Zpět</a>   
+
+            <input class="button is-danger is-outlined" type="submit" value="Smazat řešení" style="margin: 0.2rem;"> 
+    </div>
+
+</form>
+
+{% endblock %}

@@ -65,7 +65,7 @@ class CurrentGradeApplicationView(BaseFormView):
         )
 
         if can_apply:
-            grade.participants.add(user.participant_profile)
+            grade.participants.add(user.participant_profile, through_defaults={ "participant_current_grade": user.participant_profile.school_year} )
 
         messages.add_message(
             self.request,
@@ -156,7 +156,7 @@ class GradeResultsExportView(BaseDetailView):
                     f"{rank}.",
                     application.participant.user.first_name,
                     application.participant.user.last_name,
-                    f"{application.participant.school_year}.",
+                    f"{application.participant_current_grade}.",
                     application.participant.school,
                 ]
                 + [task_scores[t] or "-" for t in all_tasks]

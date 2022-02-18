@@ -10,10 +10,11 @@ from django.db import models, transaction
 from django.forms import formset_factory, modelformset_factory
 from django.http.response import HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import FormView, TemplateView
+from django.views.generic.edit import DeleteView
 
 from ksicht import pdf
 
@@ -34,6 +35,7 @@ __all__ = (
     "SolutionSubmitView",
     "SubmissionOverview",
     "ScoringView",
+    "SolutionSubmitDeleteView",
     "SolutionExportView",
 )
 
@@ -96,7 +98,8 @@ class SolutionSubmitView(TemplateView):
                     task=task,
                 )
                 if task.id not in task_submissions
-                else None,
+                else None
+                ,
                 task_submissions.get(task.id),
             )
             for task in self.series_tasks
@@ -132,6 +135,36 @@ class SolutionSubmitView(TemplateView):
             messages.SUCCESS,
             f"<i class='fas fa-check-circle notification-icon'></i> Řešení úlohy {task} bylo <strong>úspěšně odesláno</strong>.",
         )
+
+
+#Delete view
+
+class SolutionSubmitDeleteView(DeleteView):
+    model = TaskSolutionSubmission
+    context_object_name = 'task'
+    success_url = reverse_lazy('core:solution_submit')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user == self.object.application.participant.user:
+            return super(SolutionSubmitDeleteView, self).delete(request, *args, **kwargs)
+        else:
+            return redirect("core:solution_submit")
+
+    def render_to_response(self, context, **response_kwargs):
+        response_kwargs.setdefault('content_type', self.content_type)
+        self.object = self.get_object()
+        if self.request.user == self.object.application.participant.user:
+            return super(SolutionSubmitDeleteView, self).render_to_response(context, **response_kwargs)
+            
+        else:
+            return redirect("core:solution_submit")
+
+#def SolutionSubmitDeleteView(request, pk):
+#    #selected_task = TaskSolutionSubmission.objects.get(pk=pk)
+#    #selected_task.delete()
+#    return render(request, 'core/solution_delete.html')
+    #HttpResponse(selected_task)
 
 
 @method_decorator(

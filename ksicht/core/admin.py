@@ -113,6 +113,15 @@ class GradeApplicationAdmin(admin.ModelAdmin):
         "grade",
         "participant__user",
     )
+    actions = ['paste_school_grade']
+
+    def paste_school_grade(self, request, queryset):
+        for application in queryset:
+            application.participant_current_grade = application.participant.school_year
+            application.save()
+
+    paste_school_grade.short_description = 'Změnit ročník studia v přihlášce.'
+    
 
 
 @admin.register(models.TaskSolutionSubmission)
