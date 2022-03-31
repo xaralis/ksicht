@@ -479,6 +479,14 @@ class Participant(models.Model):
 
 
 class GradeApplication(models.Model):
+    GRADE_CHOICES = (
+        ("4", "4."),
+        ("3", "3."),
+        ("2", "2."),
+        ("1", "1."),
+        ("l", "nižší"),
+    )
+    
     grade = models.ForeignKey(
         Grade, on_delete=models.CASCADE, related_name="applications"
     )
@@ -486,7 +494,8 @@ class GradeApplication(models.Model):
     participant_current_grade = models.CharField(
         verbose_name="Ročník",
         max_length=10,
-        null=True
+        null=True,
+        choices=GRADE_CHOICES
     )
     created_at = models.DateTimeField(verbose_name="Datum vytvoření", auto_now_add=True)
 
