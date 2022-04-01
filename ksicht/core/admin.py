@@ -85,12 +85,29 @@ class ParticipantAdmin(admin.ModelAdmin):
     )
     list_select_related = ("user",)
     readonly_fields = ("first_name", "last_name")
+    actions = ['increase_school_year']
 
     def first_name(self, obj):
         return obj.user.first_name
 
     def last_name(self, obj):
         return obj.user.last_name
+
+    def increase_school_year(self, request, queryset):
+        for participant in queryset:
+            
+            #index = participant.GRADE_CHOICES.index(participant.school_year)
+            #participant.school_year = participant.GRADE_CHOICES[index - 1]
+            GCH0, GCH1 = zip(*participant.GRADE_CHOICES)
+            print(GCH0, flush=True)
+            index = GCH0.index(participant.school_year)
+            print(index, flush=True)
+            print(participant.GRADE_CHOICES[index - 1], flush=True)
+            if index != 0:
+                participant.school_year = participant.GRADE_CHOICES[index - 1][0]
+                participant.save()
+
+    increase_school_year.short_description = 'Zvýšit ročník studia'
 
 
 @admin.register(models.Task)
