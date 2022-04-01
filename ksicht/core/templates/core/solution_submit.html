@@ -16,13 +16,13 @@
             <article class="message is-warning is-size-6">
                 <div class="message-body">
                     <p>Pro tuto úlohu jste již <strong>odevzdal/a</strong> řešení <strong>{{ submission.file|filename }}</strong>.</p>
-                    <p>KSICHT umožňuje odeslat řešení <strong>pouze jednou</strong>.</p>
+                    <p>Pro odevzdání nové verze, musíte nejdříve smazat tuto verzi.</p>
+
+                    <a class="button is-danger is-outlined pt-3" style="margin-top: 1rem;" href="{% url 'core:solution_submit_delete' submission.id %}">Smazat řešení</a>
                 </div>
+
             </article>
                     
-                    <p>Přejete si odeslat nové řešení?.</p>
-                    <a href="{% url 'core:solution_submit_delete' submission.id %}">Zrušit odevzdání</a>
-                
             {% endif %}
             {% if not forloop.last %}<hr>{% endif %}
             {% endfor %}

@@ -146,7 +146,8 @@ class SolutionSubmitDeleteView(DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if request.user == self.object.application.participant.user:
+        accepts = self.object.task.series.accepts_solution_submissions
+        if request.user == self.object.application.participant.user and accepts:
             return super(SolutionSubmitDeleteView, self).delete(request, *args, **kwargs)
         else:
             return redirect("core:solution_submit")
@@ -154,7 +155,8 @@ class SolutionSubmitDeleteView(DeleteView):
     def render_to_response(self, context, **response_kwargs):
         response_kwargs.setdefault('content_type', self.content_type)
         self.object = self.get_object()
-        if self.request.user == self.object.application.participant.user:
+        accepts = self.object.task.series.accepts_solution_submissions
+        if self.request.user == self.object.application.participant.user and accepts:
             return super(SolutionSubmitDeleteView, self).render_to_response(context, **response_kwargs)
             
         else:
