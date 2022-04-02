@@ -137,8 +137,6 @@ class SolutionSubmitView(TemplateView):
         )
 
 
-#Delete view
-
 class SolutionSubmitDeleteView(DeleteView):
     model = TaskSolutionSubmission
     context_object_name = 'task'
@@ -161,12 +159,6 @@ class SolutionSubmitDeleteView(DeleteView):
             
         else:
             return redirect("core:solution_submit")
-
-#def SolutionSubmitDeleteView(request, pk):
-#    #selected_task = TaskSolutionSubmission.objects.get(pk=pk)
-#    #selected_task.delete()
-#    return render(request, 'core/solution_delete.html')
-    #HttpResponse(selected_task)
 
 
 @method_decorator(

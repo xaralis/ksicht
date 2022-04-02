@@ -95,14 +95,8 @@ class ParticipantAdmin(admin.ModelAdmin):
 
     def increase_school_year(self, request, queryset):
         for participant in queryset:
-            
-            #index = participant.GRADE_CHOICES.index(participant.school_year)
-            #participant.school_year = participant.GRADE_CHOICES[index - 1]
             GCH0, GCH1 = zip(*participant.GRADE_CHOICES)
-            print(GCH0, flush=True)
             index = GCH0.index(participant.school_year)
-            print(index, flush=True)
-            print(participant.GRADE_CHOICES[index - 1], flush=True)
             if index != 0:
                 participant.school_year = participant.GRADE_CHOICES[index - 1][0]
                 participant.save()
