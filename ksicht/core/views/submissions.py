@@ -98,8 +98,7 @@ class SolutionSubmitView(TemplateView):
                     task=task,
                 )
                 if task.id not in task_submissions
-                else None
-                ,
+                else None,
                 task_submissions.get(task.id),
             )
             for task in self.series_tasks

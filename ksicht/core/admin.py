@@ -1,4 +1,3 @@
-from re import search
 from cuser.admin import UserAdmin
 from django import forms
 from django.contrib import admin
