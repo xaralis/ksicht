@@ -428,7 +428,7 @@ class Participant(models.Model):
         max_length=80,
         null=False,
         choices=SCHOOLS_CHOICES,
-    )    
+    )
     school_year = models.CharField(
         verbose_name="Ročník",
         max_length=1,
@@ -486,7 +486,7 @@ class GradeApplication(models.Model):
         ("1", "1."),
         ("l", "nižší"),
     )
-    
+
     grade = models.ForeignKey(
         Grade, on_delete=models.CASCADE, related_name="applications"
     )

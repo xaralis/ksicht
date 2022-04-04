@@ -18,6 +18,7 @@
     {% if can_apply %}
         <div class="notification">
             <p class="title is-4">Do tohoto ročníku se ještě můžeš přihlásit!</p>
+            <p class="is-size-6 has-margin-b-4">Před přihlášením si prosím zkontrolujte správnost údajů na  <a href="{% url 'edit_profile' %}">svém profilu</a>.</p>
             {% crispy application_form %}
         </div>
     {% endif %}
