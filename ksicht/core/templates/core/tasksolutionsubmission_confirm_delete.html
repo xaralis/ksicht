@@ -7,15 +7,11 @@
 
 <form class="has-text-centered" action="" method="POST">
     {% csrf_token %}
-    <p class="is-size-5 has-margin-b-4">Přejete si smazat odeslané řešení?</p>
-    {{task.application.participant.user}}
+    <p class="is-size-5 has-margin-b-5">Přejete si smazat odeslané řešení pro úlohu "{{task.task}}" ?</p>
     <div class="container">
-
-            <a  class="button" href="{% url 'core:solution_submit'  %}" style="margin: 0.2rem;">Zpět</a>   
-
-            <input class="button is-danger is-outlined" type="submit" value="Smazat řešení" style="margin: 0.2rem;"> 
+        <a  class="button has-margin-r-2" href="{% url 'core:solution_submit'  %}">Zpět</a>   
+        <input class="button is-danger is-outlined has-margin-l-2" type="submit" value="Smazat řešení"> 
     </div>
-
 </form>
 
 {% endblock %}

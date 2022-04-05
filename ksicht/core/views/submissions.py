@@ -98,7 +98,8 @@ class SolutionSubmitView(TemplateView):
                     task=task,
                 )
                 if task.id not in task_submissions
-                else None,
+                else None
+                ,
                 task_submissions.get(task.id),
             )
             for task in self.series_tasks
@@ -141,24 +142,26 @@ class SolutionSubmitDeleteView(DeleteView):
     context_object_name = 'task'
     success_url = reverse_lazy('core:solution_submit')
 
-    def delete(self, request, *args, **kwargs):
+    def can_acces(self):
         self.object = self.get_object()
         accepts = self.object.task.series.accepts_solution_submissions
-        if request.user == self.object.application.participant.user and accepts:
+        solution_author = self.object.application.participant.user
+        if self.request.user == solution_author and accepts:
+            return True
+        else:
+            return False
+
+    def delete(self, request, *args, **kwargs):
+        if self.can_acces():
             return super(SolutionSubmitDeleteView, self).delete(request, *args, **kwargs)
         else:
             return redirect("core:solution_submit")
 
     def render_to_response(self, context, **response_kwargs):
-        response_kwargs.setdefault('content_type', self.content_type)
-        self.object = self.get_object()
-        accepts = self.object.task.series.accepts_solution_submissions
-        if self.request.user == self.object.application.participant.user and accepts:
-            return super(SolutionSubmitDeleteView, self).render_to_response(context, **response_kwargs)
-            
+        if self.can_acces():
+            return super(SolutionSubmitDeleteView, self).render_to_response(context, **response_kwargs)   
         else:
             return redirect("core:solution_submit")
-
 
 @method_decorator(
     [permission_required("core.change_solution_submission_presence")], name="dispatch"
