@@ -158,7 +158,7 @@ class SolutionSubmitDeleteView(DeleteView):
             return redirect("core:solution_submit")
 
     def render_to_response(self, context, **response_kwargs):
-        if self.can_acces():
+        if self.can_access():
             return super(SolutionSubmitDeleteView, self).render_to_response(context, **response_kwargs)   
         else:
             return redirect("core:solution_submit")
