@@ -142,7 +142,7 @@ class SolutionSubmitDeleteView(DeleteView):
     context_object_name = 'task'
     success_url = reverse_lazy('core:solution_submit')
 
-    def can_acces(self):
+    def can_access(self):
         self.object = self.get_object()
         accepts = self.object.task.series.accepts_solution_submissions
         solution_author = self.object.application.participant.user
