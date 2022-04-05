@@ -152,7 +152,7 @@ class SolutionSubmitDeleteView(DeleteView):
             return False
 
     def delete(self, request, *args, **kwargs):
-        if self.can_acces():
+        if self.can_access():
             return super(SolutionSubmitDeleteView, self).delete(request, *args, **kwargs)
         else:
             return redirect("core:solution_submit")
