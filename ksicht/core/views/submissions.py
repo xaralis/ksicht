@@ -163,13 +163,13 @@ class SolutionSubmitDeleteView(DeleteView):
             messages.SUCCESS,
             f"<i class='fas fa-check-circle notification-icon'></i> Řešení úlohy {self.object.task.title} bylo <strong>smazáno</strong>.",
             )
-            return super(SolutionSubmitDeleteView, self).delete(request, *args, **kwargs)
+            return super().delete(request, *args, **kwargs)
 
         return redirect("core:solution_submit")
 
     def render_to_response(self, context, **response_kwargs):
         if self.can_access():
-            return super(SolutionSubmitDeleteView, self).render_to_response(context, **response_kwargs)
+            return super().render_to_response(context, **response_kwargs)
 
         return redirect("core:solution_submit")
 
