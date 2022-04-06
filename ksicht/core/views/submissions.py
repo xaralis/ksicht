@@ -148,20 +148,30 @@ class SolutionSubmitDeleteView(DeleteView):
         solution_author = self.object.application.participant.user
         if self.request.user == solution_author and accepts:
             return True
-        else:
-            return False
+
+        messages.add_message(
+        self.request,
+        messages.WARNING,
+        "<i class='fas fa-exclamation-circle notification-icon'></i> Toto řešení nelze smazat.",
+        )
+        return False
 
     def delete(self, request, *args, **kwargs):
         if self.can_access():
+            messages.add_message(
+            self.request, 
+            messages.SUCCESS,
+            f"<i class='fas fa-check-circle notification-icon'></i> Řešení úlohy {self.object.task.title} bylo <strong>smazáno</strong>.",
+            )
             return super(SolutionSubmitDeleteView, self).delete(request, *args, **kwargs)
-        else:
-            return redirect("core:solution_submit")
+
+        return redirect("core:solution_submit")
 
     def render_to_response(self, context, **response_kwargs):
         if self.can_access():
-            return super(SolutionSubmitDeleteView, self).render_to_response(context, **response_kwargs)   
-        else:
-            return redirect("core:solution_submit")
+            return super(SolutionSubmitDeleteView, self).render_to_response(context, **response_kwargs)  
+
+        return redirect("core:solution_submit")
 
 @method_decorator(
     [permission_required("core.change_solution_submission_presence")], name="dispatch"
