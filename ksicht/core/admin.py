@@ -131,12 +131,10 @@ class GradeApplicationAdmin(admin.ModelAdmin):
             application.save()
 
     paste_school_grade.short_description = 'Změnit ročník studia v přihlášce.'
-    
 
 
 @admin.register(models.TaskSolutionSubmission)
 class SolutionSubmissionAdmin(admin.ModelAdmin):
-    
     list_display = (
         "task",
         "user",
