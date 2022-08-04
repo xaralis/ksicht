@@ -98,8 +98,7 @@ class SolutionSubmitView(TemplateView):
                     task=task,
                 )
                 if task.id not in task_submissions
-                else None
-                ,
+                else None,
                 task_submissions.get(task.id),
             )
             for task in self.series_tasks
@@ -139,8 +138,8 @@ class SolutionSubmitView(TemplateView):
 
 class SolutionSubmitDeleteView(DeleteView):
     model = TaskSolutionSubmission
-    context_object_name = 'task'
-    success_url = reverse_lazy('core:solution_submit')
+    context_object_name = "task"
+    success_url = reverse_lazy("core:solution_submit")
 
     def can_access(self):
         self.object = self.get_object()
@@ -150,18 +149,18 @@ class SolutionSubmitDeleteView(DeleteView):
             return True
 
         messages.add_message(
-        self.request,
-        messages.WARNING,
-        "<i class='fas fa-exclamation-circle notification-icon'></i> Toto řešení nelze smazat.",
+            self.request,
+            messages.WARNING,
+            "<i class='fas fa-exclamation-circle notification-icon'></i> Toto řešení nelze smazat.",
         )
         return False
 
     def delete(self, request, *args, **kwargs):
         if self.can_access():
             messages.add_message(
-            self.request,
-            messages.SUCCESS,
-            f"<i class='fas fa-check-circle notification-icon'></i> Řešení úlohy {self.object.task.title} bylo <strong>smazáno</strong>.",
+                self.request,
+                messages.SUCCESS,
+                f"<i class='fas fa-check-circle notification-icon'></i> Řešení úlohy {self.object.task.title} bylo <strong>smazáno</strong>.",
             )
             return super().delete(request, *args, **kwargs)
 
@@ -172,6 +171,7 @@ class SolutionSubmitDeleteView(DeleteView):
             return super().render_to_response(context, **response_kwargs)
 
         return redirect("core:solution_submit")
+
 
 @method_decorator(
     [permission_required("core.change_solution_submission_presence")], name="dispatch"

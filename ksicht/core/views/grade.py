@@ -65,7 +65,12 @@ class CurrentGradeApplicationView(BaseFormView):
         )
 
         if can_apply:
-            grade.participants.add(user.participant_profile, through_defaults={ "participant_current_grade": user.participant_profile.school_year} )
+            grade.participants.add(
+                user.participant_profile,
+                through_defaults={
+                    "participant_current_grade": user.participant_profile.school_year
+                },
+            )
 
         messages.add_message(
             self.request,

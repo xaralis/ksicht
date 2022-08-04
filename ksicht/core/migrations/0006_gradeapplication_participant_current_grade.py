@@ -6,13 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0005_auto_20211121_0904'),
+        ("core", "0005_auto_20211121_0904"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='gradeapplication',
-            name='participant_current_grade',
-            field=models.CharField(choices=[('4', '4.'), ('3', '3.'), ('2', '2.'), ('1', '1.'), ('l', 'nižší')], max_length=10, null=True, verbose_name='Ročník'),
+            model_name="gradeapplication",
+            name="participant_current_grade",
+            field=models.CharField(
+                choices=[
+                    ("4", "4."),
+                    ("3", "3."),
+                    ("2", "2."),
+                    ("1", "1."),
+                    ("l", "nižší"),
+                ],
+                max_length=10,
+                null=True,
+                verbose_name="Ročník",
+            ),
         ),
     ]

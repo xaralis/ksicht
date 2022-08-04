@@ -492,10 +492,7 @@ class GradeApplication(models.Model):
     )
     participant = models.ForeignKey(Participant, on_delete=models.PROTECT)
     participant_current_grade = models.CharField(
-        verbose_name="Ročník",
-        max_length=10,
-        null=True,
-        choices=GRADE_CHOICES
+        verbose_name="Ročník", max_length=10, null=True, choices=GRADE_CHOICES
     )
     created_at = models.DateTimeField(verbose_name="Datum vytvoření", auto_now_add=True)
 
@@ -561,7 +558,6 @@ class TaskSolutionSubmission(models.Model):
 
     def __str__(self):
         return f"Řešení <{self.task}> pro přihlášku <{self.application_id}>"
-
 
     def delete(self, *args, **kwargs):
         self.file.delete()

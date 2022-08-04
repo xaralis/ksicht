@@ -84,7 +84,7 @@ class ParticipantAdmin(admin.ModelAdmin):
     )
     list_select_related = ("user",)
     readonly_fields = ("first_name", "last_name")
-    actions = ['increase_school_year']
+    actions = ["increase_school_year"]
 
     def first_name(self, obj):
         return obj.user.first_name
@@ -100,7 +100,7 @@ class ParticipantAdmin(admin.ModelAdmin):
                 participant.school_year = participant.GRADE_CHOICES[index - 1][0]
                 participant.save()
 
-    increase_school_year.short_description = 'Zvýšit ročník studia'
+    increase_school_year.short_description = "Zvýšit ročník studia"
 
 
 @admin.register(models.Task)
@@ -123,14 +123,14 @@ class GradeApplicationAdmin(admin.ModelAdmin):
         "grade",
         "participant__user",
     )
-    actions = ['paste_school_grade']
+    actions = ["paste_school_grade"]
 
     def paste_school_grade(self, request, queryset):
         for application in queryset:
             application.participant_current_grade = application.participant.school_year
             application.save()
 
-    paste_school_grade.short_description = 'Změnit ročník studia v přihlášce.'
+    paste_school_grade.short_description = "Změnit ročník studia v přihlášce."
 
 
 @admin.register(models.TaskSolutionSubmission)
@@ -149,7 +149,10 @@ class SolutionSubmissionAdmin(admin.ModelAdmin):
     autocomplete_fields = ("task", "application")
     readonly_fields = ("submitted_at",)
     ordering = ("application__participant__user__last_name",)
-    search_fields = ("application__participant__user__last_name", "application__participant__user__first_name")
+    search_fields = (
+        "application__participant__user__last_name",
+        "application__participant__user__first_name",
+    )
 
     def user(self, obj):
         return obj.application.participant.user

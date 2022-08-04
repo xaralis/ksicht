@@ -61,7 +61,7 @@ urlpatterns = [
     ),
     path(
         "aktualni-rocnik/odevzdat-reseni/zrusit-odevzdani/<pk>",
-        views.SolutionSubmitDeleteView.as_view() ,
+        views.SolutionSubmitDeleteView.as_view(),
         name="solution_submit_delete",
     ),
     path(
