@@ -60,6 +60,11 @@ urlpatterns = [
         name="solution_submit",
     ),
     path(
+        "aktualni-rocnik/odevzdat-reseni/zrusit-odevzdani/<pk>",
+        views.SolutionSubmitDeleteView.as_view(),
+        name="solution_submit_delete",
+    ),
+    path(
         "rocniky/<pk>/",
         permission_required("core.view_grade")(
             DetailView.as_view(

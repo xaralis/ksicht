@@ -10,10 +10,11 @@ from django.db import models, transaction
 from django.forms import formset_factory, modelformset_factory
 from django.http.response import HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import FormView, TemplateView
+from django.views.generic.edit import DeleteView
 
 from ksicht import pdf
 
@@ -34,6 +35,7 @@ __all__ = (
     "SolutionSubmitView",
     "SubmissionOverview",
     "ScoringView",
+    "SolutionSubmitDeleteView",
     "SolutionExportView",
 )
 
@@ -132,6 +134,43 @@ class SolutionSubmitView(TemplateView):
             messages.SUCCESS,
             f"<i class='fas fa-check-circle notification-icon'></i> Řešení úlohy {task} bylo <strong>úspěšně odesláno</strong>.",
         )
+
+
+class SolutionSubmitDeleteView(DeleteView):
+    model = TaskSolutionSubmission
+    context_object_name = "task"
+    success_url = reverse_lazy("core:solution_submit")
+
+    def can_access(self):
+        self.object = self.get_object()
+        accepts = self.object.task.series.accepts_solution_submissions
+        solution_author = self.object.application.participant.user
+        if self.request.user == solution_author and accepts:
+            return True
+
+        messages.add_message(
+            self.request,
+            messages.WARNING,
+            "<i class='fas fa-exclamation-circle notification-icon'></i> Toto řešení nelze smazat.",
+        )
+        return False
+
+    def delete(self, request, *args, **kwargs):
+        if self.can_access():
+            messages.add_message(
+                self.request,
+                messages.SUCCESS,
+                f"<i class='fas fa-check-circle notification-icon'></i> Řešení úlohy {self.object.task.title} bylo <strong>smazáno</strong>.",
+            )
+            return super().delete(request, *args, **kwargs)
+
+        return redirect("core:solution_submit")
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.can_access():
+            return super().render_to_response(context, **response_kwargs)
+
+        return redirect("core:solution_submit")
 
 
 @method_decorator(
