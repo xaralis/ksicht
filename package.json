@@ -16,7 +16,7 @@
     "@fortawesome/fontawesome-free": "^5.11.2",
     "babel-loader": "^8.0.4",
     "concurrently": "^4.0.1",
-    "css-loader": "^1.0.1",
+    "css-loader": "^6.7.3",
     "file-loader": "^2.0.0",
     "mini-css-extract-plugin": "^0.4.4",
     "node-sass": "^4.10.0",
