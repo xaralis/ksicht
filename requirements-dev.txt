@@ -1,4 +1,4 @@
 black
 pylint
 isort
-django-debug-toolbar
+django-debug-toolbar<3.3.0
