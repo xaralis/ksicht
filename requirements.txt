@@ -61,7 +61,7 @@ pypdf2==1.26.0
     # via -r requirements.in
 pytz==2020.1
     # via django
-reportlab==3.5.47
+reportlab==3.5.55
     # via -r requirements.in
 six==1.15.0
     # via html5lib
