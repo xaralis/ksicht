@@ -57,7 +57,7 @@ psycopg2-binary==2.8.5
     # via -r requirements.in
 pydash==4.8.0
     # via -r requirements.in
-pypdf2==1.26.0
+pypdf2==1.27.5
     # via -r requirements.in
 pytz==2020.1
     # via django
