@@ -48,7 +48,7 @@ markdown2==2.3.9
     # via django-markdown-deux
 pdfrw==0.4
     # via -r requirements.in
-pillow==8.4.0
+pillow==9.3.0
     # via
     #   -r requirements.in
     #   django-markdownx
