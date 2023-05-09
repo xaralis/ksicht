@@ -85,6 +85,17 @@ class EventEnlistView(DetailView):
             0, self.object.capacity - context["attendee_count"]
         )
 
+        # Verify user has phone number and birth date set.
+        context["phone_check_passed"] = not self.object.require_phone_number or bool(
+            self.request.user.participant_profile.phone
+        )
+        context["birth_date_check_passed"] = not self.object.require_birth_date or bool(
+            self.request.user.participant_profile.birth_date
+        )
+        context["can_enlist"] = (
+            context["phone_check_passed"] and context["birth_date_check_passed"]
+        )
+
         # Make sure user can still enlist.
         can_enlist = not is_enlisted(self.request.user, self.object)
 
@@ -98,7 +109,15 @@ class EventEnlistView(DetailView):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
 
-        attendee = self.object.attendees.add(self.request.user)
+        if not context["can_enlist"]:
+            raise Http404()
+
+        models.EventAttendee.objects.create(
+            user=self.request.user,
+            event=self.object,
+            user_birth_date=self.request.user.participant_profile.birth_date,
+            user_phone=self.request.user.participant_profile.phone,
+        )
 
         context["has_enlisted"] = True
         context["is_substitue"] = self.object.capacity > context["attendee_count"]
@@ -132,6 +151,7 @@ class EventAttendeesExportView(BaseDetailView):
                 "Příjmení",
                 "Status",
                 "(Telefon)",
+                "(Datum narození))",
                 "(Škola)",
                 "(Město)",
             ]
@@ -140,6 +160,12 @@ class EventAttendeesExportView(BaseDetailView):
         for idx, attendee in enumerate(attendees):
             rank = idx + 1
             is_substitute = rank > event.capacity
+            participant = next(
+                (p for p in participants if p.user_id == attendee.user.pk), None
+            )
+            birth_date = (
+                participant.birth_date if participant else None
+            ) or attendee.user_birth_date
             row = [
                 f"{rank}.",
                 formats.date_format(attendee.signup_date, "SHORT_DATE_FORMAT"),
@@ -147,14 +173,14 @@ class EventAttendeesExportView(BaseDetailView):
                 attendee.user.first_name,
                 attendee.user.last_name,
                 "Náhradník" if is_substitute else "Účastník",
+                (participant.phone if participant else None) or attendee.user_phone,
+                formats.date_format(birth_date, "SHORT_DATE_FORMAT")
+                if birth_date
+                else None,
             ]
 
-            participant = next(
-                (p for p in participants if p.user_id == attendee.user.pk), None
-            )
-
             if participant:
-                row += [participant.phone, participant.school_name, participant.city]
+                row += [participant.school_name, participant.city]
 
             writer.writerow(row)
 

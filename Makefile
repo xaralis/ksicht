@@ -23,6 +23,9 @@ test:
 migrate:
 	DEBUG=1 python manage.py migrate
 
+migrations:
+	DEBUG=1 python manage.py makemigrations
+
 build:
 	docker build -t xaralis/ksicht:latest .
 

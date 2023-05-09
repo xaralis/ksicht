@@ -42,8 +42,15 @@ class KsichtProfileMixin(forms.ModelForm):
             label="Telefon",
             max_length=20,
             required=False,
+            empty_value="+420",
             initial="+420",
             help_text="Telefon ve formátu +420 777 123123.",
+        )
+        self.fields["birth_date"] = forms.DateField(
+            label="Datum narození",
+            required=False,
+            help_text="Datum narození ve formátu 1. 1. 1980.",
+            localize=True,
         )
         self.fields["street"] = forms.CharField(
             label="Ulice a číslo popisné/orientační", max_length=100
@@ -147,6 +154,9 @@ class KsichtRegistrationForm(KsichtProfileMixin, UserCreationForm):
             Row(
                 Column("first_name"),
                 Column("last_name"),
+            ),
+            Row(
+                Column(Field("birth_date")),
                 Column(Field("phone", autocomplete="phone")),
             ),
             Row(Column("street")),
@@ -180,6 +190,7 @@ class KsichtRegistrationForm(KsichtProfileMixin, UserCreationForm):
             **py_.pick(
                 cd,
                 "phone",
+                "birth_date",
                 "street",
                 "city",
                 "zip_code",
@@ -203,6 +214,7 @@ class KsichtRegistrationForm(KsichtProfileMixin, UserCreationForm):
 class KsichtEditProfileForm(UserChangeForm, KsichtProfileMixin):
     PROFILE_FIELDS = (
         "phone",
+        "birth_date",
         "street",
         "city",
         "zip_code",
@@ -231,6 +243,9 @@ class KsichtEditProfileForm(UserChangeForm, KsichtProfileMixin):
             Row(
                 Column("first_name"),
                 Column("last_name"),
+            ),
+            Row(
+                Column(Field("birth_date")),
                 Column(Field("phone", autocomplete="phone")),
             ),
             Row(Column("street")),

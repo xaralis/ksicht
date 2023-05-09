@@ -413,7 +413,15 @@ class Participant(models.Model):
         related_name="participant_profile",
     )
 
-    phone = models.CharField(verbose_name="Telefon", max_length=20, null=True)
+    phone = models.CharField(
+        verbose_name="Telefon", max_length=20, null=True, blank=True
+    )
+    birth_date = models.DateField(
+        verbose_name="Datum narození",
+        max_length=20,
+        null=True,
+        blank=True,
+    )
     street = models.CharField(
         verbose_name="Ulice a číslo popisné/orientační", max_length=100, null=False
     )
@@ -566,7 +574,7 @@ class TaskSolutionSubmission(models.Model):
     def prepare_for_export(self):
         """Use uploaded file to prepare export-ready variants (normal and duplex)."""
         logger.info(
-            "Prepare uploaded file from application %r and task for export",
+            "Prepare uploaded file from application %r and task %r for export",
             self.application.id,
             self.task.nr,
         )
@@ -639,6 +647,19 @@ class EventAttendee(models.Model):
         verbose_name="Datum přihlášky",
         help_text="Bude využito při vyhodnocování náhradníků.",
     )
+    user_birth_date = models.DateField(
+        verbose_name="Poskytnuté datum narození",
+        help_text="Hodnota v momentě přihlášení na akci.",
+        null=True,
+        blank=True,
+    )
+    user_phone = models.CharField(
+        verbose_name="Poskytnuté telefonní číslo",
+        help_text="Hodnota v momentě přihlášení na akci.",
+        max_length=20,
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = "Přihláška na akci"
@@ -692,6 +713,18 @@ class Event(models.Model):
     )
     enlistment_enabled = models.BooleanField(
         verbose_name="Přihlášení je umožněno", default=False
+    )
+    require_birth_date = models.BooleanField(
+        verbose_name="Vyžadovat vyplnění data narození",
+        help_text="Pokud je zaškrtnuto, účastník bude muset nejprve ve svém profilu vyplnit datum narození. Vyplněná "
+        "hodnota bude pak uložena u přihlášky pro případ, že účastník hodnotu posléze opět smaže.",
+        default=False,
+    )
+    require_phone_number = models.BooleanField(
+        verbose_name="Vyžadovat vyplnění telefonního čísla",
+        help_text="Pokud je zaškrtnuto, účastník bude muset nejprve ve svém profilu vyplnit telefonní číslo. Vyplněná "
+        "hodnota bude pak uložena u přihlášky pro případ, že účastník hodnotu posléze opět smaže.",
+        default=False,
     )
     is_public = models.BooleanField(
         verbose_name="Veřejná akce",

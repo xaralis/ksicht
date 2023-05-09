@@ -33,25 +33,74 @@
     </div>
 </div>
 {% else %}
-    <form action="." method="post">
-        {% csrf_token %}
+    {% if can_enlist %}
+        <form action="." method="post">
+            {% csrf_token %}
 
+            <div class="columns is-reversed-mobile">
+                <div class="column is-8-tablet is-6-widescreen">
+                    <p class="is-size-4 has-margin-b-4">
+                        <strong>Skutečně se chcete přihlásit na tuto akci?</strong>
+                    </p>
+
+                    <div class="content content-readable">
+                        <div class="message is-warning is-size-5">
+                            <div class="message-body">
+                                <p>
+                                    Přihlášení na akci je <strong>závazné</strong>. KSICHT si vyhrazuje právo akci <strong>změnit, upravit termín, nebo akci zcela zrušit</strong>.
+                                </p>
+                                {% if free_places == 0 %}
+                                    <p>Vyhrazená kapacita je již naplněna, <strong>přihlásite se pouze jako náhradník</strong>.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="has-margin-t-5">
+                            <button type="submit" class="button is-primary is-medium">Ano, chci se přihlásit</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-4-tablet is-offset-1-widescreen">
+                    <div class="has-margin-b-4">
+                        <p class="heading">Začátek</p>
+                        <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ object.start_date | date }}</p>
+                    </div>
+                    <div class="has-margin-b-4">
+                        <p class="heading">Konec</p>
+                        <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ object.end_date | date }}</p>
+                    </div>
+                    <div class="has-margin-b-4">
+                        <p class="heading">Místo konání</p>
+                        <p class="title is-5"><i class="fas fa-map-marker-alt has-padding-r-2"></i> {{ object.place }}</p>
+                    </div>
+                    {% if object.publish_occupancy %}
+                    <div class="has-margin-b-4">
+                        <p class="heading">Volná místa</p>
+                        <p class="title is-5"><i class="fas fa-chair has-padding-r-2"></i> {{ free_places }}/{{ object.capacity }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+
+
+        </form>
+    {% else %}
         <div class="columns is-reversed-mobile">
             <div class="column is-8-tablet is-6-widescreen">
-                <p class="is-size-4 has-margin-b-4">
-                    <strong>Skutečně se chcete přihlásit na tuto akci?</strong>
-                </p>
-
                 <div class="content content-readable">
-                    <div class="message is-warning is-size-5">
+                    <div class="message is-danger is-size-5">
                         <div class="message-body">
-                            <p>
-                                Přihlášení na akci je <strong>závazné</strong>. KSICHT si vyhrazuje právo akci <strong>změnit, upravit termín, nebo akci zcela zrušit</strong>.
-                            </p>
-                            {% if free_places == 0 %}
-                                <p>Vyhrazená kapacita je již naplněna, <strong>přihlásite se pouze jako náhradník</strong>.</p>
-                            {% endif %}
+                            <p>Přihlášení na akci je <strong>podmíněno doplněním následujících údajů</strong> na vašem profilu:</p>
+                            <ul>
+                                {% if not phone_check_passed %}<li><strong>Telefonní číslo</strong></li>{% endif %}
+                                {% if not birth_date_check_passed %}<li><strong>Datum narození</strong></li>{% endif %}
+                            </li>
                         </div>
+                    </div>
+
+                    <div class="has-margin-t-5">
+                        <a href="{% url "edit_profile" %}" class="button is-primary is-medium">Doplnit údaje</a>
                     </div>
                 </div>
             </div>
@@ -76,10 +125,6 @@
                 {% endif %}
             </div>
         </div>
-
-        <div class="has-margin-t-5">
-            <button type="submit" class="button is-primary is-medium">Ano, chci se přihlásit</button>
-        </div>
-    </form>
+    {% endif %}
 {% endif %}
 {% endblock %}

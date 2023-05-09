@@ -108,6 +108,7 @@ class CrispyBulmaFieldNode(template.Node):
         converters = {
             "textinput": "input",
             "numberinput": "input",
+            "dateinput": "input",
             "fileinput": "fileinput fileUpload",
             "fileuploadinput": "file-input fileUpload",
             "passwordinput": "input",
