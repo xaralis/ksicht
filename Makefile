@@ -27,7 +27,7 @@ migrations:
 	DEBUG=1 python manage.py makemigrations
 
 build:
-	docker build -t xaralis/ksicht:latest .
+	docker buildx build --platform linux/amd64 -t xaralis/ksicht:latest .
 
 push:
 	docker push xaralis/ksicht:latest

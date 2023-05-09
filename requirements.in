@@ -5,6 +5,8 @@ django-crispy-forms
 django-webpack-loader
 django-markdownx<3.0
 django-markdown-deux
+# Fix for https://stackoverflow.com/questions/73929564/entrypoints-object-has-no-attribute-get-digital-ocean
+importlib-metadata==4.13.0
 django-htmlmin
 django-capture-tag
 django-registration
