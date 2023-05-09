@@ -571,6 +571,13 @@ class TaskSolutionSubmission(models.Model):
         self.file.delete()
         super().delete(*args, **kwargs)
 
+    def can_delete(self, user: User) -> bool:
+        """Tell whether given user can delete this submission at this time."""
+        solution_change_allowed = self.task.series.accepts_solution_submissions
+        is_solution_author = self.application.participant.user == user
+
+        return is_solution_author and solution_change_allowed
+
     def prepare_for_export(self):
         """Use uploaded file to prepare export-ready variants (normal and duplex)."""
         logger.info(

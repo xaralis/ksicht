@@ -8,7 +8,7 @@
 {% block article %}
     <div class="columns">
         <div class="column is-6">
-            {% for task, form, submission in forms %}
+            {% for task, form, submission, can_delete in forms %}
             <h2 class="heading is-size-7">{{ task.title }} úloha</h2>
             {% if form %}
                 {% crispy form %}
@@ -18,11 +18,11 @@
                     <p>Pro tuto úlohu jste již <strong>odevzdal/a</strong> řešení <strong>{{ submission.file|filename }}</strong>.</p>
                     <p>Pro odevzdání nové verze, musíte nejdříve smazat tuto verzi.</p>
 
-                    <a class="button is-danger is-outlined pt-3 has-margin-t-4" style="margin-top: 1rem;" href="{% url 'core:solution_submit_delete' submission.id %}">Smazat řešení</a>
+                    {% if can_delete %}<a class="button is-danger is-outlined pt-3 has-margin-t-4" href="{% url 'core:solution_submit_delete' submission.id %}">Smazat řešení</a>{% endif %}
                 </div>
 
             </article>
-                    
+
             {% endif %}
             {% if not forloop.last %}<hr>{% endif %}
             {% endfor %}

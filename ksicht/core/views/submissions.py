@@ -88,26 +88,34 @@ class SolutionSubmitView(TemplateView):
             )
         }
         form_task_id = self.request.GET.get("task_id")
-        return [
-            (
-                task,
-                forms.SolutionSubmitForm(
-                    files=self.request.FILES
-                    if self.request.method == "POST" and str(task.id) == form_task_id
+        formset = []
+
+        for task in self.series_tasks:
+            submission = task_submissions.get(task.id)
+
+            formset.append(
+                (
+                    task,
+                    forms.SolutionSubmitForm(
+                        files=self.request.FILES
+                        if self.request.method == "POST"
+                        and str(task.id) == form_task_id
+                        else None,
+                        task=task,
+                    )
+                    if task.id not in task_submissions
                     else None,
-                    task=task,
+                    submission,
+                    submission.can_delete(self.request.user) if submission else False,
                 )
-                if task.id not in task_submissions
-                else None,
-                task_submissions.get(task.id),
             )
-            for task in self.series_tasks
-        ]
+
+        return formset
 
     def post(self, request, *args, **kwargs):
         forms = self.get_forms()
 
-        for task, form, submission in forms:
+        for task, form, _, _ in forms:
             if form is not None and form.is_valid():
                 self.save_solution(task)
                 return redirect("core:solution_submit")
@@ -121,6 +129,15 @@ class SolutionSubmitView(TemplateView):
 
         if not file_descriptor:
             raise ValueError("Could not locate file date")
+
+        if TaskSolutionSubmission.objects.filter(
+            application=self.application, task=task
+        ).exists():
+            messages.add_message(
+                self.request,
+                messages.WARNING,
+                f"<i class='fas fa-exclamation-circle notification-icon'></i> Řešení pro úlohu {task} již bylo dříve odevzdáno.",
+            )
 
         submission = TaskSolutionSubmission(
             application=self.application, file=file_descriptor, task=task
@@ -141,33 +158,27 @@ class SolutionSubmitDeleteView(DeleteView):
     context_object_name = "task"
     success_url = reverse_lazy("core:solution_submit")
 
-    def can_access(self):
-        self.object = self.get_object()
-        accepts = self.object.task.series.accepts_solution_submissions
-        solution_author = self.object.application.participant.user
-        if self.request.user == solution_author and accepts:
-            return True
-
-        messages.add_message(
-            self.request,
-            messages.WARNING,
-            "<i class='fas fa-exclamation-circle notification-icon'></i> Toto řešení nelze smazat.",
-        )
-        return False
-
     def delete(self, request, *args, **kwargs):
-        if self.can_access():
+        object = self.get_object()
+
+        if object.can_delete(self.request.user):
             messages.add_message(
                 self.request,
                 messages.SUCCESS,
-                f"<i class='fas fa-check-circle notification-icon'></i> Řešení úlohy {self.object.task.title} bylo <strong>smazáno</strong>.",
+                f"<i class='fas fa-check-circle notification-icon'></i> Řešení úlohy {object.task.title} bylo <strong>smazáno</strong>.",
             )
             return super().delete(request, *args, **kwargs)
+        else:
+            messages.add_message(
+                self.request,
+                messages.WARNING,
+                "<i class='fas fa-exclamation-circle notification-icon'></i> Toto řešení momentálně nemůžeš smazat.",
+            )
 
         return redirect("core:solution_submit")
 
     def render_to_response(self, context, **response_kwargs):
-        if self.can_access():
+        if self.object.can_delete(self.request.user):
             return super().render_to_response(context, **response_kwargs)
 
         return redirect("core:solution_submit")
