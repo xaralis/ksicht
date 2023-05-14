@@ -141,12 +141,13 @@ class GradeApplicationAdmin(admin.ModelAdmin):
 class SolutionSubmissionAdmin(admin.ModelAdmin):
     list_display = (
         "task",
+        "task_nr",
         "user",
         "series",
         "score",
         "submitted_at",
     )
-    list_filter = ("task__series__grade",)
+    list_filter = ("task__series__grade", "task__series__series", "task__nr",)
     list_select_related = (
         "application__participant__user",
         "task__series",
@@ -159,15 +160,20 @@ class SolutionSubmissionAdmin(admin.ModelAdmin):
         "application__participant__user__first_name",
     )
 
-    def user(self, obj):
+    def user(self, obj: models.TaskSolutionSubmission):
         return obj.application.participant.user
 
     user.short_description = "Uživatel"
 
-    def series(self, obj):
+    def series(self, obj: models.TaskSolutionSubmission):
         return obj.task.series
 
     series.short_description = "Série"
+
+    def task_nr(self, obj: models.TaskSolutionSubmission):
+        return obj.task.nr
+
+    task_nr.short_description = "Č. úlohy"
 
 
 @admin.register(models.Sticker)

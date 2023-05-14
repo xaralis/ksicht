@@ -15,7 +15,7 @@ django-imagekit==4.1.0
 django_select2
 gunicorn
 pydash
-pypdf2
+pypdf
 pdfrw
 reportlab
 pillow>8.0

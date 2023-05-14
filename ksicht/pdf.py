@@ -2,8 +2,8 @@ import io
 from copy import deepcopy
 
 from django.conf import settings
-from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
-from PyPDF2.utils import PdfReadError
+from pypdf import PdfReader as PdfFileReader, PdfWriter as PdfFileWriter
+from pypdf.errors import PdfReadError
 from pdfrw import PdfReader, PdfWriter
 import reportlab
 from reportlab.lib.pagesizes import A4, C3, landscape
@@ -17,9 +17,6 @@ from reportlab.platypus import Paragraph
 __all__ = (
     "envelopes",
     "concatenate",
-    "ensure_even_pages",
-    "ensure_file_valid",
-    "write_label_on_all_pages",
     "PdfReadError",
 )
 
@@ -65,7 +62,7 @@ def envelopes(recipient_lines, our_lines, out_file):
         can.save()
         packet.seek(0)
 
-        out_pdf.addPage(PdfFileReader(packet).getPage(0))
+        out_pdf.add_page(PdfFileReader(packet).pages[0])
 
     out_pdf.write(out_file)
     return out_file
@@ -90,7 +87,7 @@ def page_with_memo(x: int, y: int, label: str):
     can.drawString(x, y, label)
     can.save()
     packet.seek(0)
-    return PdfFileReader(packet).getPage(0)
+    return PdfFileReader(packet).pages[0]
 
 
 def prepare_submission_for_export(in_file, label: str):
@@ -101,9 +98,9 @@ def prepare_submission_for_export(in_file, label: str):
     # Make sure the PDF file is valid. If it isn't render a PDF with error message contained.
     try:
         in_pdf = PdfFileReader(in_file)
-        out_pdf.appendPagesFromReader(in_pdf)
-    except PdfReadError:
-        out_pdf.addPage(page_with_memo(10, 200, "!! Tento PDF soubor je poškozený !!"))
+        out_pdf.append_pages_from_reader(in_pdf)
+    except PdfReadError:  # noqa: F821
+        out_pdf.add_page(page_with_memo(10, 200, "!! Tento PDF soubor je poškozený !!"))
 
     out_pdf.write(working_file)
     working_file.seek(0)
@@ -113,17 +110,17 @@ def prepare_submission_for_export(in_file, label: str):
     out_pdf = PdfFileWriter()
     memo_page = page_with_memo(10, 10, label)
 
-    for pagenum in range(in_pdf.getNumPages()):
+    for pagenum in range(len(in_pdf.pages)):
         # add the "watermark" (which is the new pdf) on the existing page
-        page = in_pdf.getPage(pagenum)
-        page.mergePage(memo_page)
-        out_pdf.addPage(page)
+        page = in_pdf.pages[pagenum]
+        page.merge_page(memo_page)
+        out_pdf.add_page(page)
 
     out_normal = out_pdf
     out_duplex = deepcopy(out_normal)
 
     # Ensure number of pages is even. Useful for duplex printing.
-    if in_pdf.getNumPages() % 2 == 1:
-        out_duplex.addBlankPage()
+    if len(in_pdf.pages) % 2 == 1:
+        out_duplex.add_blank_page()
 
     return out_normal, out_duplex
