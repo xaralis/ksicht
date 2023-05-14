@@ -44,7 +44,15 @@
                 <a class="navbar-item {% if request.get_full_path == people_url %}is-active{% endif %}" href="{{ people_url }}">
                     Lidé
                 </a>
+                {% pages_by_prefix "/info/" as infopages %}
                 {% pages_by_prefix "/navody/" as guides %}
+
+                {% for infopage in infopages %}
+                    <a class="navbar-item {% if request.get_full_path == infopage.url %}is-active{% endif %}" href="{{ infopage.url }}">
+                        {{ infopage.title }}
+                    </a>
+                {% endfor %}
+
                 {% if guides|length > 0%}
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">Návody</a>
