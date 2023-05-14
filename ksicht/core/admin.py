@@ -147,7 +147,11 @@ class SolutionSubmissionAdmin(admin.ModelAdmin):
         "score",
         "submitted_at",
     )
-    list_filter = ("task__series__grade", "task__series__series", "task__nr",)
+    list_filter = (
+        "task__series__grade",
+        "task__series__series",
+        "task__nr",
+    )
     list_select_related = (
         "application__participant__user",
         "task__series",

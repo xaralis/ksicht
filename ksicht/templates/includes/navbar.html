@@ -1,5 +1,5 @@
 {% load webpack_static from webpack_loader %}
-{% load pages %}
+{% load pages cache %}
 
 <nav class="navbar {% if request.path == "/" and not user.is_authenticated %}is-info{% else %}is-light{% endif %}" role="navigation" aria-label="main navigation">
     <div class="container">
@@ -44,30 +44,33 @@
                 <a class="navbar-item {% if request.get_full_path == people_url %}is-active{% endif %}" href="{{ people_url }}">
                     Lidé
                 </a>
-                {% pages_by_prefix "/info/" as infopages %}
-                {% pages_by_prefix "/navody/" as guides %}
 
-                {% for infopage in infopages %}
-                    <a class="navbar-item {% if request.get_full_path == infopage.url %}is-active{% endif %}" href="{{ infopage.url }}">
-                        {{ infopage.title }}
-                    </a>
-                {% endfor %}
+                {% cache 120 sidebar %}
+                    {% pages_by_prefix "/info/" as infopages %}
+                    {% pages_by_prefix "/navody/" as guides %}
 
-                {% if guides|length > 0%}
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">Návody</a>
+                    {% for infopage in infopages %}
+                        <a class="navbar-item {% if request.get_full_path == infopage.url %}is-active{% endif %}" href="{{ infopage.url }}">
+                            {{ infopage.title }}
+                        </a>
+                    {% endfor %}
 
-                        <div class="navbar-dropdown">
-                            {% for guide in guides %}
-                            {% comment %} Workaround: use dropdown-item instead navbar-item {% endcomment %}
-                            {% comment %} @see: https://github.com/jgthms/bulma/issues/3009 {% endcomment %}
-                            <a href="{{ guide.url }}" class="dropdown-item {% if request.get_full_path == guide.url %}is-active{% endif %}">
-                                {{ guide.title }}
-                            </a>
-                            {% endfor %}
+                    {% if guides|length > 0%}
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">Návody</a>
+
+                            <div class="navbar-dropdown">
+                                {% for guide in guides %}
+                                {% comment %} Workaround: use dropdown-item instead navbar-item {% endcomment %}
+                                {% comment %} @see: https://github.com/jgthms/bulma/issues/3009 {% endcomment %}
+                                <a href="{{ guide.url }}" class="dropdown-item {% if request.get_full_path == guide.url %}is-active{% endif %}">
+                                    {{ guide.title }}
+                                </a>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
-                {% endif %}
+                    {% endif %}
+                {% endcache%}
 
             </div>
 
