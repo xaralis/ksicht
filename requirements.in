@@ -11,6 +11,7 @@ django-htmlmin
 django-capture-tag
 django-registration
 django-username-email
+django-imagekit==4.1.0
 django_select2
 gunicorn
 pydash

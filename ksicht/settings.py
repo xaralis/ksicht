@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "django_select2",
     "cuser",
+    "imagekit",
     "ksicht.core",
     "ksicht.bulma",
 ]
@@ -318,32 +319,4 @@ KSICHT_CONTACT_ADDRESS_LINES = [
     "Přírodovědecká fakulta Univerzity Karlovy",
     "Hlavova 2030",
     "128 43 Praha 2",
-]
-
-KSICHT_PEOPLE = [
-    {
-        "name": "Jaroslav Cerman",
-        "bio": "Pocházím z Krkonoš. Ksicht jsem začal řešit v roce 2012 a provázel mě celým gymnaziálním studiem. Jsem absolventem VŠCHT, ale časem se moje pozornost zaměřila k informatice a kybernetice. Posledních několik let dělám pro Ksicht jazykového korektora. Podílím se také na pořádání Chemiklání. Ve volném čase rád sáhnu po sci-fi knize či vinylu s tvrdou hudbou.",
-        "img": "img/people/jaroslav-cerman.jpg",
-    },
-    {
-        "name": "Pavel Řezanka",
-        "bio": "KSICHTu se věnuji již od jeho vzniku v roce 2001. Jsem hlavně editorem, tj. připravuji jednotlivé brožurky k tisku, autorem, na kontě mám už několik desítek napsaných úloh, a recenzentem úloh ostatních autorů. Pomáhám s organizací výletů a soustředění. Pracuji na Ústavu analytické chemie VŠCHT Praha, kde se zabývám nanočásticemi, separačními technikami a radioanalytickými metodami.",
-        "img": "img/people/pavel-rezanka.jpg",
-    },
-    {
-        "name": "Tereza Dobrovolná",
-        "bio": "Jsem rodačka z Chrudimi a KSICHT jsem řešila po celou dobu studií na gymnáziu. Potom jsem začala chodit na Přírodovědeckou fakultu Univerzity Karlovy, kde studuju chemii. Starám se o chod semináře - třídím došlá řešení, posílám je autorům k opravě, sbíram je od nich zpátky a organizuju jejich cestu zpátky k řešitelům. Ve svém volném čase si ráda zahraju třeba volejbal.",
-        "img": "img/people/tereza-dobrovolna.jpg",
-    },
-    {
-        "name": "Jan Hrubeš",
-        "bio": "Jsem rodilý Pardubák. Po absolvování tamější univerzity v oboru organické chemie jsem změnil obor a nyní studuji doktorát didaktiky chemie na Přírodovědecké fakultě Univerzity Karlovy. Formálně KSICHT zastupuju na všech jednáních - řeším finance na chod semináře a na závěrečné soustředění, vypisuju spoustu papírů a podepisuju diplomy.",
-        "img": "img/people/jan-hrubes.jpg",
-    },
-    {
-        "name": "Richard Veselý",
-        "bio": "V KSICHTu dělám správce úloh. To znamená, že bych se měl starat o to, aby bylo v sérii všech pět úloh a aby proces jejich tvorby byl co nejjednoduší. Ke KSICHTu jsem se dostal v prváku na SŠ přes chemický kroužek. Moc mě zaujal a tak jsem se mu věnoval po zbytek střední školy. Aktuálně studuji obor Natural Science v Cambridge. Mimo chemii je mým největší zájmem debatování o politice, hraní strategických deskovek a trávení času s mými sourozenci.",
-        "img": "img/people/richard-vesely.png",
-    },
 ]

@@ -52,7 +52,6 @@ def prepare_export_ready_files_backwards(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("core", "0004_auto_20211121_0900"),
     ]

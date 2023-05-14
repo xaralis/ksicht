@@ -15,6 +15,9 @@ from django.urls import reverse
 from django.utils.text import slugify
 import pydash as py_
 
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
+
 from ksicht.pdf import prepare_submission_for_export
 
 from .constants import SCHOOLS_CHOICES
@@ -835,3 +838,34 @@ class FlatPageMeta(models.Model):
             return False
 
         return True
+
+
+class TeamMember(models.Model):
+    name = models.CharField("Jméno", max_length=255)
+    bio = models.TextField("Krátké představení", null=False, blank=False)
+    image = models.ImageField(
+        verbose_name="Obrázek",
+        help_text="Použijte čtvercový formát",
+        upload_to="lide/",
+        null=False,
+        blank=False,
+    )
+    image_thumbnail = ImageSpecField(
+        source="image",
+        processors=[ResizeToFill(700, 700)],
+        format="JPEG",
+        options={"quality": 70},
+    )
+    order = models.PositiveIntegerField(
+        verbose_name="Pořadí",
+        help_text="Čím nižší, tím dříve v seznamu.",
+        default=0,
+    )
+
+    class Meta:
+        verbose_name = "Člen KSICHT týmu"
+        verbose_name_plural = "Členové KSICHT týmu"
+        ordering = ("order",)
+
+    def __str__(self):
+        return self.name

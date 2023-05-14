@@ -155,7 +155,6 @@ class GradeResultsExportView(BaseDetailView):
         ]
 
         for application, rank, task_scores, total_score in sorted_scoring:
-
             writer.writerow(
                 [
                     f"{rank}.",

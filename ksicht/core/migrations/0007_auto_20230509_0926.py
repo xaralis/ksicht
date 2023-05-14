@@ -4,40 +4,62 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0006_gradeapplication_participant_current_grade'),
+        ("core", "0006_gradeapplication_participant_current_grade"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='event',
-            name='require_birth_date',
-            field=models.BooleanField(default=False, help_text='Pokud je zaškrtnuto, účastník bude muset nejprve ve svém profilu vyplnit datum narození. Vyplněná hodnota bude pak uložena u přihlášky pro případ, že účastník hodnotu posléze opět smaže.', verbose_name='Vyžadovat vyplnění data narození'),
+            model_name="event",
+            name="require_birth_date",
+            field=models.BooleanField(
+                default=False,
+                help_text="Pokud je zaškrtnuto, účastník bude muset nejprve ve svém profilu vyplnit datum narození. Vyplněná hodnota bude pak uložena u přihlášky pro případ, že účastník hodnotu posléze opět smaže.",
+                verbose_name="Vyžadovat vyplnění data narození",
+            ),
         ),
         migrations.AddField(
-            model_name='event',
-            name='require_phone_number',
-            field=models.BooleanField(default=False, help_text='Pokud je zaškrtnuto, účastník bude muset nejprve ve svém profilu vyplnit telefonní číslo. Vyplněná hodnota bude pak uložena u přihlášky pro případ, že účastník hodnotu posléze opět smaže.', verbose_name='Vyžadovat vyplnění telefonního čísla'),
+            model_name="event",
+            name="require_phone_number",
+            field=models.BooleanField(
+                default=False,
+                help_text="Pokud je zaškrtnuto, účastník bude muset nejprve ve svém profilu vyplnit telefonní číslo. Vyplněná hodnota bude pak uložena u přihlášky pro případ, že účastník hodnotu posléze opět smaže.",
+                verbose_name="Vyžadovat vyplnění telefonního čísla",
+            ),
         ),
         migrations.AddField(
-            model_name='eventattendee',
-            name='user_birth_date',
-            field=models.DateField(blank=True, help_text='Hodnota v momentě přihlášení na akci.', null=True, verbose_name='Poskytnuté datum narození'),
+            model_name="eventattendee",
+            name="user_birth_date",
+            field=models.DateField(
+                blank=True,
+                help_text="Hodnota v momentě přihlášení na akci.",
+                null=True,
+                verbose_name="Poskytnuté datum narození",
+            ),
         ),
         migrations.AddField(
-            model_name='eventattendee',
-            name='user_phone',
-            field=models.CharField(blank=True, help_text='Hodnota v momentě přihlášení na akci.', max_length=20, null=True, verbose_name='Poskytnuté telefonní číslo'),
+            model_name="eventattendee",
+            name="user_phone",
+            field=models.CharField(
+                blank=True,
+                help_text="Hodnota v momentě přihlášení na akci.",
+                max_length=20,
+                null=True,
+                verbose_name="Poskytnuté telefonní číslo",
+            ),
         ),
         migrations.AddField(
-            model_name='participant',
-            name='birth_date',
-            field=models.DateField(blank=True, max_length=20, null=True, verbose_name='Datum narození'),
+            model_name="participant",
+            name="birth_date",
+            field=models.DateField(
+                blank=True, max_length=20, null=True, verbose_name="Datum narození"
+            ),
         ),
         migrations.AlterField(
-            model_name='participant',
-            name='phone',
-            field=models.CharField(blank=True, max_length=20, null=True, verbose_name='Telefon'),
+            model_name="participant",
+            name="phone",
+            field=models.CharField(
+                blank=True, max_length=20, null=True, verbose_name="Telefon"
+            ),
         ),
     ]

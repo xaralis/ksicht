@@ -1,5 +1,5 @@
 {% extends "page.html" %}
-{% load webpack_static from webpack_loader %}
+{% load markdown_deux_tags %}
 
 {% block breadcrumb %}
 <nav class="breadcrumb" aria-label="breadcrumbs">
@@ -16,22 +16,19 @@
 
 {% block article %}
 <div class="columns is-multiline">
-    {% for person in people %}
-        <div class="column is-12-mobile is-one-third-tablet is-one-fifth-widescreen">
+    {% for person in object_list %}
+    <div class="column is-12-mobile is-one-third-tablet is-3-widescreen">
             <div class="card people-card">
                 <div class="card-image">
                     <figure class="image is-square">
-                        <img src="{% webpack_static person.img %}" alt="{{ person.name }}">
+                        <img src="{{ person.image_thumbnail.url }}" alt="{{ person.name }}">
                     </figure>
                 </div>
                 <div class="card-content">
-                    <p class="title is-4">{{ person.name }}</p>
-                    {% if person.alt %}
-                        <p class="subtitle is-6">@{{ person.alt }}</p>
-                    {% endif %}
+                    <h2 class="title is-4">{{ person.name }}</h2>
 
                     <div class="content">
-                        {{ person.bio }}
+                        {{ person.bio | markdown }}
                     </div>
                 </div>
             </div>

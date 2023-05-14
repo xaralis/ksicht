@@ -46,7 +46,11 @@ urlpatterns = [
     ),
     path(
         "lide/",
-        views.PeopleView.as_view(),
+        ListView.as_view(
+            queryset=models.TeamMember.objects.all(),
+            template_name="core/people.html",
+            paginate_by=None,
+        ),
         name="people",
     ),
     path(

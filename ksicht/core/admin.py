@@ -6,6 +6,10 @@ from django.contrib.flatpages.admin import FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from django.db.models import TextField
 from django.forms.models import BaseInlineFormSet
+from imagekit.admin import AdminThumbnail
+from imagekit import ImageSpec
+from imagekit.processors import ResizeToFill
+from imagekit.cachefiles import ImageCacheFile
 from markdownx.widgets import AdminMarkdownxWidget
 
 from . import models
@@ -230,3 +234,30 @@ class MarkdownFlatPageAdmin(FlatPageAdmin):
 
 admin.site.unregister(FlatPage)
 admin.site.register(FlatPage, MarkdownFlatPageAdmin)
+
+
+class AdminThumbnailSpec(ImageSpec):
+    processors = [ResizeToFill(100, 100)]
+    format = "JPEG"
+    options = {"quality": 60}
+
+
+def cached_admin_thumb(instance):
+    cached = ImageCacheFile(AdminThumbnailSpec(instance.image))
+    cached.generate()
+    return cached
+
+
+class TeamMemberAdmin(admin.ModelAdmin):
+    list_display = (
+        "__str__",
+        "thumbnail",
+    )
+    thumbnail = AdminThumbnail(image_field=cached_admin_thumb)
+
+    formfield_overrides = {
+        TextField: {"widget": AdminMarkdownxWidget},
+    }
+
+
+admin.site.register(models.TeamMember, TeamMemberAdmin)
