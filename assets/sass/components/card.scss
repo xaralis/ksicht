@@ -47,7 +47,15 @@
 
 .card.people-card {
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
+
+// moves card-footer to bottom of card
+.card.people-card .card-content {
+    flex: auto;
+}
+
 
 .card.people-card .image img {
     object-fit: cover;
