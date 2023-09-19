@@ -1,38 +1,70 @@
 {% extends "page.html" %}
+{% load static %}
+{% block head %}
+    <!-- Our project just needs Font Awesome Free's Solid and Brand files -->
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
 {% load markdown_deux_tags %}
 
 {% block breadcrumb %}
-<nav class="breadcrumb" aria-label="breadcrumbs">
-    <div class="container">
-        <ul>
-            <li><a href="/">KSICHT</a></li>
-            <li class="is-active"><a href="#" aria-current="page">Lidé</a></li>
-        </ul>
-    </div>
-</nav>
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+        <div class="container">
+            <ul>
+                <li><a href="/">KSICHT</a></li>
+                <li class="is-active"><a href="#" aria-current="page">Lidé</a></li>
+            </ul>
+        </div>
+    </nav>
 {% endblock %}
 
 {% block headline %}Lidé{% endblock %}
 
 {% block article %}
-<div class="columns is-multiline">
-    {% for person in object_list %}
-    <div class="column is-12-mobile is-one-third-tablet is-3-widescreen">
-            <div class="card people-card">
-                <div class="card-image">
-                    <figure class="image is-square">
-                        <img src="{{ person.image_thumbnail.url }}" alt="{{ person.name }}">
-                    </figure>
-                </div>
-                <div class="card-content">
-                    <h2 class="title is-4">{{ person.name }}</h2>
-
-                    <div class="content">
-                        {{ person.bio | markdown }}
+    <div class="columns is-multiline">
+        {% for person in object_list %}
+            <div class="column is-12-mobile is-one-third-tablet is-3-widescreen">
+                <div class="card people-card">
+                    <div class="card-image">
+                        <figure class="image is-square">
+                            <img src="{{ person.image_thumbnail.url }}" alt="{{ person.name }}">
+                        </figure>
                     </div>
+                    <div class="card-content">
+                        <h2 class="title is-4">{{ person.name }}</h2>
+                        <p class="subtitle is-6">{{ person.role|default:"" }}</p>
+
+                        <div class="content" style="text-align: justify">
+                            {{ person.bio | markdown }}
+                        </div>
+
+                    </div>
+                    {% if person.url_fb|length > 0 or person.url_ig|length > 0 or person.url_other > 0 %}
+                        <div class="card-footer" style="padding: 0.5rem;">
+                            {% if person.url_fb|length > 0 %}
+                                <a class="card-footer-item" title="Facebook" href="{{ person.url_fb|default:'#' }}"
+                                   target="_blank">
+                                    <i class="fa-xl fa-brands fa-facebook"></i>
+                                </a>
+                            {% endif %}
+                            {% if person.url_ig|length > 0 %}
+                                <a class="card-footer-item" title="Instagram" href="{{ person.url_ig|default:'#' }}"
+                                   target="_blank">
+                                    <i class="fa-xl fa-brands fa-instagram"></i>
+                                </a>
+                            {% endif %}
+                            {% if person.url_other|length > 0 %}
+                                <a class="card-footer-item" title="Odkaz do neznáma"
+                                   href="{{ person.url_other|default:'#' }}"
+                                   target="_blank">
+                                    <i class="fa-lg fa-solid fa-arrow-up-right-from-square"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-        </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
 {% endblock %}

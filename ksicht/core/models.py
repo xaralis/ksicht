@@ -842,6 +842,7 @@ class FlatPageMeta(models.Model):
 
 class TeamMember(models.Model):
     name = models.CharField("Jméno", max_length=255)
+    role = models.CharField("Role", blank=True, max_length=150)
     bio = models.TextField("Krátké představení", null=False, blank=False)
     image = models.ImageField(
         verbose_name="Obrázek",
@@ -861,6 +862,9 @@ class TeamMember(models.Model):
         help_text="Čím nižší, tím dříve v seznamu.",
         default=0,
     )
+    url_fb = models.URLField("Odkaz Facebook", blank=True)
+    url_ig = models.URLField("Odkaz na Instagram", blank=True)
+    url_other = models.URLField("Odkaz na vlastní web", blank=True)
 
     class Meta:
         verbose_name = "Člen KSICHT týmu"
