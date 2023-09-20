@@ -61,7 +61,7 @@ RUN apk add --no-cache \
     nginx \
     supervisor && \
     rm /etc/nginx/conf.d/default.conf && \
-    echo "daemon off;" >> /etc/nginx/nginx.conf \
+    echo "daemon off;" >> /etc/nginx/nginx.conf && \
     mkdir /run/nginx
 
 # Supervisor and Nginx configs
