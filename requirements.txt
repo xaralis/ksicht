@@ -71,7 +71,7 @@ pypdf==3.8.1
     # via -r requirements.in
 pytz==2020.1
     # via django
-reportlab==3.5.47
+reportlab==3.6.13
     # via -r requirements.in
 six==1.15.0
     # via

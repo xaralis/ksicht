@@ -60,7 +60,9 @@ RUN apk add --no-cache \
     freetype-dev \
     nginx \
     supervisor && \
-    echo "daemon off;" >> /etc/nginx/nginx.conf
+    rm /etc/nginx/conf.d/default.conf && \
+    echo "daemon off;" >> /etc/nginx/nginx.conf \
+    mkdir /run/nginx
 
 # Supervisor and Nginx configs
 COPY ./docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
