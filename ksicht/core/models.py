@@ -460,6 +460,10 @@ class Participant(models.Model):
         verbose_name="PSČ školy", max_length=10, null=True, blank=True
     )
 
+    brochures_by_mail = models.BooleanField(
+        verbose_name="Zasílat brožury poštou", default=True
+    )
+
     applications = models.ManyToManyField(
         Grade,
         verbose_name="Přihlášky",

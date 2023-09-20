@@ -84,6 +84,15 @@ class KsichtProfileMixin(forms.ModelForm):
             label="PSČ školy", max_length=10, required=False, validators=[zip_validator]
         )
 
+        self.fields["brochures_by_mail"] = forms.ChoiceField(
+            label="Chci dostávat papírové brožurky poštou",
+            choices=(
+                (True, "Ano"),
+                (False, "Ne"),
+            ),
+            help_text="Zvolením „Ne” šetříte české lesy a KSICHTí peníze.",
+        )
+
         self.fields["first_name"].required = True
         self.fields["first_name"].widget.attrs["autofocus"] = True
         self.fields["last_name"].required = True
@@ -171,6 +180,7 @@ class KsichtRegistrationForm(KsichtProfileMixin, UserCreationForm):
                 Column("school_alt_zip_code", css_class="is-2"),
                 Column("school_alt_city", css_class="is-4"),
             ),
+            Row(Column("brochures_by_mail", css_class="is-6")),
             Row(Column("tos")),
             FormActions(
                 FormControl(Submit("submit", "Pokračovat")),
@@ -225,6 +235,7 @@ class KsichtEditProfileForm(UserChangeForm, KsichtProfileMixin):
         "schole_alt_street",
         "school_alt_city",
         "school_alt_zip_code",
+        "brochures_by_mail",
     )
 
     class Meta:
@@ -260,6 +271,7 @@ class KsichtEditProfileForm(UserChangeForm, KsichtProfileMixin):
                 Column("school_alt_zip_code", css_class="is-2"),
                 Column("school_alt_city", css_class="is-4"),
             ),
+            Row(Column("brochures_by_mail", css_class="is-6")),
             FormActions(
                 FormControl(Submit("submit", "Uložit změny")),
                 FormControl(Link("core:home", "Zpět", "button is-text")),

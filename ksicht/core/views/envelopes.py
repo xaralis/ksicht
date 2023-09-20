@@ -27,13 +27,19 @@ class SeriesTaskEnvelopesPrintout(View):
         def _build_lines(s):
             # If street exists
             if s[9]:
-                return (
-                    "K rukám učitelů chemie",
-                    s[6],
-                    s[8],
-                    f"{s[13]} {s[14]}",
-                )
-            return ("K rukám učitelů chemie", s[6], s[14], s[13])
+                return {
+                    "lines": (
+                        "K rukám učitelů chemie",
+                        s[6],
+                        s[8],
+                        f"{s[13]} {s[14]}",
+                    ),
+                    "note": None,
+                }
+            return {
+                "lines": ("K rukám učitelů chemie", s[6], s[14], s[13]),
+                "note": None,
+            }
 
         lines = [_build_lines(s) for s in SCHOOLS]
 
@@ -44,7 +50,9 @@ class SeriesTaskEnvelopesPrintout(View):
 
 class ParticipantEnvelopesPrintout:
     def render_to_response(self, context):
-        participants = self.get_participants(context)
+        participants = self.get_participants(context).order_by(
+            "user__last_name", "user__first_name", "user__email"
+        )
         title = self.get_title(context)
 
         response = HttpResponse(content_type="application/pdf")
@@ -53,12 +61,15 @@ class ParticipantEnvelopesPrintout:
         )
 
         lines = [
-            (
-                p.get_full_name(),
-                p.street,
-                f"{p.zip_code} {p.city}",
-                p.get_country_display(),
-            )
+            {
+                "lines": (
+                    p.get_full_name(),
+                    p.street,
+                    f"{p.zip_code} {p.city}",
+                    p.get_country_display(),
+                ),
+                "note": self.get_recipient_note(p),
+            }
             for p in participants
         ]
 
@@ -72,32 +83,32 @@ class ParticipantEnvelopesPrintout:
     def get_title(self, context):
         raise NotImplementedError()
 
+    def get_recipient_note(self, participant: models.Participant):
+        return None
+
 
 class ActiveParticipantsEnvelopesPrintout(BaseDetailView, ParticipantEnvelopesPrintout):
     queryset = models.GradeSeries.objects.all()
 
     def get_participants(self, context):
-        series = context["object"]
-        active_participants = models.Participant.objects.active_in_series(
-            series
-        ).order_by("user__last_name", "user__first_name", "user__email")
-
-        return active_participants
+        return models.Participant.objects.active_in_series(context["object"])
 
     def get_title(self, context):
         return str(context["object"]) + " - obálky pro řešitele"
+
+    def get_recipient_note(self, participant: models.Participant):
+        if participant.brochures_by_mail:
+            return "Brožura"
+        return None
 
 
 class AllParticipantsEnvelopesPrintout(BaseDetailView, ParticipantEnvelopesPrintout):
     queryset = models.Grade.objects.all()
 
     def get_participants(self, context):
-        grade = context["object"]
-        active_participants = models.Participant.objects.filter(
-            applications=grade
-        ).order_by("user__last_name", "user__first_name", "user__email")
-
-        return active_participants
+        return models.Participant.objects.filter(applications=context["object"]).filter(
+            brochures_by_mail=True
+        )
 
     def get_title(self, context):
         return "Ročník " + str(context["object"]) + " - obálky pro přihlášené"

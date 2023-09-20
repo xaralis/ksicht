@@ -1,5 +1,7 @@
 import io
 from copy import deepcopy
+from typing import List, Optional, Sequence
+from typing_extensions import TypedDict
 
 from django.conf import settings
 from pypdf import PdfReader as PdfFileReader, PdfWriter as PdfFileWriter
@@ -24,7 +26,12 @@ reportlab.rl_config.TTFSearchPath.append(str(settings.BASE_DIR) + "/fonts")
 pdfmetrics.registerFont(TTFont("Helvetica", "Helvetica.ttf"))
 
 
-def envelopes(recipient_lines, our_lines, out_file):
+class EnvelopeRecipientInfo(TypedDict):
+    lines: Sequence[str]
+    note: Optional[str]
+
+
+def envelopes(recipients: List[EnvelopeRecipientInfo], our_lines, out_file):
     """Generate envelopes with address block."""
     out_pdf = PdfFileWriter()
 
@@ -36,12 +43,19 @@ def envelopes(recipient_lines, our_lines, out_file):
         fontSize=28,
         leading=32,
     )
+    note_paragraph_style = ParagraphStyle(
+        "Normal",
+        fontName="Helvetica",
+        alignment=reportlab.lib.enums.TA_RIGHT,
+        fontSize=28,
+        leading=32,
+    )
     ksicht_contact_paragraph = Paragraph(
         "<br />".join(our_lines), style=ksicht_contact_paragraph_style
     )
     cw, ch = ksicht_contact_paragraph.wrap(620, 1000)
 
-    for lines in recipient_lines:
+    for recipient in recipients:
         packet = io.BytesIO()
         can = canvas.Canvas(packet, pagesize=landscape(C3))
         paragraph_style = ParagraphStyle(
@@ -54,10 +68,19 @@ def envelopes(recipient_lines, our_lines, out_file):
             borderPadding=24,
             borderColor="#000",
         )
-        paragraph = Paragraph("<br />".join(lines), style=paragraph_style)
+        paragraph = Paragraph("<br />".join(recipient["lines"]), style=paragraph_style)
         pw, ph = paragraph.wrap(700, 1000)
         paragraph.drawOn(can, w - pw - 48, 270)
+
         ksicht_contact_paragraph.drawOn(can, 24, h - 24 - ch)
+
+        if recipient["note"]:
+            note_paragraph = Paragraph(
+                recipient["note"],
+                style=note_paragraph_style,
+            )
+            nw, nh = note_paragraph.wrap(300, 200)
+            note_paragraph.drawOn(can, w - 24 - nw, h - 24 - nh)
 
         can.save()
         packet.seek(0)
