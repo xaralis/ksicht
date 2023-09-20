@@ -18,4 +18,4 @@ pydash
 pypdf
 pdfrw
 reportlab
-pillow>8.0
+pillow==9.5.0

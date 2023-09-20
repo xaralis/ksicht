@@ -5,13 +5,14 @@ ENV PYTHONUNBUFFERED 1
 # Install dependencies
 RUN apk add --no-cache \
     nodejs \
-    nodejs-npm  \
+    npm  \
     bash \
     git \
     openssh \
     postgresql-dev \
     jpeg-dev \
     zlib-dev \
+    freetype-dev \
     build-base && \
     mkdir -p /build/wheels
 
@@ -56,11 +57,10 @@ RUN apk add --no-cache \
     build-base \
     jpeg-dev \
     zlib-dev \
+    freetype-dev \
     nginx \
     supervisor && \
-    rm /etc/nginx/conf.d/default.conf && \
-    echo "daemon off;" >> /etc/nginx/nginx.conf && \
-    mkdir /run/nginx
+    echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # Supervisor and Nginx configs
 COPY ./docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
