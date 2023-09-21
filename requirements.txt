@@ -52,7 +52,7 @@ importlib-metadata==4.13.0
     #   markdown
 markdown==3.2.2
     # via django-markdownx
-markdown2==2.3.9
+markdown2==2.4.0
     # via django-markdown-deux
 pdfrw==0.4
     # via -r requirements.in
