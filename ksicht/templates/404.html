@@ -1,0 +1,11 @@
+{% extends "focused.html" %}
+
+{% block headline %}Stránka nebyla nalezena{% endblock %}
+
+{% block header_sub %}
+<p class="subtitle">Vámi požadovaná stránka se tu bohužel nevyskytuje.</p>
+{% endblock %}
+
+{% block container %}
+<p>Přejít na <a href="{% url "core:home" %}">hlavní stránku</a>.</p>
+{% endblock %}
