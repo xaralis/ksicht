@@ -75,7 +75,6 @@ INSTALLED_APPS = [
     "imagekit",
     "ksicht.core",
     "ksicht.bulma",
-    'fontawesomefree',
 ]
 
 
