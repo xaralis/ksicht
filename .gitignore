@@ -9,6 +9,7 @@ dist/
 .pytest_cache/
 .idea
 .vscode
+.python-version
 node_modules
 assets/bundles
 db.sqlite3
