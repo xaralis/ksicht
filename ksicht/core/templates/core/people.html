@@ -26,9 +26,9 @@
                     </div>
                     <div class="card-content">
                         <h2 class="title is-4">{{ person.name }}</h2>
-                        <p class="subtitle is-6">{{ person.role|default:"" }}</p>
+                        {% if person.role %}<p class="subtitle is-6 has-text-grey">{{ person.role }}</p>{% endif %}
 
-                        <div class="content" style="text-align: justify">
+                        <div class="content">
                             {{ person.bio | markdown }}
                         </div>
 

@@ -43,7 +43,7 @@ MODULES ?= ksicht tests
 ALL_MODULES ?= $(MODULES)
 
 .PHONY: code-checks
-code-checks: pylint black isort
+code-checks: pylint isort black
 
 PYLINT_ARGS ?=
 
@@ -59,4 +59,4 @@ black:  ## check code formating
 
 .PHONY: isort
 isort:
-	isort -rc $(ALL_MODULES)
+	isort --profile black $(ALL_MODULES)
