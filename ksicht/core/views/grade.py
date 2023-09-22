@@ -99,8 +99,8 @@ class GradeResultsExportView(BaseDetailView):
         ).prefetch_related("participant__user")
 
         response = HttpResponse(content_type="text/csv")
-        file_expr = "filename*=utf-8''{}".format(quote(f"{grade} - výsledky.csv"))
-        response["Content-Disposition"] = "attachment; {}".format(file_expr)
+        filename = quote(f"{grade} - výsledky.csv")
+        response["Content-Disposition"] = f"attachment; filename*=utf-8''{filename}"
 
         task_headers = [f"Body {t.series} - {t}" for t in all_tasks]
 

@@ -14,15 +14,15 @@ __all__ = (
     "SeriesTaskEnvelopesPrintout",
     "ActiveParticipantsEnvelopesPrintout",
     "AllParticipantsEnvelopesPrintout",
+    "AllParticipantsWithBrochurePreferenceEnvelopesPrintout",
 )
 
 
 class SeriesTaskEnvelopesPrintout(View):
     def get(self, request, *args, **kwargs):
         response = HttpResponse(content_type="application/pdf")
-        response["Content-Disposition"] = "attachment; filename*=UTF-8''{}.pdf".format(
-            quote("Obálky pro školy")
-        )
+        filename = quote("Obálky pro školy")
+        response["Content-Disposition"] = f"attachment; filename*=UTF-8''{filename}.pdf"
 
         def _build_lines(s):
             # If street exists
@@ -54,11 +54,10 @@ class ParticipantEnvelopesPrintout:
             "user__last_name", "user__first_name", "user__email"
         )
         title = self.get_title(context)
-
         response = HttpResponse(content_type="application/pdf")
-        response["Content-Disposition"] = "attachment; filename*=UTF-8''{}.pdf".format(
-            quote(title)
-        )
+        response[
+            "Content-Disposition"
+        ] = f"attachment; filename*=UTF-8''{quote(title)}.pdf"
 
         lines = [
             {
@@ -106,9 +105,17 @@ class AllParticipantsEnvelopesPrintout(BaseDetailView, ParticipantEnvelopesPrint
     queryset = models.Grade.objects.all()
 
     def get_participants(self, context):
-        return models.Participant.objects.filter(applications=context["object"]).filter(
-            brochures_by_mail=True
-        )
+        return models.Participant.objects.filter(applications=context["object"])
 
     def get_title(self, context):
         return "Ročník " + str(context["object"]) + " - obálky pro přihlášené"
+
+
+class AllParticipantsWithBrochurePreferenceEnvelopesPrintout(
+    AllParticipantsEnvelopesPrintout
+):
+    def get_participants(self, context):
+        return super().get_participants(context).filter(brochures_by_mail=True)
+
+    def get_title(self, context):
+        return "Ročník " + str(context["object"]) + " - obálky pro přihlášené - výběr"

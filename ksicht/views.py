@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.flatpages.views import render_flatpage
 from django.contrib.sites.shortcuts import get_current_site
-from django.http import Http404, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
+from django.http import Http404, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -65,13 +65,15 @@ def permission_protected_flatpage(request, url):
 
         if hasattr(f, "metadata") and not f.metadata.is_accessible_for(request.user):
             if not request.user.is_authenticated:
-                return HttpResponseRedirect(reverse_lazy(settings.LOGIN_URL) + '?next=' + request.path)
+                return HttpResponseRedirect(
+                    reverse_lazy(settings.LOGIN_URL) + "?next=" + request.path
+                )
             raise PermissionDenied
     except Http404:
         if not url.endswith("/") and settings.APPEND_SLASH:
             url += "/"
             f = get_object_or_404(FlatPage, url=url, sites=site_id)
-            return HttpResponsePermanentRedirect("%s/" % request.path)
+            return HttpResponsePermanentRedirect(f"{request.path}/")
 
         raise
 

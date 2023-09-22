@@ -138,8 +138,8 @@ class EventAttendeesExportView(BaseDetailView):
         )
 
         response = HttpResponse(content_type="text/csv")
-        file_expr = "filename*=utf-8''{}".format(quote(f"{event} - účastníci.csv"))
-        response["Content-Disposition"] = "attachment; {}".format(file_expr)
+        filename = quote(f"{event} - účastníci.csv")
+        response["Content-Disposition"] = f"attachment; filename*=utf-8''{filename}"
 
         writer = csv.writer(response, quotechar='"')
         writer.writerow(

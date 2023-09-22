@@ -6,10 +6,10 @@ from django.contrib.flatpages.admin import FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from django.db.models import TextField
 from django.forms.models import BaseInlineFormSet
-from imagekit.admin import AdminThumbnail
 from imagekit import ImageSpec
-from imagekit.processors import ResizeToFill
+from imagekit.admin import AdminThumbnail
 from imagekit.cachefiles import ImageCacheFile
+from imagekit.processors import ResizeToFill
 from markdownx.widgets import AdminMarkdownxWidget
 
 from . import models

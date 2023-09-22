@@ -127,6 +127,13 @@ urlpatterns = [
         name="series_all_participants_envelopes_printout",
     ),
     path(
+        "rocniky/<pk>/obalky-pro-vsechny-prihlasene-co-chteji-brozury/",
+        permission_required("core.series_envelopes_printout")(
+            views.AllParticipantsWithBrochurePreferenceEnvelopesPrintout.as_view()
+        ),
+        name="series_all_participants_with_brochure_preference_envelopes_printout",
+    ),
+    path(
         "rocniky/<grade_id>/bodovani/<task_id>/",
         views.ScoringView.as_view(),
         name="task_scoring",

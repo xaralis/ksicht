@@ -8,7 +8,9 @@ SCHOOLS = ()
 
 SCHOOLS_CHOICES = (("--jiná--", "-- jiná --"),)
 
-with open(os.path.join(settings.BASE_DIR, "fixtures", "schools.csv")) as schools_file:
+with open(
+    os.path.join(settings.BASE_DIR, "fixtures", "schools.csv"), encoding="utf8"
+) as schools_file:
     csv_reader = csv.reader(schools_file, delimiter=";")
 
     for idx, row in enumerate(csv_reader):

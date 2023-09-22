@@ -122,7 +122,7 @@ class CrispyBulmaFieldNode(template.Node):
             css_class = widget.attrs.get("class", "")
             if css_class:
                 if css_class.find(class_name) == -1:
-                    css_class += " %s" % class_name
+                    css_class += f" {class_name}"
             else:
                 css_class = class_name
 

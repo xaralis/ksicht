@@ -1,7 +1,6 @@
 from collections import OrderedDict
 from functools import reduce
 from operator import or_
-import tempfile
 from urllib.parse import quote
 
 from django.contrib import messages
@@ -17,7 +16,6 @@ from django.views.generic import FormView, TemplateView
 from django.views.generic.edit import DeleteView
 
 from ksicht import pdf
-
 from .. import forms
 from ..models import (
     Grade,
@@ -168,13 +166,12 @@ class SolutionSubmitDeleteView(DeleteView):
                 f"<i class='fas fa-check-circle notification-icon'></i> Řešení úlohy {object.task.title} bylo <strong>smazáno</strong>.",
             )
             return super().delete(request, *args, **kwargs)
-        else:
-            messages.add_message(
-                self.request,
-                messages.WARNING,
-                "<i class='fas fa-exclamation-circle notification-icon'></i> Toto řešení momentálně nemůžeš smazat.",
-            )
 
+        messages.add_message(
+            self.request,
+            messages.WARNING,
+            "<i class='fas fa-exclamation-circle notification-icon'></i> Toto řešení momentálně nemůžeš smazat.",
+        )
         return redirect("core:solution_submit")
 
     def render_to_response(self, context, **response_kwargs):
@@ -405,9 +402,8 @@ class SolutionExportView(View):
             )
 
         response = HttpResponse(content_type="application/pdf")
-        response["Content-Disposition"] = "attachment; filename*=UTF-8''{}.pdf".format(
-            quote(str(self.task) + " - export řešení")
-        )
+        filename = quote(f"{self.task} - export řešení")
+        response["Content-Disposition"] = f"attachment; filename*=UTF-8''{filename}.pdf"
         is_duplex = bool(request.GET.get("duplex"))
         normalized_solution_files = []
 

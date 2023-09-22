@@ -8,19 +8,18 @@ import uuid
 from cuser.models import AbstractCUser
 from django import forms
 from django.contrib.auth.models import Group as UserGroup
-from django.core.validators import MinValueValidator
 from django.core.files.base import File
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
-import pydash as py_
-
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+import pydash as py_
 
 from ksicht.pdf import prepare_submission_for_export
-
 from .constants import SCHOOLS_CHOICES
+
 
 logger = logging.getLogger(__name__)
 
@@ -826,7 +825,7 @@ class FlatPageMeta(models.Model):
         verbose_name_plural = "Metadata statických stránek"
 
     def __str__(self):
-        return "Metadata pro %s" % self.flatpage
+        return f"Metadata pro {self.flatpage}"
 
     def is_accessible_for(self, user):
         """Decide whether user should be allowed to display this page."""
@@ -872,4 +871,4 @@ class TeamMember(models.Model):
         ordering = ("order",)
 
     def __str__(self):
-        return self.name
+        return str(self.name)

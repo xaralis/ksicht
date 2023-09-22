@@ -14,10 +14,7 @@ def prepare_export_ready_files_forwards(apps, schema_editor):
         | models.Q(file_for_export_duplex__isnull=True)
     ):
         if submission.file:
-            user_full_name = "%s %s" % (
-                submission.application.participant.user.first_name,
-                submission.application.participant.user.last_name,
-            )
+            user_full_name = f"{submission.application.participant.user.first_name} {submission.application.participant.user.last_name}"
             user_full_name = user_full_name.strip()
             participant_full_name = (
                 user_full_name or submission.application.participant.user.email

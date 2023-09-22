@@ -1,12 +1,12 @@
-import io
 from copy import deepcopy
+import io
 from typing import List, Optional, Sequence
-from typing_extensions import TypedDict
 
 from django.conf import settings
-from pypdf import PdfReader as PdfFileReader, PdfWriter as PdfFileWriter
-from pypdf.errors import PdfReadError
 from pdfrw import PdfReader, PdfWriter
+from pypdf import PdfReader as PdfFileReader
+from pypdf import PdfWriter as PdfFileWriter
+from pypdf.errors import PdfReadError
 import reportlab
 from reportlab.lib.pagesizes import A4, C3, landscape
 from reportlab.lib.styles import ParagraphStyle
@@ -14,6 +14,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
+from typing_extensions import TypedDict
 
 
 __all__ = (
@@ -133,7 +134,7 @@ def prepare_submission_for_export(in_file, label: str):
     out_pdf = PdfFileWriter()
     memo_page = page_with_memo(10, 10, label)
 
-    for pagenum in range(len(in_pdf.pages)):
+    for pagenum in enumerate(in_pdf.pages):
         # add the "watermark" (which is the new pdf) on the existing page
         page = in_pdf.pages[pagenum]
         page.merge_page(memo_page)
