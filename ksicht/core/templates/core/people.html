@@ -1,11 +1,4 @@
 {% extends "page.html" %}
-{% load static %}
-{% block head %}
-    <!-- Our project just needs Font Awesome Free's Solid and Brand files -->
-    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
-{% endblock %}
 {% load markdown_deux_tags %}
 
 {% block breadcrumb %}
@@ -46,14 +39,14 @@
                                 <a class="card-footer-item" title="Facebook" href="{{ person.url_fb }}"
                                    rel="noreferrer noopener"
                                    target="_blank">
-                                    <i class="fab fa-xl fa-facebook"></i>
+                                    <i class="fab fa-facebook is-size-4"></i>
                                 </a>
                             {% endif %}
                             {% if person.url_ig|length > 0 %}
                                 <a class="card-footer-item" title="Instagram" href="{{ person.url_ig }}"
                                    rel="noreferrer noopener"
                                    target="_blank">
-                                    <i class="fab fa-xl fa-instagram"></i>
+                                    <i class="fab fa-instagram is-size-4"></i>
                                 </a>
                             {% endif %}
                             {% if person.url_other|length > 0 %}
@@ -61,7 +54,7 @@
                                    href="{{ person.url_other }}"
                                    rel="noreferrer noopener"
                                    target="_blank">
-                                    <i class="fas fa-lg fa-arrow-up-right-from-square"></i>
+                                    <i class="fas fa-external-link-alt is-size-5"></i>
                                 </a>
                             {% endif %}
                         </div>
