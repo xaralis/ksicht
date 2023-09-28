@@ -19,6 +19,12 @@ tid4 = str(uuid4())
 s1 = models.GradeSeries(id="abcd", submission_deadline=datetime(2020, 1, 1, 0, 0))
 s2 = models.GradeSeries(id="dcba", submission_deadline=datetime(2020, 3, 1, 0, 0))
 
+a1 = models.GradeApplication(id="1")
+a2 = models.GradeApplication(id="2")
+a3 = models.GradeApplication(id="3")
+a4 = models.GradeApplication(id="4")
+a5 = models.GradeApplication(id="5")
+
 t1 = models.Task(id=tid1, points=Decimal("10.00"))
 t2 = models.Task(id=tid2, points=Decimal("10.00"))
 t3 = models.Task(id=tid3, points=Decimal("10.00"))
@@ -36,7 +42,14 @@ sub4 = models.TaskSolutionSubmission(task_id=tid4)
         (
             {
                 "current_series": s1,
-                "tasks_in_series": {s1: (t1, t2, t3), s2: (t4,)},
+                "series": {
+                    s1: {
+                        "tasks": (t1, t2, t3),
+                    },
+                    s2: {
+                        "tasks": (t4,),
+                    },
+                },
                 "submissions": {
                     "by_series": {
                         s1: (sub1, sub2, sub3),
@@ -49,7 +62,14 @@ sub4 = models.TaskSolutionSubmission(task_id=tid4)
         (
             {
                 "current_series": s2,
-                "tasks_in_series": {s1: (t1, t2, t3), s2: (t4,)},
+                "series": {
+                    s1: {
+                        "tasks": (t1, t2, t3),
+                    },
+                    s2: {
+                        "tasks": (t4,),
+                    },
+                },
                 "submissions": {
                     "by_series": {
                         s1: (),
@@ -62,7 +82,14 @@ sub4 = models.TaskSolutionSubmission(task_id=tid4)
         (
             {
                 "current_series": s1,
-                "tasks_in_series": {s1: (t1, t2, t3), s2: (t4,)},
+                "series": {
+                    s1: {
+                        "tasks": (t1, t2, t3),
+                    },
+                    s2: {
+                        "tasks": (t4,),
+                    },
+                },
                 "submissions": {
                     "by_series": {
                         s1: (),
@@ -75,7 +102,14 @@ sub4 = models.TaskSolutionSubmission(task_id=tid4)
         (
             {
                 "current_series": s1,
-                "tasks_in_series": {s1: (), s2: ()},
+                "series": {
+                    s1: {
+                        "tasks": (),
+                    },
+                    s2: {
+                        "tasks": (),
+                    },
+                },
                 "submissions": {
                     "by_series": {
                         s1: (),
@@ -450,87 +484,87 @@ def test_full_score(context, result):
         (
             {
                 "current_series": s1,
-                "applications": ["1", "2", "3", "4", "5"],
-                "current_application": "1",
+                "applications": (a1, a2, a3, a4, a5),
+                "current_application": a1,
             },
             False,
         ),
         (
             {
                 "current_series": s1,
-                "applications": ["1", "2", "3", "4", "5"],
-                "current_application": "2",
+                "applications": (a1, a2, a3, a4, a5),
+                "current_application": a2,
             },
             True,
         ),
         (
             {
                 "current_series": s1,
-                "applications": ["1", "2", "3", "4", "5"],
-                "current_application": "3",
+                "applications": (a1, a2, a3, a4, a5),
+                "current_application": a3,
             },
             False,
         ),
         (
             {
                 "current_series": s1,
-                "applications": ["1", "2", "3", "4", "5"],
-                "current_application": "4",
+                "applications": (a1, a2, a3, a4, a5),
+                "current_application": a4,
             },
             False,
         ),
         (
             {
                 "current_series": s1,
-                "applications": ["1", "2", "3", "4", "5"],
-                "current_application": "5",
+                "applications": (a1, a2, a3, a4, a5),
+                "current_application": a5,
             },
             False,
         ),
         (
             {
                 "current_series": s2,
-                "applications": ["1", "2", "3", "4", "5"],
-                "current_application": "1",
+                "applications": (a1, a2, a3, a4, a5),
+                "current_application": a1,
             },
             False,
         ),
         (
             {
                 "current_series": s2,
-                "applications": ["1", "2", "3", "4", "5"],
-                "current_application": "2",
+                "applications": (a1, a2, a3, a4, a5),
+                "current_application": a2,
             },
             False,
         ),
         (
             {
                 "current_series": s2,
-                "applications": ["1", "2", "3", "4", "5"],
-                "current_application": "3",
+                "applications": (a1, a2, a3, a4, a5),
+                "current_application": a3,
             },
             True,
         ),
         (
             {
                 "current_series": s2,
-                "applications": ["1", "2", "3", "4", "5"],
-                "current_application": "4",
+                "applications": (a1, a2, a3, a4, a5),
+                "current_application": a4,
             },
             False,
         ),
         (
             {
                 "current_series": s2,
-                "applications": ["1", "2", "3", "4", "5"],
-                "current_application": "5",
+                "applications": (a1, a2, a3, a4, a5),
+                "current_application": a5,
             },
             False,
         ),
     ),
 )
-def test_random_20_percent(context, result):
-    assert resolvers.random_20_percent(context) is result
+def test_random_2_percent(context, result):
+    assert resolvers.random_2_percent(context) is result
 
 
 @pytest.mark.parametrize(
@@ -655,9 +689,62 @@ def test_early_submission(context, result):
 @pytest.mark.parametrize(
     "context, result",
     (
-        ({"rank": 10}, False),
-        ({"rank": 7}, True),
-        ({"rank": 1}, True),
+        (
+            {
+                "is_last_series": False,
+                "series": {
+                    s1: {
+                        "rank": 1,
+                    },
+                    s2: {
+                        "rank": 1,
+                    },
+                },
+            },
+            False,
+        ),
+        (
+            {
+                "is_last_series": True,
+                "series": {
+                    s1: {
+                        "rank": 1,
+                    },
+                    s2: {
+                        "rank": 1,
+                    },
+                },
+            },
+            True,
+        ),
+        (
+            {
+                "is_last_series": True,
+                "series": {
+                    s1: {
+                        "rank": 8,
+                    },
+                    s2: {
+                        "rank": 1,
+                    },
+                },
+            },
+            False,
+        ),
+        (
+            {
+                "is_last_series": True,
+                "series": {
+                    s1: {
+                        "rank": 7,
+                    },
+                    s2: {
+                        "rank": 7,
+                    },
+                },
+            },
+            True,
+        ),
     ),
 )
 def test_ranked_no_worse_than_7th(context, result):
@@ -667,10 +754,39 @@ def test_ranked_no_worse_than_7th(context, result):
 @pytest.mark.parametrize(
     "context, result",
     (
-        ({"rank": 42}, True),
-        ({"rank": 7}, False),
-        ({"rank": 1}, False),
-        ({"rank": 43}, False),
+        (
+            {
+                "current_series": s1,
+                "series": {
+                    s1: {
+                        "rank": 1,
+                    },
+                },
+            },
+            False,
+        ),
+        (
+            {
+                "current_series": s1,
+                "series": {
+                    s1: {
+                        "rank": 42,
+                    },
+                },
+            },
+            True,
+        ),
+        (
+            {
+                "current_series": s1,
+                "series": {
+                    s1: {
+                        "rank": 43,
+                    },
+                },
+            },
+            False,
+        ),
     ),
 )
 def test_ranked_42nd(context, result):
@@ -680,9 +796,32 @@ def test_ranked_42nd(context, result):
 @pytest.mark.parametrize(
     "context, result",
     (
-        ({"is_last_series": True, "score": 10, "max_score": 20, "rank": 35}, True),
-        ({"is_last_series": True, "score": 5, "max_score": 20, "rank": 15}, True),
-        ({"is_last_series": False, "score": 20, "max_score": 20, "rank": 15}, False),
+        (
+            {
+                "is_last_series": True,
+                "current_series": s1,
+                "series": {
+                    s1: {"score": 10, "max_score": 20, "rank": 35},
+                },
+            },
+            True,
+        ),
+        (
+            {
+                "is_last_series": True,
+                "current_series": s1,
+                "series": {s1: {"score": 5, "max_score": 20, "rank": 15}},
+            },
+            True,
+        ),
+        (
+            {
+                "is_last_series": False,
+                "current_series": s1,
+                "series": {s1: {"score": 20, "max_score": 20, "rank": 15}},
+            },
+            False,
+        ),
     ),
 )
 def test_successful_solver(context, result):
@@ -720,3 +859,30 @@ def test_successful_solver(context, result):
 )
 def test_submitted_solution_in_last_series(context, result):
     assert resolvers.submitted_solution_in_last_series(context) is result
+
+
+@pytest.mark.parametrize(
+    "context, result",
+    (
+        (
+            {
+                "current_series": s1,
+                "series": {
+                    s1: {"rank": 6},
+                },
+            },
+            True,
+        ),
+        (
+            {
+                "current_series": s1,
+                "series": {
+                    s1: {"rank": 7},
+                },
+            },
+            False,
+        ),
+    ),
+)
+def test_fellowship_of_benzenes(context, result):
+    assert resolvers.fellowship_of_benzenes(context) is result

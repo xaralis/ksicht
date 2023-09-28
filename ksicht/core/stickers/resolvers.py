@@ -4,6 +4,7 @@ import math
 import random
 
 from . import registry
+from .types import StickerContext
 
 
 def sticker(sticker_nr):
@@ -15,13 +16,13 @@ def sticker(sticker_nr):
 
 
 @sticker(1)
-def solver(context):
+def solver(context: StickerContext):
     """Given to anyone who participates."""
     return True
 
 
 @sticker(2)
-def solved_all_tasks_in_series(context):
+def solved_all_tasks_in_series(context: StickerContext):
     """Given to anyone who has submitted solutions for all tasks of a series."""
 
     def _is_eligible(series, tasks):
@@ -30,12 +31,12 @@ def solved_all_tasks_in_series(context):
         ) == len(tasks)
 
     return _is_eligible(
-        context["current_series"], context["tasks_in_series"][context["current_series"]]
+        context["current_series"], context["series"][context["current_series"]]["tasks"]
     )
 
 
 @sticker(3)
-def solution_in_every_series(context):
+def solution_in_every_series(context: StickerContext):
     """Given to anyone who has submitted a solution in every series."""
     return context["is_last_series"] and all(
         len(submissions) != 0
@@ -44,7 +45,7 @@ def solution_in_every_series(context):
 
 
 @sticker(4)
-def solved_all_tasks(context):
+def solved_all_tasks(context: StickerContext):
     """Given to anyone who has submitted solutions for every task."""
     return context["is_last_series"] and all(
         sub is not None for sub in context["submissions"]["by_tasks"].values()
@@ -52,7 +53,7 @@ def solved_all_tasks(context):
 
 
 @sticker(8)
-def zero_points(context):
+def zero_points(context: StickerContext):
     """Given to anyone who has been given 0 score points in any of the submitted solutions within a series."""
     return any(
         sub.score == Decimal("0")
@@ -61,7 +62,7 @@ def zero_points(context):
 
 
 @sticker(9)
-def reached_100(context):
+def reached_100(context: StickerContext):
     """Given to anyone who has reached a sum of at least 100 points."""
     return sum(
         sub.score or Decimal("0") for sub in context["submissions"]["all"]
@@ -69,7 +70,7 @@ def reached_100(context):
 
 
 @sticker(10)
-def reached_150(context):
+def reached_150(context: StickerContext):
     """Given to anyone who has reached a sum of at least 150 points."""
     return sum(
         sub.score or Decimal("0") for sub in context["submissions"]["all"]
@@ -77,7 +78,7 @@ def reached_150(context):
 
 
 @sticker(12)
-def full_score(context):
+def full_score(context: StickerContext):
     """Given to anyone who has been given the maximum number of points for at least one of their submissions within a series."""
 
     def _is_eligible(submission):
@@ -91,21 +92,21 @@ def full_score(context):
 
 
 @sticker(13)
-def random_20_percent(context):
-    """Randomly (yet with predictable seed according to current_series) given to approx 20% of the applications."""
+def random_2_percent(context: StickerContext):
+    """Randomly (yet with predictable seed according to current_series) given to approx 2% of the applications."""
     applications_count = len(context["applications"])
-    pick_count = math.ceil(applications_count * 0.2)
+    pick_count = math.ceil(applications_count * 0.02)
 
     # Initialize seed for the randomness to be consistent with current_series
     random.seed(context["current_series"].pk)
 
-    return context["current_application"] in random.choices(
-        context["applications"], k=pick_count
+    return context["current_application"].pk in random.choices(
+        [a.pk for a in context["applications"]], k=pick_count
     )
 
 
 @sticker(14)
-def late_submission(context):
+def late_submission(context: StickerContext):
     """Given to anyone who has submitted a solution in series less than 4 hours before submission deadline via this web app."""
 
     def _is_eligible(submission):
@@ -121,7 +122,7 @@ def late_submission(context):
 
 
 @sticker(15)
-def early_submission(context):
+def early_submission(context: StickerContext):
     """Given to anyone who has submitted a solution in series more than 2 weeks before submission deadline."""
 
     def _is_submission_eligible(submission):
@@ -137,21 +138,26 @@ def early_submission(context):
 
 
 @sticker(18)
-def ranked_no_worse_than_7th(context):
-    """Given to anyone who has ranked no worse than 7th in the series."""
-    return context["rank"] <= 7
+def ranked_no_worse_than_7th(context: StickerContext):
+    """Given to anyone who has ranked no worse than 7th in all of the series of grades."""
+    if not context["is_last_series"]:
+        return False
+
+    return all(cs["rank"] <= 7 for cs in context["series"].values())
 
 
 @sticker(19)
-def successfull_solver(context):
+def successfull_solver(context: StickerContext):
     """Given to anyone who has got at least 50% of the points or has ranked 30th or less in the last series."""
+    current_series_detail = context["series"][context["current_series"]]
     return context["is_last_series"] and (
-        (context["score"] >= context["max_score"] * 0.5) or (context["rank"] <= 30)
+        (current_series_detail["score"] >= current_series_detail["max_score"] * 0.5)
+        or (current_series_detail["rank"] <= 30)
     )
 
 
 @sticker(29)
-def submitted_solution_in_last_series(context):
+def submitted_solution_in_last_series(context: StickerContext):
     """Given to anyone who has submitted a solution in last series of the grade."""
     return (
         context["is_last_series"]
@@ -159,7 +165,13 @@ def submitted_solution_in_last_series(context):
     )
 
 
+@sticker(38)
+def fellowship_of_benzenes(context: StickerContext):
+    """Given to anyone who has ranked no worse than 6th in the last series."""
+    return context["series"][context["current_series"]]["rank"] <= 6
+
+
 @sticker(42)
-def ranked_42nd(context):
+def ranked_42nd(context: StickerContext):
     """Given to anyone who has ranked 42nd in the current series."""
-    return context["rank"] == 42
+    return context["series"][context["current_series"]]["rank"] == 42
