@@ -15,17 +15,19 @@ def resolve_stickers(context: types.StickerContext):
     return entitled_to
 
 
-def get_eligibility(current_series: models.GradeSeries):
-    """Find out sticker eligibility for every participant in the series."""
-    grade = current_series.grade
+def _grade_details(grade: models.Grade) -> types.GradeDetails:
+    """Get details of the grade."""
     applications = list(grade.applications.select_related("participant__user"))
-    series = list(models.GradeSeries.objects.filter(grade=grade))
+    series = list(
+        models.GradeSeries.objects.filter(grade=grade)
+        .select_related("grade")
+        .prefetch_related("grade__applications")
+    )
     tasks = list(models.Task.objects.filter(series__grade=grade))
     submitted_solutions = models.TaskSolutionSubmission.objects.filter(
         task__series__grade=grade
     ).select_related("task")
 
-    eligibility: List[Tuple[models.GradeApplication, Set[int]]] = []
     rankings_by_series = {
         s: s.get_rankings(exclude_submissionless=False) for s in series
     }
@@ -41,21 +43,21 @@ def get_eligibility(current_series: models.GradeSeries):
             "rank": application_ranking[1],
             "score": application_ranking[3],
             "max_score": rankings["max_score"],
-            "tasks": [t for t in tasks if t.series_id == series.pk],
         }
+
+    grade_details: types.GradeDetails = {
+        "series": series,
+        "tasks": {s: [t for t in tasks if t.series_id == s.pk] for s in series},
+        "by_participant": {},
+    }
 
     for application in applications:
         submissions = [
             s for s in submitted_solutions if s.application_id == application.pk
         ]
 
-        context: types.StickerContext = {
-            "current_series": current_series,
-            "current_application": application,
-            "applications": applications,
+        grade_details["by_participant"][application.participant] = {
             "series": {s: _series_details(s, application) for s in series},
-            "all_series": series,
-            "tasks": tasks,
             "submissions": {
                 "all": submissions,
                 "by_series": {
@@ -68,9 +70,43 @@ def get_eligibility(current_series: models.GradeSeries):
                 },
             },
         }
-        context["is_last_series"] = (
-            len(context["series"]) > 0 and context["current_series"] == series[-1]
-        )
+
+    return grade_details
+
+
+def get_eligibility(current_series: models.GradeSeries):
+    """Find out sticker eligibility for every participant in the series."""
+
+    current_grade = current_series.grade
+    grades = [current_grade]
+    grades.extend(
+        models.Grade.objects.filter(start_date__lt=current_grade.start_date).order_by(
+            "-end_date"
+        )[:3]
+    )
+    applications: List[models.GradeApplication] = list(
+        current_grade.applications.select_related("participant__user")
+    )
+    base_context = {
+        "by_grades": {grades.index(grade): _grade_details(grade) for grade in grades}
+    }
+    eligibility: List[Tuple[models.GradeApplication, Set[int]]] = []
+    current_grade_details = base_context["by_grades"][0]
+
+    for application in applications:
+        context: types.StickerContext = {
+            "participant": application.participant,
+            "current": {
+                "participant": current_grade_details["by_participant"][
+                    application.participant
+                ],
+                "grade": current_grade_details,
+                "series": current_series,
+                "is_last_series": len(current_grade_details["series"]) > 0
+                and current_series == current_grade_details["series"][-1],
+            },
+            **base_context,
+        }
 
         eligibility.append((application, resolve_stickers(context)))
 

@@ -15,15 +15,27 @@ class SeriesDetails(TypedDict):
     rank: int
     score: float
     max_score: float
-    tasks: List[models.Task]
+
+
+class GradeParticipantDetails(TypedDict):
+    series: Dict[models.GradeSeries, SeriesDetails]
+    submissions: Submissions
+
+
+class GradeDetails(TypedDict):
+    series: List[models.GradeSeries]
+    tasks: Dict[models.GradeSeries, List[models.Task]]
+    by_participant: Dict[models.Participant, GradeParticipantDetails]
+
+
+class CurrentGradeExtras(TypedDict):
+    grade: GradeDetails
+    series: models.GradeSeries
+    is_last_series: bool
+    participant: GradeParticipantDetails
 
 
 class StickerContext(TypedDict):
-    current_series: models.GradeSeries
-    current_application: models.GradeApplication
-    applications: List[models.GradeApplication]
-    series: Dict[models.GradeSeries, SeriesDetails]
-    all_series: List[models.GradeSeries]
-    tasks: List[models.Task]
-    submissions: Submissions
-    is_last_series: bool
+    participant: models.Participant
+    current: CurrentGradeExtras
+    by_grades: Dict[int, GradeDetails]

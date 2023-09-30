@@ -348,5 +348,35 @@
     "nr": 38,
     "handpicked": false
   }
+},
+{
+  "model": "core.sticker",
+  "pk": 36,
+  "fields": {
+    "title": "Maratonec",
+    "description": "Za \u0159e\u0161en\u00ed ka\u017ed\u00e9 \u00falohy v ka\u017ed\u00e9 s\u00e9rii ve 2 po sob\u011b jdouc\u00edch ro\u010dn\u00edc\u00edch.",
+    "nr": 35,
+    "handpicked": false
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 37,
+  "fields": {
+    "title": "Ultramaratonec",
+    "description": "Za \u0159e\u0161en\u00ed ka\u017ed\u00e9 \u00falohy v ka\u017ed\u00e9 s\u00e9rii ve 3 po sob\u011b jdouc\u00edch ro\u010dn\u00edc\u00edch",
+    "nr": 36,
+    "handpicked": false
+  }
+},
+{
+  "model": "core.sticker",
+  "pk": 38,
+  "fields": {
+    "title": "Iron Man",
+    "description": "Za \u0159e\u0161en\u00ed ka\u017ed\u00e9 \u00falohy v ka\u017ed\u00e9 s\u00e9rii ve 4 po sob\u011b jdouc\u00edch ro\u010dn\u00edc\u00edch",
+    "nr": 37,
+    "handpicked": false
+  }
 }
 ]
