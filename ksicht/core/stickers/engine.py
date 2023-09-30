@@ -17,7 +17,7 @@ def resolve_stickers(context: types.StickerContext):
 
 def _grade_details(grade: models.Grade) -> types.GradeDetails:
     """Get details of the grade."""
-    applications = list(grade.applications.select_related("participant__user"))
+    applications = list(grade.applications.order_by("created_at").select_related("participant__user"))
     series = list(
         models.GradeSeries.objects.filter(grade=grade)
         .select_related("grade")
@@ -26,10 +26,14 @@ def _grade_details(grade: models.Grade) -> types.GradeDetails:
     tasks = list(models.Task.objects.filter(series__grade=grade))
     submitted_solutions = models.TaskSolutionSubmission.objects.filter(
         task__series__grade=grade
-    ).select_related("task")
+    ).select_related("task__series")
 
     rankings_by_series = {
-        s: s.get_rankings(exclude_submissionless=False) for s in series
+        s: s.get_rankings(
+            _applications_cache=applications,
+            _tasks_cache=[t for t in tasks if t.series_id == s.pk],
+            _submissions_cache=[sol for sol in submitted_solutions],
+        ) for s in series
     }
 
     def _series_details(

@@ -24,19 +24,10 @@ def solver(context: StickerContext):
 @sticker(2)
 def solved_all_tasks_in_series(context: StickerContext):
     """Given to anyone who has submitted solutions for all tasks of current series."""
-
-    def _is_eligible(series, tasks):
-        participant_submissions = context["current"]["participant"]["submissions"]
-
-        return len(tasks) > 0 and len(
-            participant_submissions["by_series"][series]
-        ) == len(tasks)
-
     current_series = context["current"]["series"]
-
-    return _is_eligible(
-        current_series, context["current"]["grade"]["tasks"][current_series]
-    )
+    participant_submissions = context["current"]["participant"]["submissions"]
+    tasks = context["current"]["grade"]["tasks"][current_series]
+    return len(tasks) > 0 and len(participant_submissions["by_series"][current_series]) == len(tasks)
 
 
 @sticker(3)
@@ -203,9 +194,14 @@ def submitted_solution_in_each_task_of_last_n_grades(context: StickerContext, n:
 
     def _is_eligible(grade: GradeDetails):
         tasks_count = sum(len(tasks) for tasks in grade["tasks"].values())
-        submission_count = len(
-            grade["by_participant"][participant]["submissions"]["all"]
-        )
+
+        if participant in grade["by_participant"]:
+            submission_count = len(
+                grade["by_participant"][participant]["submissions"]["all"]
+            )
+        else:
+            submission_count = 0
+
         return tasks_count == submission_count
 
     last_n_grades = list(context["by_grades"].values())[:n]

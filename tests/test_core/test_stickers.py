@@ -15,8 +15,8 @@ tid2 = str(uuid4())
 tid3 = str(uuid4())
 tid4 = str(uuid4())
 
-s1 = models.GradeSeries(id="abcd", submission_deadline=datetime(2020, 1, 1, 0, 0))
-s2 = models.GradeSeries(id="dcba", submission_deadline=datetime(2020, 3, 1, 0, 0))
+s1 = models.GradeSeries(id="abcd", series="1", submission_deadline=datetime(2020, 1, 1, 0, 0))
+s2 = models.GradeSeries(id="dcba", series="2", submission_deadline=datetime(2020, 3, 1, 0, 0))
 
 p1 = models.Participant(user_id="1")
 p2 = models.Participant(user_id="2")
@@ -49,13 +49,9 @@ sub4 = models.TaskSolutionSubmission(task_id=tid4)
                 "current": {
                     "series": s1,
                     "grade": {
-                        "series": {
-                            s1: {
-                                "tasks": (t1, t2, t3),
-                            },
-                            s2: {
-                                "tasks": (t4,),
-                            },
+                        "tasks": {
+                            s1: (t1, t2, t3),
+                            s2: (t4,),
                         },
                     },
                     "participant": {
@@ -75,13 +71,9 @@ sub4 = models.TaskSolutionSubmission(task_id=tid4)
                 "current": {
                     "series": s2,
                     "grade": {
-                        "series": {
-                            s1: {
-                                "tasks": (t1, t2, t3),
-                            },
-                            s2: {
-                                "tasks": (t4,),
-                            },
+                        "tasks": {
+                            s1: (t1, t2, t3),
+                            s2: (t4,),
                         },
                     },
                     "participant": {
@@ -101,13 +93,9 @@ sub4 = models.TaskSolutionSubmission(task_id=tid4)
                 "current": {
                     "series": s1,
                     "grade": {
-                        "series": {
-                            s1: {
-                                "tasks": (t1, t2, t3),
-                            },
-                            s2: {
-                                "tasks": (t4,),
-                            },
+                        "tasks": {
+                            s1: (t1, t2, t3),
+                            s2: (t4,),
                         },
                     },
                     "participant": {
@@ -127,13 +115,9 @@ sub4 = models.TaskSolutionSubmission(task_id=tid4)
                 "current": {
                     "series": s1,
                     "grade": {
-                        "series": {
-                            s1: {
-                                "tasks": (),
-                            },
-                            s2: {
-                                "tasks": (),
-                            },
+                        "tasks": {
+                            s1: (),
+                            s2: (),
                         },
                     },
                     "participant": {
@@ -658,7 +642,7 @@ def test_full_score(context, result):
                 "current": {
                     "series": s1,
                     "grade": {
-                        "by_participants": {
+                        "by_participant": {
                             p1: {},
                             p2: {},
                             p3: {},
@@ -676,7 +660,7 @@ def test_full_score(context, result):
                 "current": {
                     "series": s1,
                     "grade": {
-                        "by_participants": {
+                        "by_participant": {
                             p1: {},
                             p2: {},
                             p3: {},
@@ -694,7 +678,7 @@ def test_full_score(context, result):
                 "current": {
                     "series": s1,
                     "grade": {
-                        "by_participants": {
+                        "by_participant": {
                             p1: {},
                             p2: {},
                             p3: {},
@@ -712,7 +696,7 @@ def test_full_score(context, result):
                 "current": {
                     "series": s1,
                     "grade": {
-                        "by_participants": {
+                        "by_participant": {
                             p1: {},
                             p2: {},
                             p3: {},
@@ -730,7 +714,7 @@ def test_full_score(context, result):
                 "current": {
                     "series": s1,
                     "grade": {
-                        "by_participants": {
+                        "by_participant": {
                             p1: {},
                             p2: {},
                             p3: {},
@@ -748,7 +732,7 @@ def test_full_score(context, result):
                 "current": {
                     "series": s2,
                     "grade": {
-                        "by_participants": {
+                        "by_participant": {
                             p1: {},
                             p2: {},
                             p3: {},
@@ -766,7 +750,7 @@ def test_full_score(context, result):
                 "current": {
                     "series": s2,
                     "grade": {
-                        "by_participants": {
+                        "by_participant": {
                             p1: {},
                             p2: {},
                             p3: {},
@@ -784,7 +768,7 @@ def test_full_score(context, result):
                 "current": {
                     "series": s2,
                     "grade": {
-                        "by_participants": {
+                        "by_participant": {
                             p1: {},
                             p2: {},
                             p3: {},
@@ -802,7 +786,7 @@ def test_full_score(context, result):
                 "current": {
                     "series": s2,
                     "grade": {
-                        "by_participants": {
+                        "by_participant": {
                             p1: {},
                             p2: {},
                             p3: {},
@@ -820,7 +804,7 @@ def test_full_score(context, result):
                 "current": {
                     "series": s2,
                     "grade": {
-                        "by_participants": {
+                        "by_participant": {
                             p1: {},
                             p2: {},
                             p3: {},
@@ -1261,13 +1245,13 @@ def test_fellowship_of_benzenes(context, result):
                         "tasks": {
                             s1: (t1, t2),
                         },
-                        "by_participants": {p1: {"submissions": {"all": (t1, t2)}}},
+                        "by_participant": {p1: {"submissions": {"all": (t1, t2)}}},
                     },
                     1: {
                         "tasks": {
                             s2: (t3, t4),
                         },
-                        "by_participants": {p1: {"submissions": {"all": (t3, t4)}}},
+                        "by_participant": {p1: {"submissions": {"all": (t3, t4)}}},
                     },
                 },
             },
@@ -1285,13 +1269,13 @@ def test_fellowship_of_benzenes(context, result):
                         "tasks": {
                             s1: (t1, t2),
                         },
-                        "by_participants": {p1: {"submissions": {"all": (t1, t2)}}},
+                        "by_participant": {p1: {"submissions": {"all": (t1, t2)}}},
                     },
                     1: {
                         "tasks": {
                             s1: (t3, t4),
                         },
-                        "by_participants": {p1: {"submissions": {"all": (t3,)}}},
+                        "by_participant": {p1: {"submissions": {"all": (t3,)}}},
                     },
                 },
             },
@@ -1308,14 +1292,14 @@ def test_fellowship_of_benzenes(context, result):
                         "tasks": {
                             s1: (t1, t2),
                         },
-                        "by_participants": {p1: {"submissions": {"all": (t1, t2)}}},
+                        "by_participant": {p1: {"submissions": {"all": (t1, t2)}}},
                     },
                     1: {
                         "tasks": {
                             s1: (t3,),
                             s2: (t4,),
                         },
-                        "by_participants": {p1: {"submissions": {"all": (t3,)}}},
+                        "by_participant": {p1: {"submissions": {"all": (t3,)}}},
                     },
                 },
             },
@@ -1333,7 +1317,7 @@ def test_fellowship_of_benzenes(context, result):
                         "tasks": {
                             s1: (t1, t2),
                         },
-                        "by_participants": {p1: {"submissions": {"all": (t1, t2)}}},
+                        "by_participant": {p1: {"submissions": {"all": (t1, t2)}}},
                     },
                 },
             },

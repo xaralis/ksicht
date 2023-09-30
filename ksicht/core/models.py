@@ -3,6 +3,7 @@ from decimal import Decimal
 import logging
 from operator import attrgetter
 import tempfile
+from typing import List, Optional
 import uuid
 
 from cuser.models import AbstractCUser
@@ -225,22 +226,39 @@ class GradeSeries(models.Model):
             self.submission_deadline.tzinfo
         )
 
-    def get_rankings(self, exclude_submissionless=True):
+    def get_rankings(
+        self,
+        exclude_submissionless: bool = True,
+        _applications_cache: Optional[List['GradeApplication']] = None,
+        _tasks_cache: Optional[List['Task']] = None,
+        _submissions_cache: Optional[List['TaskSolutionSubmission']] = None
+    ):
         """Calculate results for series.
 
         Adds detailed task listing for individual series tasks and a grand total with total score so far
         (this series and the previous ones).
+
+        :param exclude_submissionless: Whether to exclude applications without any submission
+        :param _applications_cache: Optional cache of applications to use instead of fetching them from DB,
+            please note that `exclude_submissionless` is ignored when this is provided.
+        :param _tasks_cache: Optional cache of tasks to use instead of fetching them from DB.
+        :param _submissions_cache: Optional cache of submissions to use instead of fetching them from DB.
+        :return: Dictionary with `max_score` and `listing` keys where `listing` is a list of tuples
+            with application, task scores and total score.
         """
         # Only applications with an actual solution submission
-        applications = self.grade.applications.select_related(
-            "participant__user"
-        ).order_by("created_at")
+        if _applications_cache is None:
+            applications = self.grade.applications.select_related(
+                "participant__user"
+            ).order_by("created_at")
 
-        if exclude_submissionless:
-            applications = applications.exclude(solution_submissions=None)
+            if exclude_submissionless:
+                applications = applications.exclude(solution_submissions=None)
+        else:
+            applications = _applications_cache
 
-        tasks = self.tasks.all()
-        submissions = TaskSolutionSubmission.objects.filter(
+        tasks = _tasks_cache or self.tasks.all()
+        submissions = [s for s in _submissions_cache if int(s.task.series.series) <= int(self.series)] or TaskSolutionSubmission.objects.filter(
             application__grade=self.grade, task__series__series__lte=self.series
         )
 
