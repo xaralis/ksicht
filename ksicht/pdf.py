@@ -134,7 +134,7 @@ def prepare_submission_for_export(in_file, label: str):
     out_pdf = PdfFileWriter()
     memo_page = page_with_memo(10, 10, label)
 
-    for pagenum in enumerate(in_pdf.pages):
+    for pagenum, _ in enumerate(in_pdf.pages):
         # add the "watermark" (which is the new pdf) on the existing page
         page = in_pdf.pages[pagenum]
         page.merge_page(memo_page)
