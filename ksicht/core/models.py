@@ -229,9 +229,9 @@ class GradeSeries(models.Model):
     def get_rankings(
         self,
         exclude_submissionless: bool = True,
-        _applications_cache: Optional[List['GradeApplication']] = None,
-        _tasks_cache: Optional[List['Task']] = None,
-        _submissions_cache: Optional[List['TaskSolutionSubmission']] = None
+        _applications_cache: Optional[List["GradeApplication"]] = None,
+        _tasks_cache: Optional[List["Task"]] = None,
+        _submissions_cache: Optional[List["TaskSolutionSubmission"]] = None,
     ):
         """Calculate results for series.
 
@@ -258,9 +258,17 @@ class GradeSeries(models.Model):
             applications = _applications_cache
 
         tasks = _tasks_cache or self.tasks.all()
-        submissions = [s for s in _submissions_cache if int(s.task.series.series) <= int(self.series)] or TaskSolutionSubmission.objects.filter(
-            application__grade=self.grade, task__series__series__lte=self.series
-        )
+
+        if _submissions_cache is None:
+            submissions = TaskSolutionSubmission.objects.filter(
+                application__grade=self.grade, task__series__series__lte=self.series
+            )
+        else:
+            submissions = [
+                s
+                for s in _submissions_cache
+                if int(s.task.series.series) <= int(self.series)
+            ]
 
         scoring_dict = {
             a: {"by_tasks": {t: None for t in tasks}, "total": Decimal("0")}

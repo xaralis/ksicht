@@ -15,8 +15,12 @@ tid2 = str(uuid4())
 tid3 = str(uuid4())
 tid4 = str(uuid4())
 
-s1 = models.GradeSeries(id="abcd", series="1", submission_deadline=datetime(2020, 1, 1, 0, 0))
-s2 = models.GradeSeries(id="dcba", series="2", submission_deadline=datetime(2020, 3, 1, 0, 0))
+s1 = models.GradeSeries(
+    id="abcd", series="1", submission_deadline=datetime(2020, 1, 1, 0, 0)
+)
+s2 = models.GradeSeries(
+    id="dcba", series="2", submission_deadline=datetime(2020, 3, 1, 0, 0)
+)
 
 p1 = models.Participant(user_id="1")
 p2 = models.Participant(user_id="2")

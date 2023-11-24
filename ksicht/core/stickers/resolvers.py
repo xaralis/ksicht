@@ -27,7 +27,9 @@ def solved_all_tasks_in_series(context: StickerContext):
     current_series = context["current"]["series"]
     participant_submissions = context["current"]["participant"]["submissions"]
     tasks = context["current"]["grade"]["tasks"][current_series]
-    return len(tasks) > 0 and len(participant_submissions["by_series"][current_series]) == len(tasks)
+    return len(tasks) > 0 and len(
+        participant_submissions["by_series"][current_series]
+    ) == len(tasks)
 
 
 @sticker(3)
