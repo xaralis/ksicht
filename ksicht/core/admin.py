@@ -198,9 +198,11 @@ class EventAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["visible_to"].queryset = self.fields[
-            "visible_to"
-        ].queryset.order_by("last_name", "first_name", "email")
+
+        if "visible_to" in self.fields:
+            self.fields["visible_to"].queryset = self.fields[
+                "visible_to"
+            ].queryset.order_by("last_name", "first_name", "email")
 
 
 @admin.register(models.Event)
