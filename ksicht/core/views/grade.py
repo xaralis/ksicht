@@ -49,6 +49,9 @@ class CurrentGradeView(DetailView):
 class CurrentGradeApplicationView(BaseFormView):
     form_class = forms.CurrentGradeAppliationForm
 
+    def get(self, request, *args, **kwargs):
+        return redirect("core:current_grade")
+
     def form_valid(self, *args, **kwargs):
         user = self.request.user
 
