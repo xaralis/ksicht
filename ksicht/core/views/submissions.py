@@ -126,21 +126,22 @@ class SolutionSubmitView(TemplateView):
         file_descriptor = self.request.FILES.get(f"file_{task.pk}")
 
         if not file_descriptor:
-            raise ValueError("Could not locate file date")
+            raise ValueError("Could not locate submitted file")
 
-        if TaskSolutionSubmission.objects.filter(
-            application=self.application, task=task
-        ).exists():
+        submission, created = TaskSolutionSubmission.objects.get_or_create(
+            application=self.application,
+            task=task,
+            defaults={"file": file_descriptor},
+        )
+
+        if not created:
             messages.add_message(
                 self.request,
                 messages.WARNING,
                 f"<i class='fas fa-exclamation-circle notification-icon'></i> Řešení pro úlohu {task} již bylo dříve odevzdáno.",
             )
+            return
 
-        submission = TaskSolutionSubmission(
-            application=self.application, file=file_descriptor, task=task
-        )
-        submission.save()
         submission.prepare_for_export()
         submission.save()
 
