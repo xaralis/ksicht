@@ -34,9 +34,8 @@ class EnvelopeRecipientInfo(TypedDict):
 
 def envelopes(recipients: List[EnvelopeRecipientInfo], our_lines, out_file):
     """Generate envelopes with address block."""
-    out_pdf = PdfFileWriter()
-
-    w, h = landscape(C3)
+    pagesize = landscape(C3)
+    page_width, page_height = pagesize
 
     ksicht_contact_paragraph_style = ParagraphStyle(
         "Normal",
@@ -51,44 +50,45 @@ def envelopes(recipients: List[EnvelopeRecipientInfo], our_lines, out_file):
         fontSize=28,
         leading=32,
     )
+    page_paragraph_style = ParagraphStyle(
+        "Normal",
+        fontName="Helvetica",
+        fontSize=38,
+        leading=56,
+        borderWidth=1,
+        borderRadius=8,
+        borderPadding=24,
+        borderColor="#000",
+    )
     ksicht_contact_paragraph = Paragraph(
         "<br />".join(our_lines), style=ksicht_contact_paragraph_style
     )
-    cw, ch = ksicht_contact_paragraph.wrap(620, 1000)
+    ksicht_contact_height = ksicht_contact_paragraph.wrap(620, 1000)[1]
+
+    packet = io.BytesIO()
+    can = canvas.Canvas(packet, pagesize=pagesize)
 
     for recipient in recipients:
-        packet = io.BytesIO()
-        can = canvas.Canvas(packet, pagesize=landscape(C3))
-        paragraph_style = ParagraphStyle(
-            "Normal",
-            fontName="Helvetica",
-            fontSize=38,
-            leading=56,
-            borderWidth=1,
-            borderRadius=8,
-            borderPadding=24,
-            borderColor="#000",
-        )
-        paragraph = Paragraph("<br />".join(recipient["lines"]), style=paragraph_style)
-        pw, ph = paragraph.wrap(700, 1000)
-        paragraph.drawOn(can, w - pw - 48, 270)
+        paragraph = Paragraph("<br />".join(recipient["lines"]), style=page_paragraph_style)
+        paragraph_width = paragraph.wrap(700, 1000)[0]
+        paragraph.drawOn(can, page_width - paragraph_width - 48, 270)
 
-        ksicht_contact_paragraph.drawOn(can, 24, h - 24 - ch)
+        ksicht_contact_paragraph.drawOn(can, 24, page_height - 24 - ksicht_contact_height)
 
         if recipient["note"]:
             note_paragraph = Paragraph(
                 recipient["note"],
                 style=note_paragraph_style,
             )
-            nw, nh = note_paragraph.wrap(300, 200)
-            note_paragraph.drawOn(can, w - 24 - nw, h - 24 - nh)
+            note_width, note_height = note_paragraph.wrap(300, 200)
+            note_paragraph.drawOn(can, page_width - 24 - note_width, page_height - 24 - note_height)
 
-        can.save()
-        packet.seek(0)
+        can.showPage() # Close current page & start new one
 
-        out_pdf.add_page(PdfFileReader(packet).pages[0])
+    can.save()
+    packet.seek(0)
+    out_file.write(packet.read())
 
-    out_pdf.write(out_file)
     return out_file
 
 
