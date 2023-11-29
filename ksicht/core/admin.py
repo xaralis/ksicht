@@ -6,6 +6,8 @@ from django.contrib.flatpages.admin import FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from django.db.models import TextField
 from django.forms.models import BaseInlineFormSet
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 from imagekit import ImageSpec
 from imagekit.admin import AdminThumbnail
 from imagekit.cachefiles import ImageCacheFile
@@ -81,13 +83,19 @@ class GradeSeriesAdmin(admin.ModelAdmin):
 @admin.register(models.Participant)
 class ParticipantAdmin(admin.ModelAdmin):
     list_display = (
-        "user",
         "first_name",
         "last_name",
         "school",
+        "user_link",
     )
     list_select_related = ("user",)
-    readonly_fields = ("first_name", "last_name")
+    search_fields = (
+        "user__first_name",
+        "user__last_name",
+        "user__email",
+        "school",
+    )
+    readonly_fields = ("first_name", "last_name", "user_link")
     actions = ["increase_school_year"]
 
     def first_name(self, obj):
@@ -95,6 +103,13 @@ class ParticipantAdmin(admin.ModelAdmin):
 
     def last_name(self, obj):
         return obj.user.last_name
+
+    def user_link(self, obj):
+        return mark_safe(
+            f"<a href=\"{reverse('admin:core_user_change', args=(obj.user.pk,))}\">{obj.user.email}</a>"
+        )
+
+    user_link.short_description = "Uživatel"
 
     def increase_school_year(self, request, queryset):
         for participant in queryset:
