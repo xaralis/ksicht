@@ -7,14 +7,14 @@
         {% if current_grade %}
             <h2 class="title is-5">Aktuální ročník {{ current_grade }}</h2>
 
-            <h2 class="heading">Aktuální série</h2>
+            <h2 class="subsubtitle">Aktuální série</h2>
             <p class="title is-5">{{ current_series }}</p>
 
-            <h2 class="heading">Deadline pro odevzdání řešení {{ current_series }}</h2>
-            <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ current_series.submission_deadline | date:"d.m." }}</p>
+            <h2 class="subsubtitle">Deadline pro odevzdání řešení {{ current_series }}</h2>
+            <p class="title is-5"><i class="fas fa-calendar-alt pr-1"></i> {{ current_series.submission_deadline | date:"d.m." }}</p>
 
             {% if current_grade.errata %}
-                <h2 class="heading">Errata</h2>
+                <h2 class="subsubtitle">Errata</h2>
                 <div class="content content-readable">
                     <div class="message is-warning is-size-6">
                         <div class="message-body">
@@ -45,7 +45,7 @@
         {% event_list "future" as future_events %}
 
         {% if future_events|length > 0 %}
-            <div class="columns is-desktop has-padding-b-5">
+            <div class="columns is-desktop pb-5">
                 {% for event, is_enlisted, can_enlist in future_events %}
                     <div class="column is-half">
                         {% include "core/includes/event_card.html" with object=event can_enlist=can_enlist is_enlisted=is_enlisted %}

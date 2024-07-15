@@ -18,7 +18,7 @@
     {% if can_apply %}
         <div class="notification">
             <p class="title is-4">Do tohoto ročníku se ještě můžeš přihlásit!</p>
-            <p class="is-size-6 has-margin-b-4">Před přihlášením si prosím zkontrolujte správnost údajů na  <a href="{% url 'edit_profile' %}">svém profilu</a>.</p>
+            <p class="is-size-6 mb-4">Před přihlášením si prosím zkontrolujte správnost údajů na  <a href="{% url 'edit_profile' %}">svém profilu</a>.</p>
             {% crispy application_form %}
         </div>
     {% endif %}
@@ -26,24 +26,24 @@
 
 {% block article %}
 {% if object %}
-    <p class="is-size-5 has-margin-b-5">Každým rokem vyjdou čtyři série KSICHTu, <strong>první začátkem října</strong>. V brožuře vždy naleznete zadání úloh aktuální série, řešení úloh předchozí série a jeden díl seriálu.</p>
+    <p class="is-size-5 mb-5">Každým rokem vyjdou čtyři série KSICHTu, <strong>první začátkem října</strong>. V brožuře vždy naleznete zadání úloh aktuální série, řešení úloh předchozí série a jeden díl seriálu.</p>
 
-    <nav class="columns is-multiline has-margin-b-5">
+    <nav class="columns is-multiline mb-5">
         <div class="column is-6-tablet is-3-desktop">
             <div>
-                <h2 class="heading">Začíná</h2>
-                <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ object.start_date | date }}</p>
+                <h2 class="subsubtitle">Začíná</h2>
+                <p class="title is-5"><i class="fas fa-calendar-alt pr-1"></i> {{ object.start_date | date }}</p>
             </div>
         </div>
         <div class="column is-6-tablet is-3-desktop">
             <div>
-                <h2 class="heading">Řešitelé</h2>
-                <p class="title is-5"><i class="fas fa-user-friends has-padding-r-2"></i> {{ object.applications.count }} přihlášených řešitelů</p>
+                <h2 class="subsubtitle">Řešitelé</h2>
+                <p class="title is-5"><i class="fas fa-user-friends pr-1"></i> {{ object.applications.count }} přihlášených řešitelů</p>
             </div>
         </div>
         {% if object.errata %}
         <div class="column is-6-desktop">
-            <h2 class="heading">Errata</h2>
+            <h2 class="subsubtitle">Errata</h2>
             <div class="content content-readable">
                 <div class="message is-warning is-size-6">
                     <div class="message-body">
@@ -86,11 +86,11 @@
                                 {% endif %}
 
                                 {% if series.task_file %}
-                                <p><a href="{{ series.task_file.url }}" class="has-margin-r-4"><i class="far fa-file-pdf has-padding-r-2"></i> Brožura zadání v PDF</a></p>
+                                <p><a href="{{ series.task_file.url }}" class="mr-4"><i class="fas fa-file-pdf pr-1"></i> Brožura zadání v PDF</a></p>
                                 {% endif %}
 
                                 {% if series.results_published %}
-                                <p><a href="{% url "core:series_results" grade_id=series.grade_id pk=series.pk %}" class="has-margin-r-4"><i class="fas fa-trophy has-padding-r-2"></i> Výsledková listina</a></p>
+                                <p><a href="{% url "core:series_results" grade_id=series.grade_id pk=series.pk %}" class="mr-4"><i class="fas fa-trophy pr-1"></i> Výsledková listina</a></p>
                                 {% endif %}
 
                                 {% with series.attachments.all as attachments %}
@@ -100,7 +100,7 @@
                                         <h2 class="is-size-6 has-text-weight-bold">Přílohy</h2>
 
                                         {% for a in attachments %}
-                                            <p><a href="{{ a.file.url }}" class="has-margin-r-4"><i class="far fa-file has-padding-r-2"></i> {{ a }}</a></p>
+                                            <p><a href="{{ a.file.url }}" class="mr-4"><i class="fas fa-file pr-1"></i> {{ a }}</a></p>
                                         {% endfor %}
                                     {% endif %}
                                 {% endwith %}

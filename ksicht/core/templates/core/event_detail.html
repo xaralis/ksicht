@@ -27,50 +27,50 @@
         </article>
     </div>
     <div class="column is-4-tablet is-3-desktop is-offset-1-widescreen">
-        <div class="has-margin-b-4">
-            <p class="heading">Začátek</p>
-            <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ object.start_date | date }}</p>
+        <div class="mb-4">
+            <p class="subsubtitle">Začátek</p>
+            <p class="title is-5"><i class="fas fa-calendar-alt pr-1"></i> {{ object.start_date | date }}</p>
         </div>
-        <div class="has-margin-b-4">
-            <p class="heading">Konec</p>
-            <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ object.end_date | date }}</p>
+        <div class="mb-4">
+            <p class="subsubtitle">Konec</p>
+            <p class="title is-5"><i class="fas fa-calendar-alt pr-1"></i> {{ object.end_date | date }}</p>
         </div>
-        <div class="has-margin-b-4">
-            <p class="heading">Místo konání</p>
-            <p class="title is-5"><i class="fas fa-map-marker-alt has-padding-r-2"></i> {{ object.place }}</p>
+        <div class="mb-4">
+            <p class="subsubtitle">Místo konání</p>
+            <p class="title is-5"><i class="fas fa-map-marker-alt pr-1"></i> {{ object.place }}</p>
         </div>
         {% if object.publish_occupancy %}
-        <div class="has-margin-b-4">
-            <p class="heading">Volná místa</p>
-            <p class="title is-5"><i class="fas fa-chair has-padding-r-2"></i> {{ free_places }}/{{ object.capacity }}</p>
+        <div class="mb-4">
+            <p class="subsubtitle">Volná místa</p>
+            <p class="title is-5"><i class="fas fa-chair pr-1"></i> {{ free_places }}/{{ object.capacity }}</p>
         </div>
         {% endif %}
         {% if perms.core.export_event_attendees or object.publish_occupancy %}
-        <div class="has-margin-b-4">
-            <p class="heading">Účastníci</p>
+        <div class="mb-4">
+            <p class="subsubtitle">Účastníci</p>
             {% if perms.core.export_event_attendees %}
-                <p class="title is-5"><a href="{{ object.get_export_url }}" title="Exportovat do CSV"><i class="fas fa-file-csv has-padding-r-2"></i> {{ object.attendees.count }} přihlášených</a></p>
+                <p class="title is-5"><a href="{{ object.get_export_url }}" title="Exportovat do CSV"><i class="fas fa-file-csv pr-1"></i> {{ object.attendees.count }} přihlášených</a></p>
             {% else %}
-                <p class="title is-5"><i class="fas fa-user-friends has-padding-r-2"></i> {{ object.attendees.count }} přihlášených</p>
+                <p class="title is-5"><i class="fas fa-user-friends pr-1"></i> {{ object.attendees.count }} přihlášených</p>
             {% endif %}
         </div>
         {% endif %}
 
         {% if not user.is_authenticated %}
-        <div class="has-padding-t-4">
+        <div class="pt-4">
             <p>
                 Pokud se chceš akce zúčastnit, <a href="{% url "login" %}?next={{ object.get_absolute_url }}">přihlaš se</a>.
             </p>
         </div>
         {% endif %}
         {% if can_enlist %}
-        <div class="has-padding-t-4">
+        <div class="pt-4">
             <a href="{{ event.get_enlist_url }}" class="button is-primary is-outlined is-fullwidth">Přihlásit se</a>
         </div>
         {% endif %}
         {% if is_enlisted %}
-        <div class="has-padding-t-4">
-            <p class="is-5 has-text-success"><i class="fas fa-check-circle has-padding-r-2"></i> Jste přihlášen/a</p>
+        <div class="mt-4">
+            <p class="is-5 has-text-success has-text-weight-bold"><i class="fas fa-check-circle pr-1"></i> Jste přihlášen/a</p>
         </div>
         {% endif %}
     </div>

@@ -17,7 +17,7 @@
                                 {% endfor %}
                             </section>
                         {% else %}
-                            <article class="message is-warning is-size-5 has-margin-t-6">
+                            <article class="message is-warning is-size-5 mt-6">
                                 <div class="message-body">
                                     <p>Žádné úlohy nebyly prozatím vypsány.</p>
                                 </div>
@@ -41,20 +41,20 @@
             {% with current_grade.get_previous_series as previous_series %}
                 {% if previous_series %}
                     <h2 class="title is-5">Přehledy a akce pro <a href="{{ previous_series.get_absolute_url }}">{{ previous_series.series }}. sérii</a></h2>
-                    <aside class="has-margin-b-6">
+                    <aside class="mb-6">
                         {% include "core/includes/admin_series_actions.html" with object=previous_series %}
                     </aside>
                 {% endif %}
             {% endwith %}
 
             <h2 class="title is-5">Přehledy a akce pro <a href="{% url "core:grade_detail" pk=current_grade.pk %}">aktuální ročník</a></h2>
-            <aside class="has-margin-b-6">
+            <aside class="mb-6">
                 {% include "core/includes/admin_grade_actions.html" with object=current_grade %}
             </aside>
         {% endif %}
 
         <h2 class="title is-5">Další rychlé akce</h2>
-        <aside class="menu has-margin-b-6">
+        <aside class="menu mb-6">
             <ul class="menu-list">
                 <li><a href="{% url "admin:index" %}">Vstup do administrační části</a></li>
                 {% if perms.core.add_event %}

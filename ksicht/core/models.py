@@ -312,8 +312,10 @@ class GradeSeries(models.Model):
         }
 
     def tasks_with_submission_count(self):
-        return self.tasks.all().annotate(
-            submission_count=models.Count("solution_submissions")
+        return (
+            self.tasks.all()
+            .annotate(submission_count=models.Count("solution_submissions"))
+            .order_by("nr")
         )
 
 

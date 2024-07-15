@@ -1,21 +1,25 @@
-psycopg2-binary==2.8.6
-Django<3.0
-dsnparse
-django-crispy-forms
+psycopg2-binary==2.9.9
+Django==5.0.7
+dsnparse==0.2.1
+django-crispy-forms==2.2
+crispy-bulma==0.11.0
 django-webpack-loader==3.1.0
-django-markdownx<3.0
-django-markdown-deux
-# Fix for https://stackoverflow.com/questions/73929564/entrypoints-object-has-no-attribute-get-digital-ocean
-importlib-metadata==4.13.0
-django-htmlmin
+django-markdownx==4.0.7
+django-markdown-deux==1.0.6
+django-minify-html==1.8.0
 django-capture-tag
-django-registration
-django-username-email
-django-imagekit==4.1.0
-django_select2
-gunicorn
-pydash
-pypdf
-pdfrw
-reportlab
-pillow==9.5.0
+django-registration==3.4
+django-username-email==2.5.4
+django-imagekit==5.0.0
+django_select2==8.2.0
+gunicorn==22.0.0
+pydash==8.0.1
+pypdf==4.3.0
+pdfrw==0.4
+reportlab==4.2.2
+pillow==10.4.0
+# https://github.com/matthewwithanm/django-imagekit/issues/569
+pilkit==3.0
+# Fix for https://stackoverflow.com/questions/73929564/entrypoints-object-has-no-attribute-get-digital-ocean
+# markdownx installs old version of markdown which breaks the app
+Markdown==3.6

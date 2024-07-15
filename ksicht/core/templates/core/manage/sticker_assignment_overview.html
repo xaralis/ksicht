@@ -7,6 +7,7 @@
         <ul>
             <li><a href="/">KSICHT</a></li>
             <li><a href="{% url "core:grade_detail" pk=object.grade_id %}">Ročník {{ object.grade }}</a></li>
+            <li><a href="{% url "core:series_detail" grade_id=object.grade_id pk=object.id %}">{{ object }}</a></li>
             <li class="is-active"><a href="#" aria-current="page">Přehled přiřazených nálepek</a></li>
         </ul>
     </div>
@@ -23,7 +24,7 @@
                 {% for application, stickers in results.items %}
                 <tr>
                     <td class="is-size-5 has-text-right has-text-weight-bold">{{ application.participant.get_full_name }}</td>
-                    <td style="width: 100%;">
+                    <td>
                         <div class="tag-list">
                             {% for s in stickers %}
                                 {% sticker s %}

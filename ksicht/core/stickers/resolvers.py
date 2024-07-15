@@ -106,7 +106,7 @@ def random_2_percent(context: StickerContext):
     pick_count = math.ceil(applications_count * 0.02)
 
     # Initialize seed for the randomness to be consistent with current_series
-    random.seed(context["current"]["series"].pk)
+    random.seed(int(context["current"]["series"].pk))
 
     return context["participant"].pk in random.choices(
         [a.pk for a in context["current"]["grade"]["by_participant"]], k=pick_count

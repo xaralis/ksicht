@@ -1,31 +1,37 @@
 <div class="card">
-    <div class="card-content">
-        <h2 class="title is-5 has-text-weight-bold"><a href="{{ object.get_absolute_url }}">{{ object }}</a></h2>
-        <p class="subtitle is-6 has-text-grey has-margin-b-0">{{ object.start_date|date:"d.m." }} - {{ object.end_date|date:"SHORT_DATE_FORMAT" }}</p>
-        <p class="subtitle is-6 has-text-grey">{{ object.place }}</p>
+    <div class="card-header is-flex is-flex-grow-1">
+        <div class="p-4">
+            <h2 class="title is-5 has-text-weight-bold mb-0"><a href="{{ object.get_absolute_url }}">{{ object }}</a></h2>
 
-        <div class="level">
-            {% if object.publish_occupancy %}
-            <div class="level-left">
-                <div class="level-item">
-                    <p class="is-6 has-text-grey"><i class="fas fa-user-friends has-padding-r-2"></i> {{ object.attendees.count }} účastníků</p>
+            {% if object.publish_occupancy or can_enlist or is_enlisted %}
+            <div class="level mt-2">
+                {% if object.publish_occupancy %}
+                <div class="level-left">
+                    <div class="level-item">
+                        <p class="is-6 has-text-grey"><i class="fas fa-user-friends pr-1"></i> {{ object.attendees.count }} účastní{{ object.attendees.count|pluralize:"k,ků" }}</p>
+                    </div>
                 </div>
+                {% endif %}
+                {% if can_enlist %}
+                    <div class="level-right">
+                        <div class="level-item">
+                            <a href="{{ object.get_enlist_url }}" class="button is-small is-primary is-outlined">Přihlásit se</a>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if is_enlisted %}
+                    <div class="level-right">
+                        <div class="level-item">
+                            <p class="is-6 has-text-success"><i class="fas fa-check-circle pr-1"></i>  Jste přihlášen/a</p>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
             {% endif %}
-            {% if can_enlist %}
-                <div class="level-right">
-                    <div class="level-item">
-                        <a href="{{ object.get_enlist_url }}" class="button is-small is-primary is-outlined">Přihlásit se</a>
-                    </div>
-                </div>
-            {% endif %}
-            {% if is_enlisted %}
-                <div class="level-right">
-                    <div class="level-item">
-                        <p class="is-6 has-text-success"><i class="fas fa-check-circle has-padding-r-2"></i>  Jste přihlášen/a</p>
-                    </div>
-                </div>
-            {% endif %}
         </div>
+    </div>
+    <div class="card-content">
+        <p class="subtitle is-6 has-text-grey mb-0">{{ object.start_date|date:"d.m." }} - {{ object.end_date|date:"SHORT_DATE_FORMAT" }}</p>
+        <p class="subtitle is-6 has-text-grey">{{ object.place }}</p>
     </div>
 </div>

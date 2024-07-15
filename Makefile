@@ -26,8 +26,15 @@ migrate:
 migrations:
 	DEBUG=1 python manage.py makemigrations
 
-build:
+build-assets:
+	./node_modules/.bin/webpack --config webpack.config.js --mode production
+
+build-image:
 	docker buildx build --platform linux/amd64 -t xaralis/ksicht:latest .
+
+build:
+	make build-assets
+	make build-image
 
 push:
 	docker push xaralis/ksicht:latest

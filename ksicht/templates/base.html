@@ -1,14 +1,14 @@
 {% load render_bundle webpack_static from webpack_loader %}
 {% load capture_tags %}
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs" data-theme="light">
 <head>
     <meta charset="utf-8">
     <title>{% capture as meta_title %}{% block page_title_full %}{% block page_title %}{% endblock %} | {{ siteinfo.name }}{% endblock %}{% endcapture %}</title>
     <meta name="author" content="">
     <meta name="description" content="{% capture as meta_description %}{% block page_description %}{{ siteinfo.description }}{% endblock %}{% endcapture %}">
     <meta name="keywords" content="{% capture as meta_keywords %}{% block page_keywords %}{% endblock %} {{ siteinfo.keywords | join:' ' }}{% endcapture %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="index,follow">
 
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
@@ -40,7 +40,7 @@
 
         {% if messages %}
             {% for message in messages %}
-                <div class="notification has-border-radius-0 {% if message.tags %}{{ message.tags }}{% endif %}">
+                <div class="notification {% if message.tags %}{{ message.tags }}{% endif %}">
                     <div class="container">
                         <div class="columns is-vcentered">
                             <div class="column is-size-5">{{ message|safe }}</div>

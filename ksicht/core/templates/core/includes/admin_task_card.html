@@ -1,10 +1,10 @@
 <div class="card">
     <div class="card-content">
         <h2 class="title is-5">{{ object.nr }}. úloha</h2>
-        <h3 class="heading has-padding-b-3">Název</h3>
+        <h3 class="subsubtitle pb-2">Název</h3>
         <p class="title is-6">{{ object.title }}</p>
-        <h3 class="heading has-padding-b-3">Řešitelé</h3>
-        <p class="title is-6"><i class="fas fa-user-friends has-padding-r-2"></i> {{ object.submission_count }} odevzdaných řešení</p>
+        <h3 class="subsubtitle pb-2">Řešitelé</h3>
+        <p class="title is-6"><i class="fas fa-user-friends pr-1"></i> {{ object.submission_count }} odevzdaných řešení</p>
 
         {% if object.submission_count > 0 %}
             <ul>

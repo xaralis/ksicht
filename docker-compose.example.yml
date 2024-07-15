@@ -1,0 +1,15 @@
+services:
+    website:
+        image: xaralis/ksicht:latest
+        volumes:
+            - ./media:/media:Z
+        ports:
+            - "8080:8080"
+        restart: always
+        network_mode: host
+        environment:
+            DEBUG: 1
+            SECRET_KEY: 'asupersecretkey'
+            DATABASE_DSN: ${DATABASE_DSN:-postgresql://localhost:5432/ksicht}
+            MEDIA_ROOT: /media
+

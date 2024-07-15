@@ -34,7 +34,7 @@
 
                     </div>
                     {% if person.url_fb|length > 0 or person.url_ig|length > 0 or person.url_other > 0 %}
-                        <div class="card-footer has-padding-3">
+                        <div class="card-footer p-2">
                             {% if person.url_fb|length > 0 %}
                                 <a class="card-footer-item" title="Facebook" href="{{ person.url_fb }}"
                                    rel="noreferrer noopener"

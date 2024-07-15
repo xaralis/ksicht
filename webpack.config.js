@@ -38,6 +38,15 @@ module.exports = (env, argv) => {
                         MiniCssExtractPlugin.loader,
                         "css-loader",
                         "sass-loader",
+                        {
+                            loader: "sass-loader",
+                            options: {
+                                sassOptions: {
+                                    // https://github.com/jgthms/bulma/issues/3856
+                                    quietDeps: true,
+                                },
+                            },
+                        },
                     ],
                 },
                 {

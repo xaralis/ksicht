@@ -19,16 +19,16 @@
     <nav class="columns is-mobile is-multiline">
         <div class="column is-12-mobile is-6-tablet is-4-desktop">
             <div>
-                <p class="heading">Deadline pro odevzdání řešení</p>
-                <p class="title is-5"><i class="far fa-calendar-alt has-padding-r-2"></i> {{ object.submission_deadline|date:"DATETIME_FORMAT" }}</p>
+                <p class="subsubtitle">Deadline pro odevzdání řešení</p>
+                <p class="title is-5"><i class="fas fa-calendar-alt pr-1"></i> {{ object.submission_deadline|date:"DATETIME_FORMAT" }}</p>
             </div>
         </div>
         <div class="column is-12-mobile is-6-tablet is-4-desktop">
             <div>
-                <p class="heading">Zadání</p>
+                <p class="subsubtitle">Zadání</p>
                 <p class="title is-5">
                     {% if object.task_file %}
-                        <a href="{{ object.task_file.url }}" class="has-margin-r-4"><i class="far fa-file-pdf has-padding-r-2"></i> Brožura zadání v PDF</a>
+                        <a href="{{ object.task_file.url }}" class="mr-4"><i class="fas fa-file-pdf pr-1"></i> Brožura zadání v PDF</a>
                     {% else %}
                         <span>Zatím nebylo nahráno</span>
                     {% endif %}
@@ -38,7 +38,7 @@
         {% if perms.core.change_solution_submission_presence or object.results_published %}
             <div class="column is-12-mobile is-6-tablet is-4-desktop">
                 <div>
-                    <p class="heading">Přehledy a akce</p>
+                    <p class="subsubtitle">Přehledy a akce</p>
                     {% include "core/includes/admin_series_actions.html" with object=object %}
                 </div>
             </div>
@@ -47,7 +47,7 @@
 
     {% with object.tasks_with_submission_count as tasks %}
         {% if tasks|length > 0 %}
-            <section class="columns is-multiline has-margin-t-6">
+            <section class="columns is-multiline mt-6">
                 {% for task in tasks %}
                     <div class="column is-6-tablet is-4-widescreen is-one-fifth-fullhd">
                         {% include "core/includes/admin_task_card.html" with object=task %}
@@ -55,7 +55,7 @@
                 {% endfor %}
             </section>
         {% else %}
-            <article class="message is-warning is-size-5 has-margin-t-6">
+            <article class="message is-warning is-size-5 mt-6">
                 <div class="message-body">
                     <p>Žádné úlohy nebyly prozatím vypsány.</p>
                 </div>

@@ -17,7 +17,7 @@
 {% if year_list %}
     {% for year, events in year_list %}
         <h2 class="title is-5">{{ year }}</h2>
-        <div class="columns is-desktop has-padding-b-5">
+        <div class="columns is-desktop pb-5">
             {% for event, is_enlisted, can_enlist in events %}
                 <div class="column is-one-quarter">
                     {% include "core/includes/event_card.html" with object=event can_enlist=can_enlist is_enlisted=is_enlisted %}

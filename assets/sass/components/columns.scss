@@ -1,10 +1,12 @@
+@use "bulma/sass/utilities/mixins";
+
 .columns.is-reversed {
     display: flex;
     flex-direction: column-reverse;
 }
 
 .columns.is-reversed-mobile {
-    @include until($tablet) {
+    @include mixins.mobile {
         display: flex;
         flex-direction: column-reverse;
     }

@@ -9,7 +9,7 @@
     <div class="columns">
         <div class="column is-6">
             {% for task, form, submission, can_delete in forms %}
-            <h2 class="heading is-size-7">{{ task.title }} úloha</h2>
+            <h2 class="subsubtitle is-size-7">{{ task.title }} úloha</h2>
             {% if form %}
                 {% crispy form %}
             {% else %}
@@ -18,7 +18,7 @@
                     <p>Pro tuto úlohu jste již <strong>odevzdal/a</strong> řešení <strong>{{ submission.file|filename }}</strong>.</p>
                     <p>Pro odevzdání nové verze, musíte nejdříve smazat tuto verzi.</p>
 
-                    {% if can_delete %}<a class="button is-danger is-outlined pt-3 has-margin-t-4" href="{% url 'core:solution_submit_delete' submission.id %}">Smazat řešení</a>{% endif %}
+                    {% if can_delete %}<a class="button is-danger is-outlined pt-3 mt-4" href="{% url 'core:solution_submit_delete' submission.id %}">Smazat řešení</a>{% endif %}
                 </div>
 
             </article>
@@ -28,7 +28,7 @@
             {% endfor %}
         </div>
         <div class="column is-4 is-offset-1">
-            <article class="message">
+            <article class="message is-info">
                 <div class="message-header">Poznámky k odeslání řešení</div>
                 <div class="message-body content">
                     <p>Každá série obsahuje <strong>5 úloh</strong>. Řešení se odevzdává v samostatných souborech pro každou úlohu. Soubory s řešením odevzdávejte výhradně ve <strong>formátu PDF</strong>. Maximální velikost každého souboru je <strong>

@@ -1,17 +1,17 @@
 <ul>
     {% if perms.core.view_grade %}
     <li>
-        <a href="{% url "core:grade_results_export" pk=object.pk %}"><i class="fas fa-trophy has-padding-r-2"></i> Export výsledků do CSV</a>
+        <a href="{% url "core:grade_results_export" pk=object.pk %}"><i class="fas fa-trophy pr-1"></i> Export výsledků do CSV</a>
     </li>
     {% endif %}
     {% if perms.core.series_solution_envelopes_printout %}
     <li>
-        <a href="{% url "core:series_all_participants_envelopes_printout" pk=object.pk %}"><i class="fas fa-envelope has-padding-r-2"></i> Tisk obálek pro přihlášené</a><i class="fas fa-info-circle has-margin-l-2 has-text-grey-light" title="Vytiskne obálky pro všechny přihlášené řešitele."></i>
+        <a href="{% url "core:series_all_participants_envelopes_printout" pk=object.pk %}"><i class="fas fa-envelope pr-1"></i> Tisk obálek pro přihlášené</a><i class="fas fa-info-circle ml-1 has-text-grey-light" title="Vytiskne obálky pro všechny přihlášené řešitele."></i>
     </li>
     {% endif %}
     {% if perms.core.series_solution_envelopes_printout %}
     <li>
-        <a href="{% url "core:series_all_participants_with_brochure_preference_envelopes_printout" pk=object.pk %}"><i class="fas fa-envelope has-padding-r-2"></i> Tisk obálek pro přihlášené - výběr</a><i class="fas fa-info-circle has-margin-l-2 has-text-grey-light" title="Vytiskne obálky pro všechny přihlášené řešitele, kteří chtějí dostávat brožurky poštou."></i>
+        <a href="{% url "core:series_all_participants_with_brochure_preference_envelopes_printout" pk=object.pk %}"><i class="fas fa-envelope pr-1"></i> Tisk obálek pro přihlášené - výběr</a><i class="fas fa-info-circle ml-2 has-text-grey-light" title="Vytiskne obálky pro všechny přihlášené řešitele, kteří chtějí dostávat brožurky poštou."></i>
     </li>
     {% endif %}
 </ul>

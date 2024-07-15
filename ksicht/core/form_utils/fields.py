@@ -5,6 +5,9 @@ from django.forms import ImageField as DjangoImageField
 from .widgets import EmailInput, FileUploadInput
 
 
+__all__ = ("EmailField", "FileField", "ImageField")
+
+
 class EmailField(DjangoEmailField):
     widget = EmailInput()
 

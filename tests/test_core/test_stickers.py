@@ -16,10 +16,10 @@ tid3 = str(uuid4())
 tid4 = str(uuid4())
 
 s1 = models.GradeSeries(
-    id="abcd", series="1", submission_deadline=datetime(2020, 1, 1, 0, 0)
+    id=1, series="1", submission_deadline=datetime(2020, 1, 1, 0, 0)
 )
 s2 = models.GradeSeries(
-    id="dcba", series="2", submission_deadline=datetime(2020, 3, 1, 0, 0)
+    id=2, series="2", submission_deadline=datetime(2020, 3, 1, 0, 0)
 )
 
 p1 = models.Participant(user_id="1")
@@ -656,7 +656,7 @@ def test_full_score(context, result):
                     },
                 },
             },
-            False,
+            True,
         ),
         (
             {
@@ -674,7 +674,7 @@ def test_full_score(context, result):
                     },
                 },
             },
-            True,
+            False,
         ),
         (
             {
@@ -782,7 +782,7 @@ def test_full_score(context, result):
                     },
                 },
             },
-            True,
+            False,
         ),
         (
             {
@@ -818,7 +818,7 @@ def test_full_score(context, result):
                     },
                 },
             },
-            False,
+            True,
         ),
     ),
 )

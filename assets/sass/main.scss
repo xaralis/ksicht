@@ -1,25 +1,71 @@
+@use "bulma/sass/utilities" with (
+    $family-sans-serif: '"Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Helvetica", "Arial", sans-serif',
+    $family-monospace: '"Inconsolata", "Consolas", "Monaco", monospace',
+);
+
+// Selectively include Bulma modules.
+@forward "bulma/sass/base";
+
+// Elements
+@forward "bulma/sass/elements/box";
+@forward "bulma/sass/elements/button";
+@forward "bulma/sass/elements/content";
+@forward "bulma/sass/elements/icon";
+@forward "bulma/sass/elements/image";
+@forward "bulma/sass/elements/notification";
+@forward "bulma/sass/elements/table";
+@forward "bulma/sass/elements/tag";
+@forward "bulma/sass/elements/title";
+
+// Components
+@forward "bulma/sass/components/breadcrumb";
+@use "bulma/sass/components/card" with (
+    $card-radius: 0.5rem,
+    $card-header-shadow: 0 1px 0 0 hsla(
+        var(--bulma-scheme-h),
+        var(--bulma-scheme-s),
+        var(--bulma-scheme-invert-l),
+        0.1
+    ),
+);
+@forward "bulma/sass/components/dropdown";
+@forward "bulma/sass/components/menu";
+@forward "bulma/sass/components/message";
+@forward "bulma/sass/components/navbar";
+@forward "bulma/sass/components/pagination";
+@forward "bulma/sass/components/tabs";
+
+// Form
+@forward "bulma/sass/form";
+
+// Columns
+@forward "bulma/sass/grid/columns";
+
+// Layout
+@forward "bulma/sass/layout/container";
+@forward "bulma/sass/layout/hero";
+@forward "bulma/sass/layout/section";
+@forward "bulma/sass/layout/level";
+@forward "bulma/sass/layout/footer";
+
+// Utilities
+@forward "bulma/sass/helpers";
+@forward "bulma/sass/themes";
+
+// Custom fonts
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700&display=swap&subset=latin-ext);
 
 
-// @import "~bulmaswatch/lumen/_variables";
-
-$bulmaswatch-import-font: false;
-$family-sans-serif: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-$family-monospace: "Inconsolata", "Consolas", "Monaco", monospace;
+// FontAwesome
 $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
-
-@import "~bulma/bulma";
-// @import "~bulmaswatch/lumen/_overrides";
 
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~@fortawesome/fontawesome-free/scss/solid";
-@import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
+// Custom Bulma extension styles
 @import "./components/breadcrumb";
-@import "./components/box";
 @import "./components/columns";
-@import "./components/forms";
 @import "./components/card";
 @import "./components/layout";
 @import "./components/navbar";
@@ -27,15 +73,8 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import "./components/stickers";
 @import "./components/tabs";
 @import "./components/tags";
+@import "./components/title";
 
 @import "./views/home";
-@import "./views/dashboard";
 
 @import "./helpers/content";
-@import "./helpers/border-radius";
-@import "./helpers/spacing";
-
-// workaround for https://github.com/jgthms/bulma/issues/3009
-.tabs.is-boxed .is-active {
-    color: $info;
-}

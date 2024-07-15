@@ -42,7 +42,7 @@ if not SECRET_KEY:
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 if not ALLOWED_HOSTS == "" and DEBUG:
-    ALLOWED_HOSTS = "*"
+    ALLOWED_HOSTS = ["*"]
 
 
 INTERNAL_IPS = [
@@ -65,16 +65,18 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.forms",
     "django_registration",
+    "django_minify_html",
     "webpack_loader",
     "markdownx",  # A markdown editor
     "markdown_deux",  # Markdown rendering template tags
     "capture_tag",  # Re-use same block multiple times
     "crispy_forms",
+    "crispy_bulma",
     "django_select2",
     "cuser",
     "imagekit",
     "ksicht.core",
-    "ksicht.bulma",
+    # "ksicht.bulma",
 ]
 
 
@@ -88,8 +90,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
     "django.contrib.redirects.middleware.RedirectFallbackMiddleware",
-    "htmlmin.middleware.HtmlMinifyMiddleware",
-    "htmlmin.middleware.MarkRequestMiddleware",
+    "django_minify_html.middleware.MinifyHtmlMiddleware",
 ]
 
 if DEBUG_TOOLBAR:
@@ -247,6 +248,9 @@ MESSAGE_TAGS = {
 # HTML minify
 HTML_MINIFY = os.environ.get("MINIFY_HTML", DEBUG)
 
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 # Custom settings
 # ---------------
 
@@ -265,7 +269,7 @@ WEBPACK_LOADER = {
         "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats.json"),
         "POLL_INTERVAL": 0.1,
         "TIMEOUT": None,
-        "IGNORE": [".+\.hot-update.js", ".+\.map"],
+        "IGNORE": [r".+\.hot-update.js", r".+\.map"],
     }
 }
 
@@ -303,17 +307,8 @@ ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window
 
 # Crispy forms
 CRISPY_FAIL_SILENTLY = not DEBUG
-
-CRISPY_ALLOWED_TEMPLATE_PACKS = (
-    "bootstrap",
-    "uni_form",
-    "bootstrap3",
-    "bootstrap4",
-    "bulma",
-)
-
+CRISPY_ALLOWED_TEMPLATE_PACKS = ("bulma",)
 CRISPY_TEMPLATE_PACK = "bulma"
-
 
 KSICHT_CONTACT_ADDRESS_LINES = [
     "KSICHT",

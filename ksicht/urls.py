@@ -14,12 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.sitemaps.views import sitemap
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 from django_registration.backends.activation import views as reg_views
 
@@ -33,7 +32,7 @@ urlpatterns = (
         path("", include("ksicht.core.urls", "core")),
         path("admin/", admin.site.urls),
         path("markdownx/", include("markdownx.urls")),
-        url(r"^select2/", include("django_select2.urls")),
+        re_path(r"^select2/", include("django_select2.urls")),
         path(
             "sitemap.xml",
             sitemap,
@@ -90,7 +89,7 @@ urlpatterns = (
             auth_views.PasswordResetCompleteView.as_view(),
             name="password_reset_complete",
         ),
-        url(
+        re_path(
             r"^ucty/aktivace/dokonceno/$",
             TemplateView.as_view(
                 template_name="django_registration/activation_complete.html"
@@ -99,24 +98,24 @@ urlpatterns = (
         ),
         # The activation key can make use of any character from the
         # URL-safe base64 alphabet, plus the colon as a separator.
-        url(
+        re_path(
             r"^ucty/aktivace/(?P<activation_key>[-:\w]+)/$",
             reg_views.ActivationView.as_view(),
             name="django_registration_activate",
         ),
-        url(
+        re_path(
             r"^ucty/registrace/$",
             reg_views.RegistrationView.as_view(form_class=forms.KsichtRegistrationForm),
             name="django_registration_register",
         ),
-        url(
+        re_path(
             r"^ucty/registrace/dokonceno/$",
             TemplateView.as_view(
                 template_name="django_registration/registration_complete.html"
             ),
             name="django_registration_complete",
         ),
-        url(
+        re_path(
             r"^ucty/registrace-uzavrena/$",
             TemplateView.as_view(
                 template_name="django_registration/registration_closed.html"

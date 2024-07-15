@@ -1,14 +1,12 @@
 from functools import partial
 
-from crispy_forms.helper import FormHelper
 from django import forms
 from django.template.defaultfilters import filesizeformat
 from django.urls import reverse
 from django_select2.forms import Select2MultipleWidget
 
-from ksicht.bulma.forms import FileField
-from ksicht.bulma.layout import Column, Field, Layout, Row, Submit
 from . import models
+from .form_utils import FormHelper, Field, Layout, Column, Row, Submit, FileField
 
 
 class CurrentGradeAppliationForm(forms.Form):
@@ -19,9 +17,7 @@ class CurrentGradeAppliationForm(forms.Form):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Field("applied"),
-            Submit(
-                "submit", "Přihlásit se do ročníku", css_class="is-medium is-success"
-            ),
+            Submit("submit", "Přihlásit se do ročníku", css_class="is-medium"),
         )
         self.helper.form_action = reverse("core:current_grade_application")
 

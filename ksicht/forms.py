@@ -1,4 +1,3 @@
-from crispy_forms.helper import FormHelper
 from cuser.forms import AuthenticationForm, UserChangeForm, UserCreationForm
 from django import forms
 from django.contrib.auth.forms import (
@@ -11,18 +10,19 @@ from django_registration import validators as reg_validators
 import pydash as py_
 from webpack_loader.templatetags.webpack_loader import webpack_static
 
-from ksicht.bulma.layout import (
-    Column,
+from .core import constants
+from .core.models import Grade, Participant, User
+from .core.form_utils import (
+    FormHelper,
     Field,
+    Layout,
+    Column,
     FormActions,
     FormControl,
-    Layout,
     Link,
     Row,
     Submit,
 )
-from ksicht.core import constants
-from ksicht.core.models import Grade, Participant, User
 
 
 zip_validator = validators.RegexValidator(
@@ -171,8 +171,8 @@ class KsichtRegistrationForm(KsichtProfileMixin, UserCreationForm):
             Row(Column("street")),
             Row(
                 Column("zip_code", css_class="is-2"),
-                Column("city", css_class="is-4"),
-                Column("country", css_class="is-4 is-offset-2"),
+                Column("city", css_class="is-6"),
+                Column("country", css_class="is-4"),
             ),
             Row(Column("school", css_class="is-10"), Column("school_year")),
             Row(Column("school_alt_name"), Column("school_alt_street")),
@@ -262,8 +262,8 @@ class KsichtEditProfileForm(UserChangeForm, KsichtProfileMixin):
             Row(Column("street")),
             Row(
                 Column("zip_code", css_class="is-2"),
-                Column("city", css_class="is-4"),
-                Column("country", css_class="is-4 is-offset-2"),
+                Column("city", css_class="is-6"),
+                Column("country", css_class="is-4"),
             ),
             Row(Column("school", css_class="is-10"), Column("school_year")),
             Row(Column("school_alt_name"), Column("school_alt_street")),

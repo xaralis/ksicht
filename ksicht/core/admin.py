@@ -1,3 +1,4 @@
+from sched import Event
 from cuser.admin import UserAdmin
 from django import forms
 from django.contrib import admin
@@ -5,7 +6,9 @@ from django.contrib.auth.models import Permission
 from django.contrib.flatpages.admin import FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from django.db.models import TextField
+from django.db.models.query import QuerySet
 from django.forms.models import BaseInlineFormSet
+from django.http import HttpRequest
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from imagekit import ImageSpec
@@ -95,6 +98,7 @@ class ParticipantAdmin(admin.ModelAdmin):
         "user__email",
         "school",
     )
+    autocomplete_fields = ("user",)
     readonly_fields = ("first_name", "last_name", "user_link")
     actions = ["increase_school_year"]
 
@@ -143,6 +147,7 @@ class GradeApplicationAdmin(admin.ModelAdmin):
         "participant__user",
     )
     actions = ["paste_school_grade"]
+    autocomplete_fields = ("participant",)
 
     def paste_school_grade(self, request, queryset):
         for application in queryset:
@@ -204,6 +209,10 @@ class StickerAdmin(admin.ModelAdmin):
 class EventAttendeeInline(admin.TabularInline):
     model = models.EventAttendee
     readonly_fields = ("signup_date",)
+    raw_id_fields = ("user",)
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[UserAdmin]:
+        return super().get_queryset(request).select_related("user", "event")
 
 
 class EventAdminForm(forms.ModelForm):

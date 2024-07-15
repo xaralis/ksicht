@@ -1,9 +1,11 @@
+@use "bulma/sass/utilities/mixins";
+
 .view-home {
     &-brand-wrapper {
         display: flex;
         flex-direction: column;
 
-        @include from($tablet) {
+        @include mixins.tablet {
             flex-direction: row;
             align-items: center;
             max-width: 700px;
@@ -16,7 +18,7 @@
         max-height: 100px;
         margin-bottom: 1rem;
 
-        @include from($tablet) {
+        @include mixins.tablet {
             max-height: 200px;
             margin-right: 2rem;
             margin-bottom: 0;
