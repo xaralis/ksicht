@@ -1,4 +1,4 @@
-FROM python:3.7-alpine3.11 as build
+FROM python:3.12-alpine3.20 as build
 
 ENV PYTHONUNBUFFERED 1
 
@@ -25,8 +25,6 @@ RUN pip install -U pip && \
 
 # Install node-based requirements
 WORKDIR /build
-# node-sass 4.14.0 needs python2
-RUN apk add --no-cache python2
 COPY ./package.json ./
 COPY ./package-lock.json ./
 RUN npm install
@@ -37,7 +35,7 @@ COPY ./assets/ ./assets/
 RUN ./node_modules/.bin/webpack --config webpack.config.js --mode production
 
 
-FROM python:3.7-alpine3.11 as production
+FROM python:3.12-alpine3.20 as production
 
 ENV PYTHONPATH /ksicht
 ENV DJANGO_SETTINGS_MODULE ksicht.settings
@@ -46,7 +44,7 @@ ENV PATH "/home/ksicht/.local/bin:${PATH}"
 # Create custom user to avoid running as a root
 RUN addgroup -g 990 ksicht && \
     adduser -D -u 994 -G ksicht ksicht && \
-    mkdir /ksicht && \
+    mkdir -p /ksicht && \
     chown ksicht:ksicht /ksicht
 
 # Install dependencies
@@ -60,9 +58,8 @@ RUN apk add --no-cache \
     freetype-dev \
     nginx \
     supervisor && \
-    rm /etc/nginx/conf.d/default.conf && \
     echo "daemon off;" >> /etc/nginx/nginx.conf && \
-    mkdir /run/nginx
+    mkdir -p /run/nginx
 
 # Supervisor and Nginx configs
 COPY ./docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
@@ -91,7 +88,7 @@ COPY --chown=ksicht ./fonts ./fonts/
 COPY --chown=ksicht ./fixtures ./fixtures/
 
 # Collect static files
-RUN mkdir /ksicht/static && \
+RUN mkdir -p /ksicht/static && \
     SECRET_KEY=x DEBUG=1 django-admin collectstatic --noinput --verbosity=0
 
 USER root

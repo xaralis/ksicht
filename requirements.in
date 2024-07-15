@@ -1,8 +1,8 @@
-psycopg2-binary
+psycopg2-binary==2.8.6
 Django<3.0
 dsnparse
 django-crispy-forms
-django-webpack-loader
+django-webpack-loader==3.1.0
 django-markdownx<3.0
 django-markdown-deux
 # Fix for https://stackoverflow.com/questions/73929564/entrypoints-object-has-no-attribute-get-digital-ocean
