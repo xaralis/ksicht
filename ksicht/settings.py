@@ -49,6 +49,11 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
+
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS.append("http://localhost")
+
 
 # Application definition
 

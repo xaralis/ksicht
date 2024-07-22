@@ -39,12 +39,11 @@ RUN mkdir -p /ksicht && \
     apt update && apt install --no-install-recommends -y \
     nginx \
     supervisor && \
-    echo "daemon off;" >> /etc/nginx/nginx.conf && \
     mkdir -p /run/nginx
 
 # Supervisor and Nginx configs
 COPY ./docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
-COPY ./docker/nginx.conf /etc/nginx/conf.d/ksicht.conf
+COPY ./docker/nginx.conf /etc/nginx/nginx.conf
 
 COPY --from=build /usr/src/app/wheels /wheels
 COPY --from=build /usr/src/app/requirements.txt .
