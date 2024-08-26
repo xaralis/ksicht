@@ -7,6 +7,7 @@ from django.contrib.auth.forms import (
 )
 from django.core import validators
 from django_registration import validators as reg_validators
+from django.utils.safestring import mark_safe
 import pydash as py_
 from webpack_loader.templatetags.webpack_loader import webpack_static
 
@@ -153,7 +154,9 @@ class KsichtRegistrationForm(KsichtProfileMixin, UserCreationForm):
 
         self.fields["tos"] = forms.BooleanField(
             widget=forms.CheckboxInput,
-            label=f"Přečetl/a jsem si a souhlasím s <a href='{webpack_static('attachments/zpracovani-osobnich-udaju-pro-web.pdf')}' target='_blank' rel='noopener'>podmínkami použití a zpracováním osobních údajů</a>",
+            label=mark_safe(
+                f"Přečetl/a jsem si a souhlasím s <a href='{webpack_static('attachments/zpracovani-osobnich-udaju-pro-web.pdf')}' target='_blank' rel='noopener'>podmínkami použití a zpracováním osobních údajů</a>"
+            ),
         )
 
         self.helper = FormHelper()
