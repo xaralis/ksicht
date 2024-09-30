@@ -12,8 +12,10 @@ from django.contrib.auth.models import Group as UserGroup
 from django.core.files.base import File
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.text import slugify
+from django_registration.signals import user_activated
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 import pydash as py_
@@ -31,6 +33,16 @@ class User(AbstractCUser):
 
     def is_participant(self):
         return Participant.objects.filter(user=self).exists()
+
+
+@receiver(user_activated)
+def create_grade_application(sender, user: User, **kwargs):
+    if not user.is_participant():
+        logger.error("User %r has been activated but has no participant profile", user)
+        return
+
+    if current_grade := Grade.objects.get_current():
+        user.participant_profile.applications.add(current_grade)
 
 
 class GradeManager(models.Manager):

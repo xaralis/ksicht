@@ -193,15 +193,12 @@ class KsichtRegistrationForm(KsichtProfileMixin, UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit)
-        cd = self.cleaned_data
-        current_grade = Grade.objects.get_current()
-
         user.is_active = False
         user.save()
 
         user.participant_profile = Participant(
             **py_.pick(
-                cd,
+                self.cleaned_data,
                 "phone",
                 "birth_date",
                 "street",
@@ -217,9 +214,6 @@ class KsichtRegistrationForm(KsichtProfileMixin, UserCreationForm):
             )
         )
         user.participant_profile.save()
-
-        if current_grade:
-            user.participant_profile.applications.add(current_grade)
 
         return user
 
