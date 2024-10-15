@@ -643,6 +643,8 @@ class TaskSolutionSubmission(models.Model):
                 )
 
             logger.debug("Export versions prepared OK")
+            file_duplex.close()
+            file_normal.close()
         else:
             logger.warning("Export version prepare failed - no valid file available")
 

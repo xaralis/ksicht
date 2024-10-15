@@ -140,11 +140,12 @@ def prepare_submission_for_export(in_file, label: str):
         page.merge_page(memo_page)
         out_pdf.add_page(page)
 
-    out_normal = out_pdf
-    out_duplex = deepcopy(out_normal)
+    out_normal = deepcopy(out_pdf)
+    out_duplex = out_pdf
 
     # Ensure number of pages is even. Useful for duplex printing.
-    if len(in_pdf.pages) % 2 == 1:
+    num_pages = len(in_pdf.pages)
+    if (num_pages % 2 == 1) and num_pages > 1:
         out_duplex.add_blank_page()
 
     return out_normal, out_duplex
