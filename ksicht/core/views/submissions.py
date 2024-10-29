@@ -406,14 +406,14 @@ class SolutionExportView(View):
         filename = quote(f"{self.task} - export řešení")
         response["Content-Disposition"] = f"attachment; filename*=UTF-8''{filename}.pdf"
         is_duplex = bool(request.GET.get("duplex"))
-        normalized_solution_files = []
+        solution_files = []
 
         for s in submitted_solutions:
-            normalized_solution_files.append(
-                s.file_for_export_duplex if is_duplex else s.file_for_export_normal
+            solution_files.append(
+                s.file_for_export_normal
             )
 
         # Join all files in one large batch.
-        pdf.concatenate(normalized_solution_files, response)
+        pdf.concatenate(solution_files, response, is_duplex)
 
         return response
