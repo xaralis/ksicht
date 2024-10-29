@@ -104,12 +104,11 @@ def concatenate(in_files, out_file, as_duplex=False):
 
         writer.addpages(current_pdf.pages)
 
-        if as_duplex and (num_pages > 1) and (num_pages % 2 == 1):
+        if as_duplex and (num_pages >= 1) and (num_pages % 2 == 1):
             # add blank A4 page
             writer.addpage(get_blank_page())
 
     writer.write(out_file)
-
     return out_file
 
 
