@@ -10,6 +10,7 @@ from pypdf import PdfReader as PdfFileReader, PageObject
 from pypdf import PdfWriter as PdfFileWriter
 from pypdf.errors import PdfReadError
 import reportlab
+from pypdf import PaperSize
 from reportlab.lib.pagesizes import A4, C3, landscape
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
@@ -113,10 +114,9 @@ def concatenate(in_files, out_file, as_duplex=False):
 
 
 def get_blank_page():
-    blank_pdf_filename = settings.BLANK_PDF_FILEPATH
-    if not Path(blank_pdf_filename).exists():
+    if not Path(blank_pdf_filename := settings.BLANK_PDF_FILEPATH).exists():
         writer = PdfFileWriter()
-        writer.add_blank_page(width=8.27 * 72, height=11.7 * 72)
+        writer.add_blank_page(width=PaperSize.A4.width, height=PaperSize.A4.height)
         with open(blank_pdf_filename, "wb") as fp:
             writer.write(fp)
             writer.close()
@@ -124,10 +124,8 @@ def get_blank_page():
 
 
 def delete_blank_file():
-    blank_pdf_filename = settings.BLANK_PDF_FILEPATH
-    if Path(blank_pdf_filename).exists():
+    if Path(blank_pdf_filename := settings.BLANK_PDF_FILEPATH).exists():
         os.remove(blank_pdf_filename)
-    pass
 
 
 def page_with_memo(x: int, y: int, label: str):
