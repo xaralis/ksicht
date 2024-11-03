@@ -324,4 +324,4 @@ KSICHT_CONTACT_ADDRESS_LINES = [
     "128 43 Praha 2",
 ]
 
-BLANK_PDF_FILEPATH = MEDIA_ROOT + "/" + "blank_page.pdf"
+BLANK_PDF_FILEPATH = os.path.join(MEDIA_ROOT, "blank_page.pdf")
