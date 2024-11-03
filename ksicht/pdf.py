@@ -170,6 +170,6 @@ def prepare_submission_for_export(in_file, label: str):
     # Ensure number of pages is even. Useful for duplex printing.
     num_pages = len(in_pdf.pages)
     if (num_pages % 2 == 1) and num_pages > 1:
-        out_duplex.add_blank_page()
+        out_duplex.add_blank_page(width=PaperSize.A4.width, height=PaperSize.A4.height)
 
     return out_normal, out_duplex
