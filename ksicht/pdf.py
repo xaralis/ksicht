@@ -1,13 +1,16 @@
+import os
 from copy import deepcopy
 import io
+from pathlib import Path
 from typing import List, Optional, Sequence
 
 from django.conf import settings
-from pdfrw import PdfReader, PdfWriter
-from pypdf import PdfReader as PdfFileReader
+from pdfrw import PdfReader, PdfWriter, PdfDict
+from pypdf import PdfReader as PdfFileReader, PageObject
 from pypdf import PdfWriter as PdfFileWriter
 from pypdf.errors import PdfReadError
 import reportlab
+from pypdf import PaperSize
 from reportlab.lib.pagesizes import A4, C3, landscape
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
@@ -92,16 +95,37 @@ def envelopes(recipients: List[EnvelopeRecipientInfo], our_lines, out_file):
     return out_file
 
 
-def concatenate(in_files, out_file):
+def concatenate(in_files, out_file, as_duplex=False):
     """Merge all input PDF files into a single out file."""
     writer = PdfWriter()
 
     for f in in_files:
-        writer.addpages(PdfReader(f).pages)
+        current_pdf = PdfReader(f)
+        num_pages = len(current_pdf.pages)
+
+        writer.addpages(current_pdf.pages)
+
+        if as_duplex and (num_pages >= 1) and (num_pages % 2 == 1):
+            # add blank A4 page
+            writer.addpage(get_blank_page())
 
     writer.write(out_file)
-
     return out_file
+
+
+def get_blank_page():
+    if not Path(blank_pdf_filename := settings.BLANK_PDF_FILEPATH).exists():
+        writer = PdfFileWriter()
+        writer.add_blank_page(width=PaperSize.A4.width, height=PaperSize.A4.height)
+        with open(blank_pdf_filename, "wb") as fp:
+            writer.write(fp)
+            writer.close()
+    return PdfReader(blank_pdf_filename).pages[0]
+
+
+def delete_blank_file():
+    if Path(blank_pdf_filename := settings.BLANK_PDF_FILEPATH).exists():
+        os.remove(blank_pdf_filename)
 
 
 def page_with_memo(x: int, y: int, label: str):
@@ -146,6 +170,6 @@ def prepare_submission_for_export(in_file, label: str):
     # Ensure number of pages is even. Useful for duplex printing.
     num_pages = len(in_pdf.pages)
     if (num_pages % 2 == 1) and num_pages > 1:
-        out_duplex.add_blank_page()
+        out_duplex.add_blank_page(width=PaperSize.A4.width, height=PaperSize.A4.height)
 
     return out_normal, out_duplex

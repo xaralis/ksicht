@@ -323,3 +323,5 @@ KSICHT_CONTACT_ADDRESS_LINES = [
     "Hlavova 2030",
     "128 43 Praha 2",
 ]
+
+BLANK_PDF_FILEPATH = os.path.join(MEDIA_ROOT, "blank_page.pdf")
